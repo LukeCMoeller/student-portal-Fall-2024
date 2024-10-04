@@ -1,9 +1,14 @@
 <script setup>
 import { RouterView } from 'vue-router';
 import Footer from './components/layout/Footer.vue'
+import { RouterView } from 'vue-router'
+import { useTokenStore } from './stores/TokenStore';
 import ProtectedAdminRoute from './components/common/ProtectedAdminRoute.vue';
 import ErrorPage from './components/common/ErrorPage.vue';
 import './App.css';
+const tokenStore = useTokenStore();
+
+tokenStore.tryToken();
 </script>
 <template>
     <UserProvider>
