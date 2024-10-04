@@ -3,6 +3,10 @@ import Button from './components/common/Button.vue'
 import Header from './components/layout/Header.vue'
 import Footer from './components/layout/Footer.vue'
 import { RouterView } from 'vue-router'
+import { useTokenStore } from './stores/TokenStore';
+const tokenStore = useTokenStore();
+
+tokenStore.tryToken();
 </script>
  
 <template>
