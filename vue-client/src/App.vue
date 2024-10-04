@@ -9,6 +9,7 @@ const tokenStore = useTokenStore();
 
 tokenStore.tryToken();
 </script>
+
 <template>
     <UserProvider>
         <div className="appContainer"> 

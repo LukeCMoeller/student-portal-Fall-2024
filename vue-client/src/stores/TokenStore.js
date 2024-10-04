@@ -115,7 +115,7 @@ export const useTokenStore = defineStore('token', {
           // If the current token fails, try the refresh token
           if (err.response && err.response.status === 401) {
             Logger.info('token:try login failed - trying refresh token')
-            await this.tryRefreshToken()
+            await this.refreshToken()
           } else {
             this.token = ''
             Logger.error('token:try error' + err)

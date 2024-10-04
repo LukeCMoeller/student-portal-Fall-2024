@@ -27,6 +27,11 @@ services:
       SERVER_PORT: 3002
       API_URL: http://localhost:3000
       CAS_HOST: http://testcas.cs.ksu.edu/
+      CAS_URL: https://cas.server.local/cas
+      CAS_SERVICE_URL: http://localhost:3000
+      CAS_DEV_MODE: false
+      CAS_DEV_USER: testcas
+      CAS_REDIRECT_URL: /auth/login
 
   postgres:
     image: postgres:12
