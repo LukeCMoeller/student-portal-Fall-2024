@@ -1,3 +1,8 @@
+# for-us
+npm install vuetify
+npm install vue-router
+npm install
+
 # vue-client
 
 This template should help get you started developing with Vue 3 in Vite.
