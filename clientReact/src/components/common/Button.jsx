@@ -9,7 +9,7 @@ const ApplyButton= () => {
             Apply!
         </div> 
     )
-}
+} 
  
 export {ApplyButton};
 
