@@ -1,10 +1,10 @@
 <script>
-import styles from '../../styles/HomePage.module.css'; 
-import ApplyButton from '../common/Button.vue';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Row from 'primevue/row';     
-import {RouterView} from 'vue-router';
+import styles from '../../styles/HomePage.module.css'
+import ApplyButton from '../common/Button.vue'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Row from 'primevue/row'
+import {RouterView} from 'vue-router'
 //test
 </script>
 
