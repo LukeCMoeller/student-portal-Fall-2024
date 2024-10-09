@@ -1,7 +1,7 @@
 <script>
 import ReactDOM from "react-dom/client"
 import "./index.css"
-import App from "./App"
+import App from "./App.vue"
 import reportWebVitals from "./reportWebVitals"
 const root = ReactDOM.createRoot(document.getElementById("root"))
 </script>
