@@ -83,9 +83,6 @@ router.beforeEach(async function (to) {
   if (!tokenStore.token) {
     await tokenStore.getToken()
   }
-  if (!tokenStore.token) {
-    await tokenStore.refreshToken()
-  }
 })
 
 export default router;

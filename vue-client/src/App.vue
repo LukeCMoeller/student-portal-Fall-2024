@@ -11,7 +11,6 @@ tokenStore.tryToken();
 </script>
 
 <template>
-    <UserProvider>
         <div className="appContainer"> 
           <!--<Header/>-->
           <div className="contentBackground">
@@ -23,10 +22,10 @@ tokenStore.tryToken();
     <RouterLink to="/profile">Go to Profile</RouterLink>
     <RouterLink to="/admin">Go to Admin</RouterLink>
   </nav>
+  <RouterView/>
           </div> 
           <Footer/>
         </div>
-    </UserProvider> 
 </template>
 <!-- old stuff in this comment 
 import Header from './components/layout/Header.vue';  

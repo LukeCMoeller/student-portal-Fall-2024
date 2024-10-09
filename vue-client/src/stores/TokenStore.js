@@ -5,14 +5,13 @@ import { useStorage } from '@vueuse/core'
 import Logger from 'js-logger'
 
 // Services
-import api from '@/services/tokenApi'
+import api from '@/services/api'
 
 export const useTokenStore = defineStore('token', {
   state: () => {
     return {
-      // HACK this may be unsafe - consider refactor?
-      // This allows the user to refresh the page and hold on to an existing token
-      token: useStorage('token', '') // store current user token in browser storage
+      token: '',
+      ltik: useStorage('ltik', '') // store current user LTI key in browser storage
     }
   },
   getters: {
@@ -21,21 +20,21 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's refresh token
      */
-    refresh_token() {
-      if (this.token) {
-        return jwtDecode(this.token)['refresh_token']
-      } else {
-        return ''
-      }
-    },
+    // refresh_token() {
+    //   if (this.token) {
+    //     return jwtDecode(this.token)['refresh_token']
+    //   } else {
+    //     return ''
+    //   }
+    // },
     /**
-     * Gets the user's eID
+     * Gets the user's email
      *
-     * @returns String: the user's eID
+     * @returns String: the user's email
      */
-    eid() {
+    email() {
       if (this.token) {
-        return jwtDecode(this.token)['eid']
+        return jwtDecode(this.token)['email']
       } else {
         return ''
       }
@@ -59,21 +58,21 @@ export const useTokenStore = defineStore('token', {
      */
     is_admin() {
       if (this.token) {
-        return jwtDecode(this.token)['roles'].includes('admin')
+        return jwtDecode(this.token)['is_admin']
       } else {
         return false
       }
     },
     /**
-     * Gets the user's user status
+     * Gets the user's LTI token
      *
-     * @returns Boolean: true if the user is a user, otherwise false
+     * @returns String: the user's LTI token
      */
-    is_user() {
-      if (this.token) {
-        return jwtDecode(this.token)['roles'].includes('user')
+    lti_token() {
+      if (this.ltik) {
+        return jwtDecode(this.ltik)
       } else {
-        return false
+        return ''
       }
     }
   },
@@ -114,8 +113,8 @@ export const useTokenStore = defineStore('token', {
         .catch(async (err) => {
           // If the current token fails, try the refresh token
           if (err.response && err.response.status === 401) {
-            Logger.info('token:try login failed - trying refresh token')
-            await this.refreshToken()
+            this.token = ''
+            Logger.info('token:try login failed ')
           } else {
             this.token = ''
             Logger.error('token:try error' + err)
@@ -123,60 +122,61 @@ export const useTokenStore = defineStore('token', {
         })
     },
 
-    /**
-     * Use the refresh token to get a new API token
-     */
-    async refreshToken() {
-      Logger.info('token:refresh')
-      await api
-        .post('/auth/token', {
-          refresh_token: this.refresh_token
-        })
-        .then((response) => {
-          this.token = response.data.token
-        })
-        .catch((err) => {
-          // If the refresh token fails, the user must log in again
-          if (err.response && err.response.status === 401) {
-            this.token = ''
-            Logger.info('token:refresh login failed - redirecting to CAS')
-            window.location.href = '/auth/login'
-          } else {
-            Logger.error('token:refresh error' + err)
-            this.token = ''
-          }
-        })
-    },
+    // /**
+    //  * Use the refresh token to get a new API token
+    //  */
+    // async refreshToken() {
+    //   Logger.info('token:refresh')
+    //   await api
+    //     .post('/auth/token', {
+    //       refresh_token: this.refresh_token
+    //     })
+    //     .then((response) => {
+    //       this.token = response.data.token
+    //     })
+    //     .catch((err) => {
+    //       // If the refresh token fails, the user must log in again
+    //       if (err.response && err.response.status === 401) {
+    //         this.token = ''
+    //         Logger.info('token:refresh login failed - redirecting to CAS')
+    //         window.location.href = '/auth/login'
+    //       } else {
+    //         Logger.error('token:refresh error' + err)
+    //         this.token = ''
+    //       }
+    //     })
+    // },
 
-    /**
-     * Try to establish a session with a refresh token.
-     */
-    async tryRefreshToken() {
-      Logger.info('token:tryrefresh')
-      await api
-        .post('/auth/token', {
-          refresh_token: this.refresh_token
-        })
-        .then((response) => {
-          this.token = response.data.token
-        })
-        .catch((err) => {
-          // if it fails, log out the user but do not force a login
-          if (err.response && err.response.status === 401) {
-            this.token = ''
-            Logger.info('token:tryrefresh login failed')
-          } else {
-            this.token = ''
-            Logger.error('token:tryrefresh error' + err)
-          }
-        })
-    },
+    // /**
+    //  * Try to establish a session with a refresh token.
+    //  */
+    // async tryRefreshToken() {
+    //   Logger.info('token:tryrefresh')
+    //   await api
+    //     .post('/auth/token', {
+    //       refresh_token: this.refresh_token
+    //     })
+    //     .then((response) => {
+    //       this.token = response.data.token
+    //     })
+    //     .catch((err) => {
+    //       // if it fails, log out the user but do not force a login
+    //       if (err.response && err.response.status === 401) {
+    //         this.token = ''
+    //         Logger.info('token:tryrefresh login failed')
+    //       } else {
+    //         this.token = ''
+    //         Logger.error('token:tryrefresh error' + err)
+    //       }
+    //     })
+    // },
 
     /**
      * Log the user out and clear the token
      */
     async logout() {
       this.token = ''
+      this.ltik = ''
       window.location.href = '/auth/logout'
     }
   }
