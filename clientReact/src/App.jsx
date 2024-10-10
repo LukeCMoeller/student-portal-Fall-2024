@@ -15,7 +15,7 @@ import './App.css';
 
 function App() {
   return (
-    <UserProvider>
+    //<UserProvider>
       <Router>
         <div className="appContainer"> 
           <Header/>
@@ -37,7 +37,7 @@ function App() {
           <Footer/>
         </div>
       </Router>
-    </UserProvider> 
+    //</UserProvider>
   );
 }
 

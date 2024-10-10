@@ -1,5 +1,4 @@
 # for-us
-npm install vuetify
 npm install vue-router
 npm install
 
