@@ -12,7 +12,7 @@ const routes = [
   { path: '/home', component: Home },
   { path: '/apply', component: Apply },
   { path : '/profile', component: Profile },
-  { path: '/adminPage', component: Admin }
+  { path: '/admin', component: Admin }
 ];
 
 const router = createRouter({
