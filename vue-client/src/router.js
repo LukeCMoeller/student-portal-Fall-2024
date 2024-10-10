@@ -8,11 +8,11 @@ import Home from './components/forms/HomePage.vue';
 
 const routes = [
   { path: '/', component: Home },
-  { path : '/error', component: Error },
   { path: '/home', component: Home },
   { path: '/apply', component: Apply },
   { path : '/profile', component: Profile },
-  { path: '/admin', component: Admin }
+  { path: '/admin', component: Admin },
+  { path: '/:catchAll(.*)', component: Error }
 ];
 
 const router = createRouter({

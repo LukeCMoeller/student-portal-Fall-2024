@@ -1,5 +1,6 @@
 <script setup>
 import Footer from './components/layout/Footer.vue'
+import Header from './components/layout/Header.vue'
 import { RouterView } from 'vue-router'
 //import { useTokenStore } from './stores/TokenStore';
 //import ProtectedAdminRoute from './components/common/ProtectedAdminRoute.vue';
@@ -11,7 +12,7 @@ import './App.css';
 <template>
       <!--<UserProvider>-->
         <div className="appContainer"> 
-          <!--<Header/>-->
+          <Header/>
           <div className="contentBackground">
             <nav>
               <RouterLink to="/">Go to Home</RouterLink>
