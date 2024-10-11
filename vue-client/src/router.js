@@ -1,11 +1,11 @@
 // src/router.js
-import { createRouter, createWebHistory } from 'vue-router';
-import Error from './components/common/ErrorPage.vue';
-import Apply from './components/forms/ApplicationForm.vue';
-import Profile from './components/forms/ProfilesForm.vue';
-import Admin from './components/forms/AdminForm.vue';
-import Home from './components/forms/HomePage.vue';
-import { useTokenStore } from './stores/TokenStore';
+import { createRouter, createWebHistory } from 'vue-router'
+import Error from './components/common/ErrorPage.vue'
+import Apply from './components/forms/ApplicationForm.vue'
+import Profile from './components/forms/ProfilesForm.vue'
+import Admin from './components/forms/AdminForm.vue'
+import Home from './components/forms/HomePage.vue'
+import { useTokenStore } from './stores/TokenStore'
 
 /**
  * Route guard to confirm the user is an administrator
@@ -17,69 +17,51 @@ const requireAdmin = () => {
   if (tokenStore.is_admin) {
     return true
   } else {
-    return { path: '/auth/login' }
-  }
-}
-
-const requireUser = () => {
-  const tokenStore = useTokenStore()
-  if (tokenStore.is_user || tokenStore.is_admin) {
-    return true
-  } else {
-    return { path: '/auth/login' }
+    tokenStore.getToken()
   }
 }
 
 const routes = [
   { 
     path: '/', 
-    component: Home,
-    beforeEnter: requireUser 
+    component: Home
   },
 
   { 
     path : '/error', 
-    component: Error,
-    beforeEnter: requireUser 
+    component: Error 
   },
 
   { 
     path: '/home', 
-    component: Home,
-    beforeEnter: requireUser 
+    component: Home
   },
 
   { 
     path: '/apply', 
-    component: Apply,
-    beforeEnter: requireUser 
+    component: Apply
   },
-
+  
   { 
     path : '/profile', 
-    component: Profile,
-    beforeEnter: requireUser 
+    component: Profile
   },
 
   { 
     path: '/admin', 
     component: Admin,
     beforeEnter: requireAdmin
-  },
-
-  {
-    path: '/auth/login',
-    component: Error
   }
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
 router.beforeEach(async function (to) {
   const tokenStore = useTokenStore()
+  await tokenStore.tryToken()
   if (!tokenStore.token) {
     await tokenStore.getToken()
   }

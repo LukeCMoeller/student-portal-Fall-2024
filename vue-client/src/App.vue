@@ -18,7 +18,7 @@ tokenStore.tryToken();
     <RouterLink to="/">Go to Home</RouterLink>
     <RouterLink to="/about">Go to About</RouterLink>
     <RouterLink to="/error">Go to Error</RouterLink>
-    <RouterLink to="apply">Go to Apply</RouterLink>
+    <RouterLink to="/apply">Go to Apply</RouterLink>
     <RouterLink to="/profile">Go to Profile</RouterLink>
     <RouterLink to="/admin">Go to Admin</RouterLink>
   </nav>

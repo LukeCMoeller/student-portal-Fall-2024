@@ -1,12 +1,12 @@
-import Model from './base.js'
-import crypto from 'crypto'
-import jwt from 'jsonwebtoken'
-import logger from '../configs/logger.js'
-import objection from 'objection'
-import { nanoid } from 'nanoid'
+const Model = require('./base.js')
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
+const logger = require('../configs/logger.js')
+const objection = require('objection')
+//const nanoid = require('nanoid')
 
 // Related Models
-import Role from './role.js'
+const Role = require('./role.js')
 
 /**
  * @swagger
@@ -201,7 +201,7 @@ class User extends Model {
   }
 
   async $beforeInsert() {
-    this.slug = nanoid()
+    //this.slug = nanoid()
     let user = await User.query().where('email', this.email).limit(1)
     // user not found - create user
     if (user.length !== 0) {
@@ -220,4 +220,4 @@ class User extends Model {
   }
 }
 
-export default User
+module.export = User

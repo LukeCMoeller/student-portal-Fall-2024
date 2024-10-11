@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken'
-import logger from '../configs/logger.js'
-import User from '../models/user.js'
+const jwt = require('jsonwebtoken')
+const logger = require('../configs/logger.js')
+const User = require('../models/user.js')
 
 async function refreshToken(req, res, next) {
   const refresh_token = req.cookies['refresh_token']
@@ -34,4 +34,4 @@ async function refreshToken(req, res, next) {
   })
 }
 
-export default refreshToken
+module.exports = refreshToken
