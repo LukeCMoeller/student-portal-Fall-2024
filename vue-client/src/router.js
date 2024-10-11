@@ -22,37 +22,14 @@ const requireAdmin = () => {
 }
 
 const routes = [
-  { 
-    path: '/', 
-    component: Home
-  },
+  { path: '/', component: Home },
+  { path: '/home', component: Home },
+  { path: '/apply', component: Apply },
+  { path : '/profile', component: Profile },
+  { path: '/admin', component: Admin, beforeEnter: requireAdmin },
+  { path: '/:catchAll(.*)', component: Error }
+];
 
-  { 
-    path : '/error', 
-    component: Error 
-  },
-
-  { 
-    path: '/home', 
-    component: Home
-  },
-
-  { 
-    path: '/apply', 
-    component: Apply
-  },
-  
-  { 
-    path : '/profile', 
-    component: Profile
-  },
-
-  { 
-    path: '/admin', 
-    component: Admin,
-    beforeEnter: requireAdmin
-  }
-]
 
 const router = createRouter({
   history: createWebHistory(),
