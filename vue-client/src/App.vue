@@ -9,14 +9,17 @@ import './App.css';
 
 //tokenStore.tryToken();
 </script>
+
 <template>
       <!--<UserProvider>-->
         <div className="appContainer"> 
           <Header/>
           <div className="contentBackground">
+
             <RouterView />
           </div> 
           <Footer/>
         </div>
     <!--</UserProvider>--> 
 </template>
+

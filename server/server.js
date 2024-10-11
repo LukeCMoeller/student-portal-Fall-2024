@@ -53,21 +53,6 @@ app.use('/api', dataRoutes);
 app.use('/api', authRoutes);
 app.use('/api', adminRoutes);
 
-//const loginRequired = require('./middleware/login-required');
-// Serve info about the logged-in user.  Since only 
-// logged-in users should see this page, use the loginRequired
-// middleware to return a permission denied error if the user
-// is not authenticated.
-
-//TODO: Understand and implement 
-// app.get('/whoami', loginRequired, (req, res) => {
-//   // Serve the logged-in user's information.  This 
-//   // can be expanded to offer more information.
-//   res.json({
-//     username: req.session.username
-//   });
-// });
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

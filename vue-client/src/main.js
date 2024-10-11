@@ -8,3 +8,4 @@ createApp(App)
 .use(router)
 .use(createPinia())
 .mount('#app')
+

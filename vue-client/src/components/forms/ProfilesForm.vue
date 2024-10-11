@@ -1,5 +1,5 @@
-<scripte>
-</scripte>
+<script>
+</script>
 <template>
     
 </template>

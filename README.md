@@ -18,7 +18,7 @@ Welcome to the Professional Applications System, a capstone project developed by
 **Running the Project** 
 1. Client Side
     * Install Client packages: ```cd client && npm install```
-    * Starting Client: ```npm start``` 
+    * Starting Client: ```npm run dev``` 
 2. Server Side
     * Install Server packages: ```cd server && npm install```
     * Update [.env](server/.env) file
