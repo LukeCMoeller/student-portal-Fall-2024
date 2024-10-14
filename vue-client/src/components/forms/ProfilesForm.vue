@@ -33,7 +33,7 @@
             <!-- Submit Button -->
             <div class="p-field p-grid p-mb-3">
             <div class="p-col-12 p-md-10 p-offset-md-2">
-                <Button label="Submit" type="submit" class="p-button $style.btn-update" />
+                <button type="button" :class="$style.btnUpdate" onclick="alert('It works')">Submit</button>
             </div>
             </div>
         </form>
@@ -51,16 +51,12 @@
 
 <script>
 import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
 import styles from '../../styles/ProfileForm.module.css';
-import FloatLabel from 'primevue/floatlabel';
 
 export default {
   name: 'ProfilesForm',
   components: {
     InputText,
-    Button,
-    FloatLabel,
   },
   setup() {
     const firstName = '';

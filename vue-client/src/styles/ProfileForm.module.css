@@ -10,7 +10,7 @@
     border-radius: 10px;
 }
 
-.btn-update {
+.btnUpdate {
     background-color: #512888; 
     color: white; 
     border: none;
@@ -22,10 +22,10 @@
     transition: background-color 0.3s ease;  
 }
 
-.btn-update:hover {
+.btnUpdate:hover {
     background-color: #BF8CF7;  
+    cursor: pointer;
 }
-  
 
 .footer {
     margin-top: 20px;
