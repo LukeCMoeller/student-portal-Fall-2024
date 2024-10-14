@@ -38,7 +38,6 @@ const router = createRouter({
 
 router.beforeEach(async function (to) {
   const tokenStore = useTokenStore()
-  await tokenStore.tryToken()
   if (!tokenStore.token) {
     await tokenStore.getToken()
   }
