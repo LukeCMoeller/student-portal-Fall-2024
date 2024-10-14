@@ -33,7 +33,7 @@
             <!-- Submit Button -->
             <div class="p-field p-grid p-mb-3">
             <div class="p-col-12 p-md-10 p-offset-md-2">
-                <button type="button" :class="$style.btnUpdate" onclick="alert('It works')">Submit</button>
+                <button type="button" :class="$style.btnUpdate" @click="ToCodeLater">Submit</button>
             </div>
             </div>
         </form>
@@ -57,6 +57,13 @@ export default {
   name: 'ProfilesForm',
   components: {
     InputText,
+  },
+  methods: {
+    ToCodeLater(event) {
+      if (event) {
+        alert('Hello person again');
+      }
+    }
   },
   setup() {
     const firstName = '';
