@@ -11,7 +11,7 @@ var cas = new CASAuthentication({
   session_name: 'cas_user',
   session_info: 'cas_userinfo',
   destroy_session: true,
-  return_to: process.env.CAS_SERVICE_URL + process.env.CAS_REDIRECT_URL,
+  return_to: process.env.CAS_SERVICE_URL // + process.env.CAS_REDIRECT_URL,
 })
 
 module.exports = cas

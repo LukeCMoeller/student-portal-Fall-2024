@@ -60,7 +60,7 @@ router.get('/login', refreshToken, async function (req, res, next) {
       } else {
         // CAS is authenticated, get email from session
         email =
-          req.session[cas.session_name] + '@' + process.env.CAS_EMAIL_SUFFIX
+          req.session[cas.session_name] + '@ksu.edu'
       }
     }
     if (email && email.length != 0) {
