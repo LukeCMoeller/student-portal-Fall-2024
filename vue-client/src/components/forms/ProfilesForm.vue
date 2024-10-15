@@ -1,13 +1,13 @@
 <template>
-  <div :class="$style.ProfilesForm">
+  <div :class="style.ProfilesForm">
     <div class="grid nested-grid">
-      <div class="col-12">
-            <h3 :class="$style.h3Style">Update your user profile:</h3>
+      <div class="col-4 col-offset-4">
+            <h3 :class="style.h3Style">Update your user profile:</h3>
       </div>
-      <div class="col">
-        <div :class="$style.formContainer">
+      <div class="col-12">
+        <div :class="style.formContainer">
           
-          <form @submit.prevent="submitForm">
+          <form @submit.prevent="submitForm" id="profileForm">
             <div class="grid">
               <div class="col bg-white border-round-sm">
                 <div class="col">
@@ -44,7 +44,7 @@
               
                 <div class="col col-offset-3">
                   <!-- Submit Button -->
-                  <button type="button" :class="$style.btnUpdate" @click="ToCodeLater">Submit</button>
+                  <button type="button" :class="style.btnUpdate" @click="ToCodeLater">Submit</button>
                 </div>
 
               </div>
@@ -57,7 +57,7 @@
 
     <div class="grid">
       <div class="col">
-        <div :class="$style.footer">
+        <div :class="style.footer">
           <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
       </div>
       </div>
@@ -69,7 +69,7 @@
 <script>
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
-import styles from '../../styles/ProfileForm.module.css';
+import style from '../../styles/ProfileForm.module.css';
 import '/node_modules/primeflex/primeflex.css'
 import { ref } from 'vue';
 
@@ -91,12 +91,7 @@ export default {
     const lastName = ref('');
     const email = ref('');
     
-    return { firstName, lastName, email };
-  },
-  computed: {
-    $style() {
-      return styles;
-    },
+    return { firstName, lastName, email, style };
   },
 };
 </script>

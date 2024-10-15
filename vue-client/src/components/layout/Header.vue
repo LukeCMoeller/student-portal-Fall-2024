@@ -18,13 +18,14 @@
     </div>
     <nav :class="styles.navSection">
       <ul :class="styles.navList">
-        <li v-for="item in navItems" :key="item.link" :class="styles.navItemContainer">
-          <RouterLink :to="item.link" :class="styles.navItem">{{ item.label }}</RouterLink>
+        <li :class="styles.navItemContainer">
+          <RouterLink :to="navItems[0].link" :class="styles.navItem">{{ navItems[0].label }}</RouterLink>
           <div :class="styles.dividerNav"></div>
-        </li>
-        <li v-if="showAdminLink" :class="styles.navItemContainer">
+          <RouterLink :to="navItems[1].link" :class="styles.navItem">{{ navItems[1].label }}</RouterLink>
           <div :class="styles.dividerNav"></div>
-          <RouterLink to="/admin" :class="styles.navItem">Admin</RouterLink>
+          <RouterLink :to="navItems[2].link" :class="styles.navItem">{{ navItems[2].label }}</RouterLink>
+          <div v-if="showAdminLink" :class="styles.dividerNav"></div>
+          <RouterLink v-if="showAdminLink" to="/admin" :class="styles.navItem">Admin</RouterLink>
         </li>
       </ul>
     </nav>
