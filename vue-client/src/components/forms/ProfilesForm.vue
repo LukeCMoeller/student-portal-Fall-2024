@@ -13,7 +13,7 @@
                 <div class="col">
                   <!-- First Name Field -->
                   <FloatLabel variant="in">
-                    <InputText id="firstName" v-model="firstNameValue" variant="filled" />
+                    <InputText id="firstName" v-model="firstName" variant="filled"/>
                     <label for="firstName">First Name</label>
                   </FloatLabel>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="col">
                   <!-- Last Name Field -->
                   <FloatLabel variant="in">
-                    <InputText id="lastName" v-model="lastNameValue" variant="filled" />
+                    <InputText id="lastName" v-model="lastName" variant="filled" />
                     <label for="lastName">Last Name</label>
                   </FloatLabel>
                 </div>
@@ -29,8 +29,16 @@
                 <div class="col">
                   <!-- Email Field -->
                   <FloatLabel variant="in">
-                    <InputText id="email" v-model="emailValue" variant="filled" />
+                    <InputText id="email" v-model="email" variant="filled" />
                     <label for="email">Email</label>
+                  </FloatLabel>
+                </div>
+
+                <div class="col">
+                  <!-- WID Field -->
+                  <FloatLabel variant="in">
+                    <InputText id="wid" v-model="wid" variant="filled" disabled />
+                    <label for="wid">WID</label>
                   </FloatLabel>
                 </div>
               
@@ -63,6 +71,7 @@ import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import styles from '../../styles/ProfileForm.module.css';
 import '/node_modules/primeflex/primeflex.css'
+import { ref } from 'vue';
 
 export default {
   name: 'ProfilesForm',
@@ -73,17 +82,16 @@ export default {
   methods: {
     ToCodeLater(event) {
       if (event) {
-        alert('Hello person again');
+        alert(`Attempting to submit form with values:\nFirst Name: ${this.firstName}\nLast Name: ${this.lastName}\nEmail: ${this.email}`);
       }
     }
   },
   setup() {
-    const firstName = '';
-    const lastName = '';
-    const email = '';
-    const wid = '';
-
-    return { firstName, lastName, email, wid };
+    const firstName = ref('');
+    const lastName = ref('');
+    const email = ref('');
+    
+    return { firstName, lastName, email };
   },
   computed: {
     $style() {
