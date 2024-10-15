@@ -13,7 +13,7 @@
         icon="pi pi-sign-out"
         @click="logout"
         severity="danger"
-        style="margin-left: auto; margin-right: 1rem;"
+        style="margin-left: auto; margin-right: 1rem; text-align: center;"
       />
     </div>
     <nav :class="styles.navSection">
