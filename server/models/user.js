@@ -16,7 +16,6 @@ const Role = require('./role.js')
  *       type: object
  *       required:
  *         - email
- *         - name
  *       properties:
  *         id:
  *           type: integer
@@ -24,11 +23,6 @@ const Role = require('./role.js')
  *         email:
  *           type: email
  *           description: Email address of the user
- *         name:
- *           type: string
- *           minLength: 3
- *           maxLength: 255
- *           description: the user's name
  *         roles:
  *           type: array
  *           items:
@@ -63,17 +57,15 @@ class User extends Model {
   //fullName() {
   //  return this.firstName + ' ' + this.lastName;
   //}
-  static async findOrCreate(email, name = null) {
+  static async findOrCreate(email) {
     let user = await User.query().where('email', email).limit(1)
     // user not found - create user
     if (user.length === 0) {
-      if (!name) {
-        name = email
-      }
       user = [
         await User.query().insert({
           email: email,
-          name: name,
+          eid: email,
+          wid: 1
         }),
       ]
       logger.info('User ' + email + ' created')
@@ -167,11 +159,10 @@ class User extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['email', 'name'],
+      required: ['email'],
 
       properties: {
         email: { type: 'string', format: 'email' },
-        name: { type: 'string', minLength: 1, maxLength: 255 },
       },
     }
   }
@@ -195,7 +186,7 @@ class User extends Model {
           },
           to: 'roles.id',
         },
-        filter: (builder) => builder.select('id', 'name'),
+        filter: (builder) => builder.select('id'),
       },
     }
   }

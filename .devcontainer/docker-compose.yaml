@@ -26,7 +26,7 @@ services:
       DB_PORT: 5432
       SERVER_PORT: 3002
       API_URL: http://localhost:3000
-      CAS_HOST: http://testcas.cs.ksu.edu/
+      # CAS_HOST: http://testcas.cs.ksu.edu/
       CAS_URL: https://testcas.cs.ksu.edu
       CAS_SERVICE_URL: "https://${CODESPACE_NAME}-5173.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
       CAS_DEV_MODE: false
