@@ -6,7 +6,7 @@
       </a>
       <div :class="styles.divider"></div>
       <a href="https://cs.ksu.edu" style="text-decoration: none;">
-        <h1 :class="styles.headerTitle">Computer Science Student Portal</h1>
+        <h1 :class="styles.headerTitle" class="text-lg md:text-6xl">Computer Science Student Portal</h1>
       </a>
       <Button
         label="Logout"

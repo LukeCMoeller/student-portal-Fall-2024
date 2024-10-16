@@ -3,7 +3,11 @@
   text-align: center;
   color: white; 
 }
-
+.test{
+  width:100%;
+  position: absolute;
+  bottom:0;
+}
 .footerImg {
   display: block;
   width: 100%;
@@ -23,12 +27,13 @@
   transform: translate(-50%, -50%);
   width: 80%; 
   max-width: 500px;  
+  font-size: 1rem; 
 }
 
 @media (max-width: 768px) {
   .footerContent {
       width: 90%;  
-      font-size: 14px; 
+      font-size: .75rem; 
       /* Adjust font size for smaller screens */
   }
   .footerImg {

@@ -1,43 +1,41 @@
 <template>
   <div :class="$style.HomePage">
-    <div class="grid">
+    <div class="grid flex-column">
 
-      <div class="col">
-        <div :class="$style.appHeader">
-        <h1 :class="$style.h1Style">CS Applications</h1>
-        <h4 :class="$style.h4Style">Welcome to the CS Applications System</h4>
-        </div>
-      </div
+<div class="col-12 sml">
+  <div :class="$style.appHeader">
+    <h1 :class="$style.h1Style">CS Applications</h1>
+    <h4 :class="$style.h4Style">Welcome to the CS Applications System</h4>
+  </div>
+</div>
 
+<div class="col-12  sm-full">
+  <div :class="$style.applyBoxStyle" style="background-color: #d1d1d1" >
+    <h2 :class="$style.h2Style">Requirements</h2>
+    <p :class="$style.pStyleApply">In order to be considered for admission to the professional program, a student must have:</p>
+    <ol :class="$style.customList">
+      <div >
+      <li :class="$style.pListApply">Passed all pre-professional program courses with a C or better</li>
+      <li :class="$style.pListApply">Achieved at least a 2.3 GPA on all pre-professional courses (including transfer courses)</li>
     </div>
+    </ol>
+  </div>
+</div>
 
-    <div class="grid ">
-
-      <div class="col">
-        <div :class="$style.boxStyle" style="background-color: #d1d1d1">
-          <h2 :class="$style.h2Style">Requirements</h2>
-          <p>In order to be considered for admission to the professional program, a student must have:</p>
-          <ol :class="$style.customList">
-            <li>Passed all pre-professional program courses with a C or better</li>
-            <li>Achieved at least a 2.3 GPA on all pre-professional courses (including transfer courses)</li>
-          </ol>
-        </div>
+<div class="col-12  sm-full">
+  <div :class="$style.applyBoxStyle" style="background-color: #d1d1d1">
+    <h2 :class="$style.h2Style">Apply</h2>
+    <p :class="$style.pStyleApply">When you are ready to apply, click the button below!</p>
+    <br />
+    <router-link to="/Apply" :class="$style['link-no-decoration']">
+      <div :class="$style.buttonContainer">
+        <Button label="Apply Now" />
       </div>
-      
-      <div class="col">
-        <div :class="$style.applyBoxStyle" style="background-color: #d1d1d1">
-          <h2 :class="$style.h2Style">Apply</h2>
-          <p :class="$style.pStyleApply">When you are ready to apply, click the button below!</p>
-          <br />
-          <router-link to="/Apply" :class="$style['link-no-decoration']">
-          <div :class="$style.buttonContainer">
-            <Button label="Apply Now" />
-          </div>
-          </router-link>
-        </div>
-      </div>
+    </router-link>
+  </div>
+</div>
 
-    </div>
+
   </div>
 </div>
 </template>
