@@ -220,4 +220,4 @@ class User extends Model {
   }
 }
 
-module.export = User
+module.exports = User
