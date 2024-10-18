@@ -44,6 +44,7 @@ router.use(requestLogger)
  *         description: user is logged in, redirect to homepage
  */
 router.get('/login', refreshToken, async function (req, res, next) {
+  console.log("session:", req.session)
   if (!req.session.user_id) {
     let email = ''
     if (req.query.email && process.env.FORCE_AUTH === 'true') {
@@ -60,7 +61,7 @@ router.get('/login', refreshToken, async function (req, res, next) {
       } else {
         // CAS is authenticated, get email from session
         email =
-          req.session[cas.session_name] + '@' + process.env.CAS_EMAIL_SUFFIX
+          req.session[cas.session_name] + '@ksu.edu'
       }
     }
     if (email && email.length != 0) {

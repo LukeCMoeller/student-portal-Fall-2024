@@ -1,10 +1,13 @@
 //TODO: Update all http to https address, local env was not set up correctly. 
 const express = require('express');
-const session = require('express-session');
 const cors = require('cors');
+const logger = require('./configs/logger.js');
+const util = require('node:util');
+const createError = require('http-errors');
+const cookieParser = require('cookie-parser');
+const session = require('./configs/session.js');
 const serverConfig = require('./configs/server');
-const knexConfig = require('./configs/db');
-const knex = require('knex')(knexConfig);
+const knex = require('./configs/db');
 
 const app = express();
 const PORT = serverConfig.port || 3001;
@@ -15,27 +18,14 @@ app.disable('etag');
 
 app.use(express.json());
 
-app.use(session({
-  // We want a unique session secret for the application, 
-  // ideally stored as an environment variable.
-  secret: process.env.SESSION_SECRET || 'keyboard cat',
-  // resave forces the session to be written back to the 
-  // session store when no changes have been made
-  resave: false,
-  // saveUninitialized allows new and unmodified sessions
-  // to be saved to the session store.  Since we're using 
-  // the username to determine login status, `true` is fine.
-  saveUninitialized: true,
-  // Cookie-specific settings
-  cookie: { 
-    // secure requires the client to be using https
-    secure: false
-  }
-}));
+app.use(session);
 
 // Middleware
 const corsConfig = require('./middleware/corsConfig');
 app.use(corsConfig);
+
+// Cookie Parsing
+app.use(cookieParser(process.env.APP_SECRET));
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
@@ -50,8 +40,26 @@ app.use('/api', userRoutes);
 app.use('/api', courseRoutes);
 app.use('/api', applicationRoutes);
 app.use('/api', dataRoutes);
-app.use('/api', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api', adminRoutes);
+
+// Catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  logger.error('404: ' + req.url + ' : ' + req.originalUrl)
+  next(createError(404))
+})
+
+// Error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  logger.error(util.inspect(err))
+  res.locals.message = err.message
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
+
+  // render the error page
+  res.status(err.status || 500)
+  res.render('error')
+})
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

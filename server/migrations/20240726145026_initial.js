@@ -12,9 +12,12 @@ exports.up = function(knex) {
       table.string('first_name')
       table.string('last_name')
       table.string('email').unique().notNullable()
+      table.string('refresh_token', 255)
       table.boolean('admin').defaultTo(false)
       table.boolean('advisor').defaultTo(false)
       table.boolean('warning').defaultTo(false)
+      table.string('updated_at', 255)
+      table.string('updated_by', 255)
     })
     .createTable('programs', function(table) {
       table.increments('id')
