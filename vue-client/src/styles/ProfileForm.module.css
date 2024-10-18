@@ -11,6 +11,7 @@
 }
 
 .btnUpdate {
+    border-radius: 10px;
     background-color: #512888; 
     color: white; 
     border: none;
@@ -53,4 +54,14 @@
 
 .formBack{
     color: #fff;
+}
+
+.text {
+    color: #000;  
+    width: 100%;
+    text-align: center;
+    margin: 0; 
+    line-height: 1.2; 
+
+
 }
