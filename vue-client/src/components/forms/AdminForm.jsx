@@ -6,7 +6,7 @@ import { unparse } from 'papaparse';
 import ViewNotesModal from './adminModals/ViewNotesModal';
 import ApplicationForm from './ApplicationForm';
 import ReviewModal from './adminModals/ReviewModal';
-import {sanitizeForServer} from '../../services/api'
+import {sanitizeForServer} from '../../services/api';
  
 function AdminForm() {
     const [applications, setApplications] = useState([]);  

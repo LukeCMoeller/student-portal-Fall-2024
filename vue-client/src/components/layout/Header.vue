@@ -9,12 +9,13 @@
         <h1 :class="styles.headerTitle" class="text-lg md:text-6xl">Computer Science Student Portal</h1>
       </a>
       <Button
-        label="Logout"
-        icon="pi pi-sign-out"
-        @click="logout"
-        severity="danger"
-        style="margin-left: auto; margin-right: 1rem; text-align: center;"
+      label="Logout"
+      icon="pi pi-sign-out"
+      @click="logout"
+      severity="danger"
+      style="margin-left: auto; margin-right: 1rem; text-align: center; display: block;"
       />
+
     </div>
     <nav :class="styles.navSection">
       <ul :class="styles.navList">

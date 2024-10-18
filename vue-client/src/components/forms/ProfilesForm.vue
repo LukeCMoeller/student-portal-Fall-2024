@@ -8,9 +8,9 @@
         <div :class="style.formContainer">
           
           <form @submit.prevent="submitForm" id="profileForm">
-            <div class="grid">
+            <div class="grid flex align-items-stretch flex-wrap">
               <div class="col bg-white border-round-sm">
-                <div class="col">
+                <div class="col flex align-items-center justify-content-center">
                   <!-- First Name Field -->
                   <FloatLabel variant="in">
                     <InputText id="firstName" v-model="firstName" variant="filled"/>
@@ -18,7 +18,7 @@
                   </FloatLabel>
                 </div>
 
-                <div class="col">
+                <div class="col flex align-items-center justify-content-center">
                   <!-- Last Name Field -->
                   <FloatLabel variant="in">
                     <InputText id="lastName" v-model="lastName" variant="filled" />
@@ -26,27 +26,49 @@
                   </FloatLabel>
                 </div>
 
-                <div class="col">
+                <div class="col flex align-items-center justify-content-center">
                   <!-- Email Field -->
                   <FloatLabel variant="in">
                     <InputText id="email" v-model="email" variant="filled" />
                     <label for="email">Email</label>
                   </FloatLabel>
                 </div>
+                
+                <div class="col flex align-items-center justify-content-center">
+                  <!-- GitHub Field -->
+                  <FloatLabel variant="in">
+                    <InputText id="GitHub" v-model="GitHub" variant="filled" />
+                    <label for="GitHub">GitHub</label>
+                  </FloatLabel>
+                </div>
 
-                <div class="col">
+                <div class="col flex align-items-center justify-content-center">
                   <!-- WID Field -->
                   <FloatLabel variant="in">
                     <InputText id="wid" v-model="wid" variant="filled" disabled />
                     <label for="wid">WID</label>
                   </FloatLabel>
                 </div>
-              
-                <div class="col col-offset-3">
+
+                <div class="col flex align-items-center justify-content-center ">
                   <!-- Submit Button -->
-                  <button type="button" :class="style.btnUpdate" @click="ToCodeLater">Submit</button>
+                  <button type="button" class=" align-items-stretch" :class="style.btnUpdate" @click="ToCodeLater">Submit</button>
                 </div>
 
+              </div>
+              <div class="col">
+                <div style="background-color: gray; border: 3px solid #757575;  border-radius: 10px;" class="col border-round-sm">
+                  <div class="col-12 sml">
+                    <img :src="discordText" alt="discord text" style = "margin: 15px;" />
+                    <br>
+                    <h4 :class="style.text" style ="text-align: center; color:white">Click the button link below to connect to the offical K-State Discord</h4>
+                  </div>
+                  <div class="col flex align-items-center justify-content-center">
+                  <!-- Submit Button -->
+                  <button type="button" :class="style.btnUpdate" @click="DiscordLater"><img :src="discordIcon" alt="discord Logo" width="35" Height="35" /></button>
+                </div>
+
+                </div>
               </div>
             </div>
 
@@ -54,6 +76,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="grid">
       <div class="col">
@@ -72,7 +95,8 @@ import FloatLabel from 'primevue/floatlabel';
 import style from '../../styles/ProfileForm.module.css';
 import '/node_modules/primeflex/primeflex.css'
 import { ref } from 'vue';
-
+import discordIcon from '../../img/Discord.svg'
+import discordText from '../../img/DiscordText.svg'
 export default {
   name: 'ProfilesForm',
   components: {
@@ -82,7 +106,17 @@ export default {
   methods: {
     ToCodeLater(event) {
       if (event) {
-        alert(`Attempting to submit form with values:\nFirst Name: ${this.firstName}\nLast Name: ${this.lastName}\nEmail: ${this.email}`);
+        alert(`Attempting to submit form with values:\nFirst Name: ${this.firstName}\nLast Name: ${this.lastName}\nEmail: ${this.email}\nGitHub: ${this.GitHub}`);
+      }
+    },
+    DiscordLater(event) {
+      if (event) {
+        if(this.firstName === ''){
+          alert(`Sending you to link with discord *space sound effects*`);
+        }else{
+          alert(`Sending ${this.firstName} to link with discord *space sound effects*`);
+        }
+
       }
     }
   },
@@ -90,8 +124,9 @@ export default {
     const firstName = ref('');
     const lastName = ref('');
     const email = ref('');
+    const GitHub = ref('');
     
-    return { firstName, lastName, email, style };
+    return { firstName, lastName, email, GitHub, style, discordIcon, discordText };
   },
 };
 </script>
