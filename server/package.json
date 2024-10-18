@@ -23,7 +23,7 @@
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
     "nanoid": "^5.0.7",
-    "node-cas-authentication": "^0.0.15",
+    "node-cas-authentication": "git+ssh://git@github.com:alt-cs-lab/cas-authentication",
     "objection": "^3.1.5",
     "pg": "^8.13.0",
     "winston": "^3.14.2"
