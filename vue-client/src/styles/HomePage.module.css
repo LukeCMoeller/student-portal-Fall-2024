@@ -80,3 +80,15 @@
   text-align: center;
   margin: 0 auto;  
 }
+
+.pListApply {
+  font-size: 1rem;  
+  text-align: center;
+  margin: 0 auto;  
+}
+
+.customList{
+  list-style-position: inside; 
+  text-align: center;
+  padding: 20px;
+}

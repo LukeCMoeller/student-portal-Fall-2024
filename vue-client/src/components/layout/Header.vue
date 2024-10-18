@@ -6,25 +6,26 @@
       </a>
       <div :class="styles.divider"></div>
       <a href="https://cs.ksu.edu" style="text-decoration: none;">
-        <h1 :class="styles.headerTitle">Computer Science Student Portal</h1>
+        <h1 :class="styles.headerTitle" class="text-lg md:text-6xl">Computer Science Student Portal</h1>
       </a>
       <Button
         label="Logout"
         icon="pi pi-sign-out"
         @click="logout"
         severity="danger"
-        style="margin-left: auto; margin-right: 1rem;"
+        style="margin-left: auto; margin-right: 1rem; text-align: center;"
       />
     </div>
     <nav :class="styles.navSection">
       <ul :class="styles.navList">
-        <li v-for="item in navItems" :key="item.link" :class="styles.navItemContainer">
-          <RouterLink :to="item.link" :class="styles.navItem">{{ item.label }}</RouterLink>
+        <li :class="styles.navItemContainer">
+          <RouterLink :to="navItems[0].link" :class="styles.navItem">{{ navItems[0].label }}</RouterLink>
           <div :class="styles.dividerNav"></div>
-        </li>
-        <li v-if="showAdminLink" :class="styles.navItemContainer">
+          <RouterLink :to="navItems[1].link" :class="styles.navItem">{{ navItems[1].label }}</RouterLink>
           <div :class="styles.dividerNav"></div>
-          <RouterLink to="/admin" :class="styles.navItem">Admin</RouterLink>
+          <RouterLink :to="navItems[2].link" :class="styles.navItem">{{ navItems[2].label }}</RouterLink>
+          <div v-if="showAdminLink" :class="styles.dividerNav"></div>
+          <RouterLink v-if="showAdminLink" to="/admin" :class="styles.navItem">Admin</RouterLink>
         </li>
       </ul>
     </nav>
