@@ -32,6 +32,7 @@ services:
       CAS_DEV_MODE: false
       CAS_DEV_USER: testcas
       CAS_REDIRECT_URL: /auth/login
+      TOKEN_SECRET: "secret_hex"
 
   postgres:
     image: postgres:12

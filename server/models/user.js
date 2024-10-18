@@ -68,6 +68,15 @@ class User extends Model {
           wid: 1
         }),
       ]
+      if(process.env.NODE_ENV !== 'production'){
+        console.log("NOT IN PRODUCTION, SETTING USER ROLE TO API")
+        const defaultRoleId = 1;  // Assuming the default role has id 1
+
+        // Insert into the user_roles table
+        await User.relatedQuery('roles') 
+          .for(user[0].id) 
+          .relate(defaultRoleId);
+      }
       logger.info('User ' + email + ' created')
     }
     return user[0]

@@ -26,6 +26,9 @@ if (process.env.Node_ENV === 'test') {
       tableName: 'migrations',
       directory: '../migrations'
     },
+    seeds: {
+      directory: '../seeds'
+    },
   }
 }
 
