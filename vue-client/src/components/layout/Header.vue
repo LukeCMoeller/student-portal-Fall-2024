@@ -38,6 +38,7 @@ import { defineComponent, inject } from 'vue';
 import  Button  from 'primevue/button';
 import logo from '../../img/ksuLogo.png';
 import styles from '../../styles/Header.module.css';
+import {useTokenStore} from '../../stores/TokenStore.js';
 
 export default defineComponent({
   name: 'Header',
@@ -48,7 +49,8 @@ export default defineComponent({
     const user = true;//inject('UserContext');
 
     const logout = () => {
-      window.location = '/api/logout';
+      const tokenStore = useTokenStore();
+      tokenStore.logout();
     };
 
     const showAdminLink = true;//user && user.admin;
