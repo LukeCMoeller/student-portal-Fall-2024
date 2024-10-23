@@ -1,9 +1,9 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router'
 import Error from './components/common/ErrorPage.vue'
-import Apply from './components/forms/ApplicationForm.vue'
-import Profile from './components/forms/ProfilesForm.vue'
-import Admin from './components/forms/AdminForm.vue'
+import Apply from './sub-apps/professional-program-app/ApplicationForm.vue'
+import Profile from './sub-apps/profile-app/ProfilesForm.vue'
+import Admin from './sub-apps/professional-program-app/AdminForm.vue'
 import Home from './components/forms/HomePage.vue'
 import { useTokenStore } from './stores/TokenStore'
 
