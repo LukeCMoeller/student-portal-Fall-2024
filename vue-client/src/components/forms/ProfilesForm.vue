@@ -97,6 +97,9 @@ import '/node_modules/primeflex/primeflex.css'
 import { ref } from 'vue';
 import discordIcon from '../../img/Discord.svg'
 import discordText from '../../img/DiscordText.svg'
+import { useUsersStore } from '@/stores/UserStore';
+import { useTokenStore } from '@/stores/TokenStore';
+import Logger from 'js-logger'
 export default {
   name: 'ProfilesForm',
   components: {
@@ -121,9 +124,14 @@ export default {
     }
   },
   setup() {
-    const firstName = ref('');
-    const lastName = ref('');
-    const email = ref('');
+    const usersStore = ref(useUsersStore())
+    const tokenStore = ref(useTokenStore())
+    usersStore.hydrate();
+    const user = ref(usersStore.getUser(tokenStore.id()))
+
+    const firstName = ref(user.first_name);
+    const lastName = ref(user.last_name);
+    const email = ref(user.email);
     const GitHub = ref('');
     
     return { firstName, lastName, email, GitHub, style, discordIcon, discordText };
