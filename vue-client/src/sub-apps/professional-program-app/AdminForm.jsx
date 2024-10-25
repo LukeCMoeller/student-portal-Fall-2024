@@ -3,9 +3,9 @@ import { Container, Row, Col, Button, Modal, Alert } from 'react-bootstrap';
 import LoadingIndicator from '../common/LoadingIndicator'; 
 import styles from '../../styles/AdminForm.module.css';
 import { unparse } from 'papaparse';
-import ViewNotesModal from '../../components/forms/adminModals/ViewNotesModal';
+import ViewNotesModal from './adminModals/ViewNotesModal';
 import ApplicationForm from './ApplicationForm';
-import ReviewModal from '../../components/forms/adminModals/ReviewModal';
+import ReviewModal from './adminModals/ReviewModal';
 import {sanitizeForServer} from '../../services/api';
  
 function AdminForm() {

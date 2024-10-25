@@ -1,5 +1,22 @@
 <template>
-  <div class="AdminForm">
+  <div class="AdminForm"> 
+     
+    <ViewNotesModal
+    v-if="showNotesModal"
+    :show="showNotesModal"
+    @close="setShowNotesModal(false)"
+    :notes="currentNotes"
+    @save="(updatedNotes) => saveNotes(currentAppId, updatedNotes)"
+  />
+  <!--
+  <ReviewModal
+        show={showReviewModal}
+        onHide={closeReviewModal}
+        application={currentReviewApp}
+        courses={courses}
+        fetchCourses={fetchCourses} 
+    />
+    -->
     <!-- Dialogs go here -->
     
     <LoadingIndicator v-if="isLoading" />
@@ -16,7 +33,7 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="col-12" :class="styles.button-container">
+      <div class="col-12" :class="styles.buttoncontainer">
           <Button label="Reset Sort" @click="resetSortConfig" />
           <div>
             <Button
@@ -54,7 +71,7 @@
 
       <!-- Applications Table -->
       <div class="col-12">
-        <div :class="styles.custom-table-container">
+        <div :class="styles.customtablecontainer">
             <DataTable :value="applications" stripedRows>
                 <Column field="firstName" header="First Name" />
                 <Column field="lastName" header="Last Name" />
@@ -91,6 +108,9 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import styles from '../../styles/AdminForm.module.css'; 
+import ViewNotesModal from './adminModals/ViewNotesModal.vue';
+//import ReviewModal from './adminModals/ReviewModal.vue';
+import ApplicationForm from './ApplicationForm.vue';
 
 export default {
     components: {
@@ -143,7 +163,10 @@ export default {
     },
   },
   methods: {
-    // Define all methods like handleCheckboxChange, handleSort, handleFilterChange, etc. here
+    resetSortConfig(event){ /* event to handle reseting the sort */
+      sortConfig.key.value = null;
+      sortConfig.direction.value = 'ascending';
+    },
     fetchCourses(wid) { 
       if (!WID){
         this.error("WID is undefined, cannot fetch courses.");

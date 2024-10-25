@@ -23,7 +23,7 @@
   border-top: transparent;
 } 
 
-.button-container { 
+.buttoncontainer { 
   display: flex; 
   width: 100%;
   padding-top: 30px; 
@@ -32,7 +32,7 @@
 
 } 
 
-.custom-table-container {
+.customtablecontainer {
   display: flex;
   justify-content: center;
   padding-left: 0;
