@@ -99,7 +99,15 @@ import discordIcon from '../../img/Discord.svg'
 import discordText from '../../img/DiscordText.svg'
 import { useUsersStore } from '@/stores/UserStore';
 import { useTokenStore } from '@/stores/TokenStore';
-import Logger from 'js-logger'
+import Logger from 'js-logger';
+
+async function hydrateAndFindUser() {
+  const usersStore = useUsersStore()
+  const tokenStore = useTokenStore()
+  await usersStore.hydrate();
+  return usersStore.getUser(tokenStore.id)
+};
+
 export default {
   name: 'ProfilesForm',
   components: {
@@ -124,10 +132,7 @@ export default {
     }
   },
   setup() {
-    const usersStore = ref(useUsersStore())
-    const tokenStore = ref(useTokenStore())
-    usersStore.hydrate();
-    const user = ref(usersStore.getUser(tokenStore.id()))
+    const user = hydrateAndFindUser()
 
     const firstName = ref(user.first_name);
     const lastName = ref(user.last_name);

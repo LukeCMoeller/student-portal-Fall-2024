@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Logger from 'js-logger'
 
 // Services
-//import {api} from '@/services/api'
+import api from '../services/tokenApi.js'
 
 export const useUsersStore = defineStore('users', {
   state: () => {
