@@ -11,12 +11,15 @@ const router = express.Router()
 
 // Load Middleware
 const adminOnly = require('../middleware/admin-required.js')
+const loginRequired = require('../middleware/login-required.js')
 
 // Load Models
 const User = require('../models/user.js')
 
+//router.use(loginRequired)
+
 // Require Admin Role on All Routes
-router.use(adminOnly)
+//router.use(adminOnly)
 
 /**
  * @swagger
@@ -37,9 +40,21 @@ router.use(adminOnly)
  *                 $ref: '#/components/schemas/User'
  */
 router.get('/', async function (req, res, next) {
-  let users = await User.query()
+  console.log('Users API call', req.user_id) 
+  let users = {}
+  if(req.is_admin) {
+    console.log('Admin request')
+    users = await User.query()
     .select('users.id', 'users.email', 'users.name')
     .withGraphFetched('roles')
+  } else {
+    console.log('Standard user request')
+    users = await User.query()
+    .select('users.id', 'users.email', 'users.first_name', 'last_name')
+    .withGraphFetched('roles').where({'users.id':req.user_id})
+    users = [users]
+  }
+  
   res.json(users)
 })
 

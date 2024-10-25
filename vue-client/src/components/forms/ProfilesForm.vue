@@ -105,7 +105,10 @@ async function hydrateAndFindUser() {
   const usersStore = useUsersStore()
   const tokenStore = useTokenStore()
   await usersStore.hydrate();
-  return usersStore.getUser(tokenStore.id)
+  Logger.debug(tokenStore.id)
+  const user = await usersStore.getUser(tokenStore.id)
+  Logger.debug(user)
+  return user
 };
 
 export default {

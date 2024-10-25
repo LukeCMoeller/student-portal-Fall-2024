@@ -1,11 +1,11 @@
 // https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 
-import jwt from 'jsonwebtoken'
+const jwt = require('jsonwebtoken')
 // Load Models
 // const User = require('../models/user')
 
 // Load Logger
-import logger from '../configs/logger.js'
+const logger = require('../configs/logger.js')
 
 async function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
@@ -50,4 +50,4 @@ async function authenticateToken(req, res, next) {
   })
 }
 
-export default authenticateToken
+module.exports = authenticateToken

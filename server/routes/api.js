@@ -19,16 +19,16 @@
  */
 
 // Load Libraries
-import express from 'express'
+const express = require('express')
 const router = express.Router()
 
 // Load Middleware
-import token from '../middlewares/token.js'
-import { dbAudit } from '../middlewares/db-audit.js'
-import requestLogger from '../middlewares/request-logger.js'
+const token = require('../middleware/token.js')
+const { dbAudit } = require('../middleware/db-audit.js')
+const requestLogger = require('../middleware/request-logger.js')
 
 // Load Routers
-import usersRouter from './userRoutes.js'
+const usersRouter = require('./userRoutes.js')
 
 // Load Token Middleware
 router.use(token)
@@ -39,14 +39,14 @@ router.use(dbAudit)
 // Configure Logging (after token)
 router.use(requestLogger)
 
-router.use('/users', usersRouter)
-router.use('/profile', profileRouter)
-router.use('/roles', roleRouter)
-router.use('/platforms', platformsRouter)
-router.use('/courses', coursesRouter)
-router.use('/tools', toolsRouter)
-router.use('/deployments', deploymentRouter)
-router.use('/activities', activitiesRouter)
+router.use('/users', (req, res, next) => {console.log('API:',req.path); next()}, usersRouter)
+//router.use('/profile', profileRouter)
+//router.use('/roles', roleRouter)
+//router.use('/platforms', platformsRouter)
+//router.use('/courses', coursesRouter)
+//router.use('/tools', toolsRouter)
+//router.use('/deployments', deploymentRouter)
+//router.use('/activities', activitiesRouter)
 
 /**
  * @swagger
@@ -86,4 +86,4 @@ router.get('/', function (req, res, next) {
   })
 })
 
-export default router
+module.exports = router

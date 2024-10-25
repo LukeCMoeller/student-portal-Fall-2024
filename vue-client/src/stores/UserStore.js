@@ -19,6 +19,7 @@ export const useUsersStore = defineStore('users', {
      * @returns a function to find an item based on a given id
      */
     getUser: (state) => {
+      Logger.debug('Get User Param', state.users)
       return (id) => state.users.find((user) => user.id === id)
     }
   },
