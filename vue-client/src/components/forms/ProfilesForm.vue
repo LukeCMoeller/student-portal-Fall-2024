@@ -13,7 +13,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- First Name Field -->
                   <FloatLabel variant="in">
-                    <InputText id="firstName" v-model="firstName" variant="filled"/>
+                    <InputText id="firstName" v-model="user.first_name" variant="filled"/>
                     <label for="firstName">First Name</label>
                   </FloatLabel>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Last Name Field -->
                   <FloatLabel variant="in">
-                    <InputText id="lastName" v-model="lastName" variant="filled" />
+                    <InputText id="lastName" v-model="user.last_name" variant="filled" />
                     <label for="lastName">Last Name</label>
                   </FloatLabel>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Email Field -->
                   <FloatLabel variant="in">
-                    <InputText id="email" v-model="email" variant="filled" />
+                    <InputText id="email" v-model="user.email" variant="filled" disabled />
                     <label for="email">Email</label>
                   </FloatLabel>
                 </div>
@@ -45,7 +45,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- WID Field -->
                   <FloatLabel variant="in">
-                    <InputText id="wid" v-model="wid" variant="filled" disabled />
+                    <InputText id="wid" v-model="user.wid" variant="filled" disabled />
                     <label for="wid">WID</label>
                   </FloatLabel>
                 </div>
@@ -97,19 +97,10 @@ import '/node_modules/primeflex/primeflex.css'
 import { ref } from 'vue';
 import discordIcon from '../../img/Discord.svg'
 import discordText from '../../img/DiscordText.svg'
-import { useUsersStore } from '@/stores/UserStore';
-import { useTokenStore } from '@/stores/TokenStore';
+import { useProfileStore } from '@/stores/ProfileStore';
+import { storeToRefs } from 'pinia'
 import Logger from 'js-logger';
-
-async function hydrateAndFindUser() {
-  const usersStore = useUsersStore()
-  const tokenStore = useTokenStore()
-  await usersStore.hydrate();
-  Logger.debug(tokenStore.id)
-  const user = await usersStore.getUser(tokenStore.id)
-  Logger.debug(user)
-  return user
-};
+//import TextField from './TextField.vue';
 
 export default {
   name: 'ProfilesForm',
@@ -135,14 +126,21 @@ export default {
     }
   },
   setup() {
-    const user = hydrateAndFindUser()
+    // Stores
+    const profileStore = useProfileStore()
+    profileStore.hydrate()
+    // Setup Stores
+    const { user } = storeToRefs(profileStore)
+
+    Logger.debug(user)
 
     const firstName = ref(user.first_name);
     const lastName = ref(user.last_name);
     const email = ref(user.email);
+    const wid = ref(user.wid);
     const GitHub = ref('');
     
-    return { firstName, lastName, email, GitHub, style, discordIcon, discordText };
+    return { user, firstName, lastName, email, wid, GitHub, style, discordIcon, discordText };
   },
 };
 </script>

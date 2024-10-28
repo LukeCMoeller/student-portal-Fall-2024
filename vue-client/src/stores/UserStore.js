@@ -5,10 +5,11 @@ import Logger from 'js-logger'
 // Services
 import api from '../services/tokenApi.js'
 
-export const useUsersStore = defineStore('users', {
+export const useUsersStore = defineStore('users', 'currentUser', {
   state: () => {
     return {
-      users: [] // list of users
+      users: [], // list of users
+      currentUser: User() //logged in user
     }
   },
   getters: {
@@ -19,7 +20,6 @@ export const useUsersStore = defineStore('users', {
      * @returns a function to find an item based on a given id
      */
     getUser: (state) => {
-      Logger.debug('Get User Param', state.users)
       return (id) => state.users.find((user) => user.id === id)
     }
   },
@@ -67,6 +67,15 @@ export const useUsersStore = defineStore('users', {
     async delete(id) {
       await api.delete('/api/v1/users/' + id).then(async () => {
         await this.hydrate()
+      })
+    },
+
+    /**
+     * Load the currently logged in user to the store.
+     */
+    async loadCurrentUser() {
+      await api.get('api/v1/users/whoami').then((response) => {
+        this.currentUser = response.data
       })
     }
   }

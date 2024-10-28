@@ -6,6 +6,7 @@ import Profile from './components/forms/ProfilesForm.vue'
 import Admin from './components/forms/AdminForm.vue'
 import Home from './components/forms/HomePage.vue'
 import { useTokenStore } from './stores/TokenStore'
+import { useUsersStore } from './stores/UserStore'
 
 /**
  * Route guard to confirm the user is an administrator
@@ -38,8 +39,10 @@ const router = createRouter({
 
 router.beforeEach(async function (to) {
   const tokenStore = useTokenStore()
+  const userStore = useUsersStore()
   if (!tokenStore.token) {
     await tokenStore.getToken()
+    //await userStore.loadCurrentUser()
   }
 })
 

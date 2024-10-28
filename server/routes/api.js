@@ -29,6 +29,7 @@ const requestLogger = require('../middleware/request-logger.js')
 
 // Load Routers
 const usersRouter = require('./userRoutes.js')
+const profileRouter = require('./profileRoutes.js')
 
 // Load Token Middleware
 router.use(token)
@@ -39,8 +40,8 @@ router.use(dbAudit)
 // Configure Logging (after token)
 router.use(requestLogger)
 
-router.use('/users', (req, res, next) => {console.log('API:',req.path); next()}, usersRouter)
-//router.use('/profile', profileRouter)
+router.use('/users', usersRouter)
+router.use('/profile', profileRouter)
 //router.use('/roles', roleRouter)
 //router.use('/platforms', platformsRouter)
 //router.use('/courses', coursesRouter)
