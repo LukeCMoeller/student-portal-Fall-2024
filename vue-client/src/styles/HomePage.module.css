@@ -6,6 +6,16 @@
   padding: 20px 0;
   margin-bottom: 30px;
 }
+
+.HomePage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeContainer{
+  min-height: 80vh;
+}
  
 .h1Style {
   background-color: #512888; 
@@ -83,12 +93,11 @@
 
 .pListApply {
   font-size: 1rem;  
-  text-align: center;
   margin: 0 auto;  
 }
 
 .customList{
   list-style-position: inside; 
-  text-align: center;
+  text-align: left;
   padding: 20px;
 }
