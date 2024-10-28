@@ -70,12 +70,13 @@
                 </div>
 
                 </div>
+                
               </div>
             </div>
 
           </form>
         </div>
-      </div>
+      </div> 
     </div>
 
     <div class="col-12 p-0 m-0">

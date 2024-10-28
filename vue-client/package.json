@@ -12,6 +12,8 @@
     "@primevue/themes": "^4.1.1",
     "@vueuse/core": "^11.1.0",
     "axios": "^1.7.7",
+    "bootstrap-vue": "^2.23.1",
+    "he": "^1.2.0",
     "js-logger": "^1.6.1",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.2.4",
