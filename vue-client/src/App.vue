@@ -7,15 +7,12 @@ import './App.css';
 </script>
 
 <template>
-      <!--<UserProvider>-->
-        <div className="appContainer"> 
-          <Header/>
-          <div className="contentBackground">
-
-            <RouterView />
-          </div> 
-          <Footer/>
-        </div>
-    <!--</UserProvider>--> 
+    <div className="appContainer"> 
+      <Header/>
+      <div className="contentBackground">
+        <RouterView />
+      </div> 
+      <Footer/>
+    </div>
 </template>
 

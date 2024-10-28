@@ -1,14 +1,38 @@
-.h3Style {
-    background-color: #512888;  
-    color: #fff;  
+.ProfilesForm{
+    height:100%;
+}
+
+.h1Style {
+    background-color: #512888; 
+  color: #fff; 
+  width: 100%;
+  text-align: center;
+  margin: 0; 
+  line-height: 1.2; 
+  padding: 10px 0;  
+  border: 3px solid #757575;
+}
+
+.h4Style {
+    background-color: #d1d1d1; 
+    color: #512888;  
     width: 100%;
     text-align: center;
     margin: 0; 
     line-height: 1.2; 
-    padding: 20px;  
+    padding: 10px 0;  
     border: 3px solid #757575;
-    border-radius: 10px;
-}
+    border-top: transparent;
+  }
+
+.appHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+  }
 
 .btnUpdate {
     border-radius: 10px;
@@ -54,6 +78,10 @@
 
 .formBack{
     color: #fff;
+}
+
+.footer{
+    bottom:0;
 }
 
 .text {

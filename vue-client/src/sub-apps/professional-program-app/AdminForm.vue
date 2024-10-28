@@ -25,15 +25,13 @@
       <!-- Alert goes here-->
 
       <!-- Review Applications Header -->
-      <div class="col-12">
+      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3">
           <h3 :class="styles.h3StyleTop">Review Applications</h3>
-      </div>
-        <div class="col-12">
           <h3 :class="styles.h3StyleBot">Total Applications: {{ applications.length }}</h3>
       </div>
 
       <!-- Action Buttons -->
-      <div class="col-12" :class="styles.buttoncontainer">
+      <div class="col-10 col-offset-1" :class="styles.button-container">
           <Button label="Reset Sort" @click="resetSortConfig" />
           <div>
             <Button
@@ -70,8 +68,8 @@
       </div>
 
       <!-- Applications Table -->
-      <div class="col-12">
-        <div :class="styles.customtablecontainer">
+      <div class="col-10 col-offset-1">
+        <div :class="styles.custom-table-container">
             <DataTable :value="applications" stripedRows>
                 <Column field="firstName" header="First Name" />
                 <Column field="lastName" header="Last Name" />

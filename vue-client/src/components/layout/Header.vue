@@ -1,32 +1,27 @@
 <template>
   <header :class="styles.headerContainer">
+    <div :class="styles.headerTop" style="background-color: gainsboro;display:grid; justify-content: end; grid-auto-flow: column; padding-top: .1rem">
+      <p style="padding-right: 1rem;">Admin </p>
+        <ToggleSwitch v-model="adminMode" style="margin-right:5vw" />
+
+        <RouterLink :to="'/api/logout'" :class="styles.logout">Logout</RouterLink>
+    </div>
     <div :class="styles.headerTop">
-      <a href="https://ksu.edu">
-        <img :src="logo" alt="Logo" :class="styles.logo" />
+      <a href="https://ksu.edu" :class="styles.noBackground">
+        <img :src="logo" alt="Logo" :class="styles.logo" style="height: 40px;" />
       </a>
       <div :class="styles.divider"></div>
-      <a href="https://cs.ksu.edu" style="text-decoration: none;">
-        <h1 :class="styles.headerTitle" class="text-lg md:text-6xl">Computer Science Student Portal</h1>
+      <a href="https://cs.ksu.edu" :class="styles.noBackground">
+        <h1 :class="styles.headerTitle" class="">Computer Science Student Portal</h1>
       </a>
-      <Button
-      label="Logout"
-      icon="pi pi-sign-out"
-      @click="logout"
-      severity="danger"
-      style="margin-left: auto; margin-right: 1rem; text-align: center; display: block;"
-      />
 
     </div>
+
     <nav :class="styles.navSection">
       <ul :class="styles.navList">
-        <li :class="styles.navItemContainer">
-          <RouterLink :to="navItems[0].link" :class="styles.navItem">{{ navItems[0].label }}</RouterLink>
-          <div :class="styles.dividerNav"></div>
-          <RouterLink :to="navItems[1].link" :class="styles.navItem">{{ navItems[1].label }}</RouterLink>
-          <div :class="styles.dividerNav"></div>
-          <RouterLink :to="navItems[2].link" :class="styles.navItem">{{ navItems[2].label }}</RouterLink>
-          <div v-if="showAdminLink" :class="styles.dividerNav"></div>
-          <RouterLink v-if="showAdminLink" to="/admin" :class="styles.navItem">Admin</RouterLink>
+        <li :class="styles.navItemContainer" v-for="(item, index) in navItems">
+            <RouterLink :key="index" :to="item.link" :class="styles.navItem">{{ item.label }} </RouterLink>
+            <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
         </li>
       </ul>
     </nav>
@@ -34,28 +29,37 @@
 </template>
 
 <script>
-import { defineComponent, inject } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import  Button  from 'primevue/button';
 import logo from '../../img/ksuLogo.png';
 import styles from '../../styles/Header.module.css';
+import ToggleSwitch from 'primevue/toggleswitch';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'Header',
   components: {
     Button,
+    ToggleSwitch,
   },
   setup() {
-    const user = true;//inject('UserContext');
-
     const logout = () => {
       window.location = '/api/logout';
     };
 
-    const showAdminLink = true;//user && user.admin;
+    const store = useStore(); // Get the store instance
+    const adminMode = ref(store.state.IsAdminMode);
+
+    // Watch for changes to adminMode and update Vuex state accordingly
+    watch(adminMode, (newVal) => {
+      store.dispatch('updateIsAdminMode', newVal); // Dispatch the action with the new value
+    });
+
+    const showAdminLink = true;
 
     const navItems = [
-      { label: 'CS Applications', link: '/home' },
-      { label: 'Apply', link: '/apply' },
+      { label: 'Home', link: '/home' },
+      { label: 'CS Applications', link: '/professional-program' },
       { label: 'Profile', link: '/profile' },
     ];
 
@@ -65,6 +69,7 @@ export default defineComponent({
       logout,
       showAdminLink,
       navItems,
+      adminMode
     };
   },
 });

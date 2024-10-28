@@ -1,15 +1,16 @@
 <template>
   <div :class="style.ProfilesForm">
-    <div class="grid nested-grid">
-      <div class="col-4 col-offset-4">
-            <h3 :class="style.h3Style">Update your user profile:</h3>
+    <div class="nested-grid">
+      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="style.appHeader">
+            <h1 :class="style.h1Style">Profile App</h1>
+            <h4 :class="style.h4Style">Update your user profile:</h4>
       </div>
       <div class="col-12">
         <div :class="style.formContainer">
           
           <form @submit.prevent="submitForm" id="profileForm">
             <div class="grid flex align-items-stretch flex-wrap">
-              <div class="col bg-white border-round-sm">
+              <div class="col-6 col-offset-3 xl:col-6 xl:col-offset-0 bg-white border-round-sm">
                 <div class="col flex align-items-center justify-content-center">
                   <!-- First Name Field -->
                   <FloatLabel variant="in">
@@ -56,12 +57,12 @@
                 </div>
 
               </div>
-              <div class="col">
+              <div class="col-6 col-offset-3 xl:col-6 xl:col-offset-0">
                 <div style="background-color: gray; border: 3px solid #757575;  border-radius: 10px;" class="col border-round-sm">
                   <div class="col-12 sml">
                     <img :src="discordText" alt="discord text" style = "margin: 15px;" />
                     <br>
-                    <h4 :class="style.text" style ="text-align: center; color:white">Click the button link below to connect to the offical K-State Discord</h4>
+                    <h4 :class="style.text" style ="text-align: center; color:white">Click the button below to connect to the offical K-State Discord</h4>
                   </div>
                   <div class="col flex align-items-center justify-content-center">
                   <!-- Submit Button -->
@@ -78,12 +79,9 @@
       </div> 
     </div>
 
-
-    <div class="grid">
-      <div class="col">
-        <div :class="style.footer">
-          <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
-      </div>
+    <div class="col-12 p-0 m-0">
+      <div :class="style.footer">
+        <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
       </div>
     </div>
     
