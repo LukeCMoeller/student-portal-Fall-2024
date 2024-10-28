@@ -76,7 +76,7 @@
   
   <script>
   import { ref, watch, onMounted } from 'vue';
-  import { Modal, Button, Form } from 'bootstrap-vue'; // Adjust based on your modal component
+  import { Modal, Button, Form } from 'bootstrap-vue';
   import { he } from 'he';
   import styles from '../../../styles/AdminForm.module.css';
   
