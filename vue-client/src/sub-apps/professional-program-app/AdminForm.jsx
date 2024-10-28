@@ -3,9 +3,9 @@ import { Container, Row, Col, Button, Modal, Alert } from 'react-bootstrap';
 import LoadingIndicator from '../common/LoadingIndicator'; 
 import styles from '../../styles/AdminForm.module.css';
 import { unparse } from 'papaparse';
-import ViewNotesModal from '../../components/forms/adminModals/ViewNotesModal';
+import ViewNotesModal from './adminModals/ViewNotesModal';
 import ApplicationForm from './ApplicationForm';
-import ReviewModal from '../../components/forms/adminModals/ReviewModal';
+import ReviewModal from './adminModals/ReviewModal';
 import {sanitizeForServer} from '../../services/api';
  
 function AdminForm() {
@@ -390,7 +390,7 @@ function AdminForm() {
                 </Row>   
                 <Row>
                     <Col xs={12} className={styles['button-container']}>  
-                        <Button variant="dark" onClick={() => setSortConfig({ key: null, direction: 'ascending' })}>
+                        <Button variant="dark" onClick={() => ({ key: null, direction: 'ascending' })}>
                             Reset Sort
                         </Button> 
                         <div>
