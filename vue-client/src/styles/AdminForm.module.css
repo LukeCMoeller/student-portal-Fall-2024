@@ -1,15 +1,12 @@
-/* body, html {
-  background-image: url("img/cloud2.svg");  
-  background-position: center;
-  background-size: cover; 
-} */
+
 
 .h3StyleTop {
   background-color: #512888;  
   color: #fff;  
   width: 100%;
   text-align: center;
-  margin: 0;  
+  margin: 0; 
+  margin-top: 20px; 
   line-height: 1.2;  
   padding: 10px 0;  
   border: 3px solid #757575;
@@ -27,7 +24,7 @@
   border-top: transparent;
 } 
 
-.button-container { 
+.buttoncontainer { 
   display: flex; 
   width: 100%;
   padding-top: 30px; 
@@ -36,7 +33,7 @@
 
 } 
 
-.custom-table-container {
+.customtablecontainer {
   display: flex;
   justify-content: center;
   padding-left: 0;
