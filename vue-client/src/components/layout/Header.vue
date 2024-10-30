@@ -21,6 +21,7 @@
       <ul :class="styles.navList">
         <li :class="styles.navItemContainer" v-for="(item, index) in navItems">
             <RouterLink :key="index" :to="item.link" :class="styles.navItem">{{ item.label }} </RouterLink>
+            
             <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
         </li>
       </ul>
@@ -62,7 +63,6 @@ export default defineComponent({
       { label: 'CS Applications', link: '/professional-program' },
       { label: 'Profile', link: '/profile' },
     ];
-
     return {
       logo,
       styles,
