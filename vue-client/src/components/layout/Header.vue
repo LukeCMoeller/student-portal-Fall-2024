@@ -12,7 +12,7 @@
       </a>
       <div :class="styles.divider"></div>
       <a href="https://cs.ksu.edu" :class="styles.noBackground">
-        <h1 :class="styles.headerTitle" class="">Computer Science Student Portal</h1>
+        <h1 :class="styles.headerTitle">Computer Science Student Portal</h1>
       </a>
 
     </div>
@@ -34,6 +34,7 @@ import { defineComponent, ref, watch } from 'vue';
 import  Button  from 'primevue/button';
 import logo from '../../img/ksuLogo.png';
 import styles from '../../styles/Header.module.css';
+import {useTokenStore} from '../../stores/TokenStore.js';
 import ToggleSwitch from 'primevue/toggleswitch';
 import { useStore } from 'vuex';
 
@@ -45,7 +46,8 @@ export default defineComponent({
   },
   setup() {
     const logout = () => {
-      window.location = '/api/logout';
+      const tokenStore = useTokenStore();
+      tokenStore.logout();
     };
 
     const store = useStore(); // Get the store instance

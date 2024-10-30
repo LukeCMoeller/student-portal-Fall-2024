@@ -8,6 +8,11 @@ const objection = require('objection')
 // Related Models
 const Role = require('./role.js')
 
+//Random function for WID testing for now
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 /**
  * @swagger
  * components:
@@ -65,7 +70,9 @@ class User extends Model {
         await User.query().insert({
           email: email,
           eid: email,
-          wid: 1
+          wid: getRandomInt(1000000000),
+          first_name: 'Ethan',
+          last_name: 'Jones'
         }),
       ]
       if(process.env.NODE_ENV !== 'production'){

@@ -28,7 +28,7 @@ app.use(corsConfig);
 app.use(cookieParser(process.env.APP_SECRET));
 
 // Routes
-const userRoutes = require('./routes/userRoutes');
+const apiRoutes = require('./routes/api.js');
 const courseRoutes = require('./routes/courseRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const dataRoutes = require('./routes/dataRoutes');
@@ -36,7 +36,7 @@ const authRoutes = require('./routes/auth'); // Renamed for clarity
 const adminRoutes = require('./routes/adminRoutes');
 
 // Use routes
-app.use('/api', userRoutes);
+app.use('/api/v1', (req, res, next) => {console.log(req.path); next()}, apiRoutes);
 app.use('/api', courseRoutes);
 app.use('/api', applicationRoutes);
 app.use('/api', dataRoutes);
