@@ -5,7 +5,7 @@ import Aura from '@primevue/themes/aura';
 import { definePreset } from '@primevue/themes';
 import PrimeVue from 'primevue/config'
 import App from './App.vue'
-import userStore from './stores/UserStore'
+import userStore from './stores/AdminStore'
 import router from './router'
 import Logger from 'js-logger'
 import setupInterceptors from './services/interceptors'
