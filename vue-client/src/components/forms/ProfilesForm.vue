@@ -52,7 +52,7 @@
 
                 <div class="col flex align-items-center justify-content-center ">
                   <!-- Submit Button -->
-                  <button type="button" class=" align-items-stretch" :class="style.btnUpdate" @click="ToCodeLater">Submit</button>
+                  <button type="button" class=" align-items-stretch" :class="style.btnUpdate" @click="save" :loading="loading">Save</button>
                 </div>
 
               </div>
@@ -100,7 +100,8 @@ import discordText from '../../img/DiscordText.svg'
 import { useProfileStore } from '@/stores/ProfileStore';
 import { storeToRefs } from 'pinia'
 import Logger from 'js-logger';
-//import TextField from './TextField.vue';
+import { useToast } from 'primevue/usetoast'
+import TextField from '@/components/common/TextField.vue'
 
 export default {
   name: 'ProfilesForm',
@@ -109,7 +110,7 @@ export default {
     FloatLabel,
   },
   methods: {
-    ToCodeLater(event) {
+    SaveProfile(event) {
       if (event) {
         alert(`Attempting to submit form with values:\nFirst Name: ${this.firstName}\nLast Name: ${this.lastName}\nEmail: ${this.email}\nGitHub: ${this.GitHub}`);
       }
@@ -131,6 +132,7 @@ export default {
     profileStore.hydrate()
     // Setup Stores
     const { user } = storeToRefs(profileStore)
+    const toast = useToast()
 
     Logger.debug(user)
 
@@ -139,8 +141,32 @@ export default {
     const email = ref(user.email);
     const wid = ref(user.wid);
     const GitHub = ref('');
+
+    //Save Button Code
+    const errors = ref({})
+    const message = ref('')
+    const loading = ref(false)
+
+    const save = async () => {
+    loading.value = true
+    errors.value = {}
+    message.value = ''
+    try {
+      await profileStore.update()
+      toast.add({ severity: 'success', summary: 'Success', detail: 'Profile Updated!', life: 3000 })
+    } catch (error) {
+      if (error.response.data.data) {
+        errors.value = error.response.data.data
+        message.value = 'The server rejected this submission. Please correct errors listed below'
+      } else {
+        message.value =
+          'The server rejected this submission due to an SQL Error. Refresh and try again'
+        }
+      }
+    loading.value = false
+    }
     
-    return { user, firstName, lastName, email, wid, GitHub, style, discordIcon, discordText };
+    return { user, firstName, lastName, email, wid, GitHub, style, discordIcon, discordText, errors, message, loading, save};
   },
 };
 </script>

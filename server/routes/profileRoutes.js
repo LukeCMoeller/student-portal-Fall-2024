@@ -61,7 +61,8 @@ router.get('/', async function (req, res, next) {
 router.post('/', async function (req, res, next) {
   try {
     await User.query().findById(req.user_id).patch({
-      name: req.body.user.name,
+      first_name: req.body.user.first_name,
+      last_name: req.body.user.last_name,
     })
     res.status(200)
     res.json({ message: 'Profile Saved' })
