@@ -4,7 +4,7 @@
       <p style="padding-right: 1rem;">Admin </p>
         <ToggleSwitch v-model="adminMode" style="margin-right:5vw" />
 
-        <RouterLink :to="'/api/logout'" :class="styles.logout">Logout</RouterLink>
+        <RouterLink :to="''" @click="logout" :class="styles.logout">Logout</RouterLink>
     </div>
     <div :class="styles.headerTop">
       <a href="https://ksu.edu" :class="styles.noBackground">

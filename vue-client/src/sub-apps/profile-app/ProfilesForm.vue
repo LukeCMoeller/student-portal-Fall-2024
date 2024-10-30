@@ -135,12 +135,6 @@ export default {
 
     Logger.debug(user)
 
-    const firstName = ref(user.first_name);
-    const lastName = ref(user.last_name);
-    const email = ref(user.email);
-    const wid = ref(user.wid);
-    const GitHub = ref('');
-
     //Save Button Code
     const errors = ref({})
     const message = ref('')
@@ -165,7 +159,7 @@ export default {
     loading.value = false
     }
     
-    return { user, firstName, lastName, email, wid, GitHub, style, discordIcon, discordText, errors, message, loading, save};
+    return { user, style, discordIcon, discordText, errors, message, loading, save};
   },
 };
 </script>

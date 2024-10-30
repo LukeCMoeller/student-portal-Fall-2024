@@ -21,6 +21,5 @@ tokenStore.getToken();
         </div>
     <!--Toast Library-->
     <Toast position="bottom-right"/> 
-import './App.css';
 </template>
 
