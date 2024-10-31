@@ -3,18 +3,30 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import styles from '../../styles/ProfileForm.module.css'; 
 import { UserContext } from '../../context/UserContext';
 import LoadingIndicator from '../common/LoadingIndicator'; 
+import { useUsersStore } from '@/stores/UserStore';
+import { useTokenStore } from '@/stores/TokenStore';
+import Logger from 'js-logger'
 
 
 export default function ProfilesForm() { 
-    //const { userData, handleUpdateProfile, loading } = useUser(); 
+    const tokenStore = useTokenStore()
+    const usersStore = useUsersStore()
+    usersStore.hydrate();
+    const user = usersStore.getUser(tokenStore.id())
+
+    Logger.info(tokenStore.id())
+    Logger.info(user)
+
     const handleUpdateProfile = ()=>{}
     const loading = false;
     const userData = useContext(UserContext)
-    const [firstName, setFirstName] = useState(userData.first_name || '');
-    const [lastName, setLastName] = useState(userData.last_name || '')
+    const [firstName, setFirstName] = useState(user.first_name || '');
+    const [lastName, setLastName] = useState(user.last_name || '')
+
+    
 
     const updateProfileOnClick = (event) => { 
-        event.preventDefault(); 
+        event.preventDefault();
         handleUpdateProfile(userData.eid, firstName, lastName);
     };
 
@@ -32,14 +44,14 @@ export default function ProfilesForm() {
                     <Form.Group as={Row} className="mb-3" controlId="first_name">
                         <Form.Label column sm={2}>First Name</Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="text" defaultValue={userData.first_name} onChange={(e) => setFirstName(e.target.value)} style={{ backgroundColor: '#d1d1d1' }} />
+                            <Form.Control type="text" defaultValue={user.first_name} onChange={(e) => setFirstName(e.target.value)} style={{ backgroundColor: '#d1d1d1' }} />
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className="mb-3" controlId="last_name">
                         <Form.Label column sm={2}>Last Name</Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="text" defaultValue={userData.last_name} onChange={(e) => setLastName(e.target.value)} style={{ backgroundColor: '#d1d1d1' }} />
+                            <Form.Control type="text" defaultValue={user.last_name} onChange={(e) => setLastName(e.target.value)} style={{ backgroundColor: '#d1d1d1' }} />
                         </Col>
                     </Form.Group>
 
@@ -58,14 +70,14 @@ export default function ProfilesForm() {
                     <Form.Group as={Row} className="mb-3" controlId="email">
                         <Form.Label column sm={2}>Email Address</Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="text" disabled defaultValue={userData.email} style={{ backgroundColor: '#d1d1d1' }} />
+                            <Form.Control type="text" disabled defaultValue={user.email} style={{ backgroundColor: '#d1d1d1' }} />
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="wid">
                         <Form.Label column sm={2}>Wildcat ID</Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="text" disabled defaultValue={userData.wid} style={{ backgroundColor: '#d1d1d1' }} /> 
+                            <Form.Control type="text" disabled defaultValue={user.wid} style={{ backgroundColor: '#d1d1d1' }} /> 
                         </Col>
                     </Form.Group>
                 </Form>

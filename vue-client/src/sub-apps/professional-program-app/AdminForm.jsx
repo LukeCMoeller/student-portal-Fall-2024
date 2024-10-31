@@ -390,7 +390,7 @@ function AdminForm() {
                 </Row>   
                 <Row>
                     <Col xs={12} className={styles['button-container']}>  
-                        <Button variant="dark" onClick={() => setSortConfig({ key: null, direction: 'ascending' })}>
+                        <Button variant="dark" onClick={() => ({ key: null, direction: 'ascending' })}>
                             Reset Sort
                         </Button> 
                         <div>

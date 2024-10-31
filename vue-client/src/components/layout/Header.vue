@@ -2,8 +2,8 @@
   <header :class="styles.headerContainer">
     <div :class="styles.headerTop" style="background-color: gainsboro; display: grid; justify-content: end; grid-auto-flow: column; padding-top: .1rem;">
       <p style="padding-right: 1rem;">Admin </p>
-      <ToggleSwitch v-model="adminMode" style="margin-right: 5vw" />
-      <RouterLink :to="'/api/logout'" :class="styles.logout">Logout</RouterLink>
+        <ToggleSwitch v-model="adminMode" style="margin-right:5vw" />
+        <RouterLink :to="''" @click="logout" :class="styles.logout">Logout</RouterLink>
     </div>
     <div :class="styles.headerTop">
       <a href="https://ksu.edu" :class="styles.noBackground">
@@ -49,6 +49,8 @@ import { defineComponent, ref, watch } from 'vue';
 import ToggleSwitch from 'primevue/toggleswitch';
 import logo from '../../img/ksuLogo.png';
 import styles from '../../styles/Header.module.css';
+import {useTokenStore} from '../../stores/TokenStore.js';
+import ToggleSwitch from 'primevue/toggleswitch';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -57,7 +59,12 @@ export default defineComponent({
     ToggleSwitch,
   },
   setup() {
-    const store = useStore();
+    const logout = () => {
+      const tokenStore = useTokenStore();
+      tokenStore.logout();
+    };
+
+    const store = useStore(); // Get the store instance
     const adminMode = ref(store.state.IsAdminMode);
     const popupTop = ref(0);
     const popupLeft = ref(0);

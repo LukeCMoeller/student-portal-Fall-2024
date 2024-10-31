@@ -14,7 +14,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- First Name Field -->
                   <FloatLabel variant="in">
-                    <InputText id="firstName" v-model="firstName" variant="filled"/>
+                    <InputText id="firstName" v-model="user.first_name" variant="filled"/>
                     <label for="firstName">First Name</label>
                   </FloatLabel>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Last Name Field -->
                   <FloatLabel variant="in">
-                    <InputText id="lastName" v-model="lastName" variant="filled" />
+                    <InputText id="lastName" v-model="user.last_name" variant="filled" />
                     <label for="lastName">Last Name</label>
                   </FloatLabel>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Email Field -->
                   <FloatLabel variant="in">
-                    <InputText id="email" v-model="email" variant="filled" />
+                    <InputText id="email" v-model="user.email" variant="filled" disabled />
                     <label for="email">Email</label>
                   </FloatLabel>
                 </div>
@@ -46,14 +46,14 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- WID Field -->
                   <FloatLabel variant="in">
-                    <InputText id="wid" v-model="wid" variant="filled" disabled />
+                    <InputText id="wid" v-model="user.wid" variant="filled" disabled />
                     <label for="wid">WID</label>
                   </FloatLabel>
                 </div>
 
                 <div class="col flex align-items-center justify-content-center ">
                   <!-- Submit Button -->
-                  <button type="button" class=" align-items-stretch" :class="style.btnUpdate" @click="ToCodeLater">Submit</button>
+                  <button type="button" class=" align-items-stretch" :class="style.btnUpdate" @click="save" :loading="loading">Save</button>
                 </div>
 
               </div>
@@ -70,12 +70,13 @@
                 </div>
 
                 </div>
+                
               </div>
             </div>
 
           </form>
         </div>
-      </div>
+      </div> 
     </div>
 
     <div class="col-12 p-0 m-0">
@@ -95,6 +96,12 @@ import '/node_modules/primeflex/primeflex.css'
 import { ref } from 'vue';
 import discordIcon from '../../img/Discord.svg'
 import discordText from '../../img/DiscordText.svg'
+import { useProfileStore } from '@/stores/ProfileStore';
+import { storeToRefs } from 'pinia'
+import Logger from 'js-logger';
+import { useToast } from 'primevue/usetoast'
+import TextField from '@/components/common/TextField.vue'
+
 export default {
   name: 'ProfilesForm',
   components: {
@@ -102,7 +109,7 @@ export default {
     FloatLabel,
   },
   methods: {
-    ToCodeLater(event) {
+    SaveProfile(event) {
       if (event) {
         alert(`Attempting to submit form with values:\nFirst Name: ${this.firstName}\nLast Name: ${this.lastName}\nEmail: ${this.email}\nGitHub: ${this.GitHub}`);
       }
@@ -119,12 +126,40 @@ export default {
     }
   },
   setup() {
-    const firstName = ref('');
-    const lastName = ref('');
-    const email = ref('');
-    const GitHub = ref('');
+    // Stores
+    const profileStore = useProfileStore()
+    profileStore.hydrate()
+    // Setup Stores
+    const { user } = storeToRefs(profileStore)
+    const toast = useToast()
+
+    Logger.debug(user)
+
+    //Save Button Code
+    const errors = ref({})
+    const message = ref('')
+    const loading = ref(false)
+
+    const save = async () => {
+    loading.value = true
+    errors.value = {}
+    message.value = ''
+    try {
+      await profileStore.update()
+      toast.add({ severity: 'success', summary: 'Success', detail: 'Profile Updated!', life: 3000 })
+    } catch (error) {
+      if (error.response.data.data) {
+        errors.value = error.response.data.data
+        message.value = 'The server rejected this submission. Please correct errors listed below'
+      } else {
+        message.value =
+          'The server rejected this submission due to an SQL Error. Refresh and try again'
+        }
+      }
+    loading.value = false
+    }
     
-    return { firstName, lastName, email, GitHub, style, discordIcon, discordText };
+    return { user, style, discordIcon, discordText, errors, message, loading, save};
   },
 };
 </script>

@@ -1,8 +1,4 @@
-/* body, html {
-  background-image: url("img/cloud2.svg");  
-  background-position: center;
-  background-size: cover; 
-} */
+
 
 .h3StyleTop {
   background-color: #512888;  
@@ -28,7 +24,7 @@
   border-top: transparent;
 } 
 
-.button-container { 
+.buttoncontainer { 
   display: flex; 
   width: 100%;
   padding-top: 30px; 
@@ -37,7 +33,7 @@
 
 } 
 
-.custom-table-container {
+.customtablecontainer {
   display: flex;
   justify-content: center;
   padding-left: 0;
