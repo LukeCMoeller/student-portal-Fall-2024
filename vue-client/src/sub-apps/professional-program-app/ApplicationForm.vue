@@ -7,42 +7,42 @@
                 <h4 :class="styles.h4Style">Application For Entry Into the CS Professional Program</h4>
             </div>
         </div>
-        <div class="col-10 col-offset-1 xl:col-8 xl:col-offset-2">
-            <form @submit.prevent="handleSubmit" id="applyForm">
-                <div class="grid">
-                    <div class="col-10 col-offset-1 xl:col-4 xl:col-offset-0 md:col-4 md:col-offset-0">
+        <div class="col-11 col-offset-1 xl:col-6 xl:col-offset-3">
+            <form @submit.prevent="handleSubmit" id="applyForm" :class="styles.doc">
+                <div class="grid" style="padding-top: 3rem">
+                    <div class="col-offset-1 col-11">
                         <FloatLabel variant="in">
-                        <InputText id="studentName" v-model="studentData.name" variant="filled" style="width: 100%; height:100%;" />
+                        <InputText id="studentName" v-model="studentData.name" variant="filled" style="width: 30%; height:100%;" />
                         <label for="studentName">Name:</label>
                         </FloatLabel>
                     </div>
-                    <div class="col-10 col-offset-1 xl:col-4 xl:col-offset-0 md:col-4 md:col-offset-0">
+                    <div class="col-offset-1 col-11">
                         <FloatLabel variant="in">
-                        <InputText id="wid" v-model="studentData.wid" variant="filled" style="width: 100%; height:100%;" />
+                        <InputText id="wid" v-model="studentData.wid" variant="filled" style="width: 30%; height:100%;" />
                         <label for="wid">WID:</label>
                         </FloatLabel>
                     </div>
-                    <div class="col-10 col-offset-1 xl:col-4 xl:col-offset-0 md:col-4 md:col-offset-0">
+                    <div class="col-offset-1 col-11">
                         <FloatLabel variant="in">
                         <Select 
                         id="advisor" 
                         v-model="selectedAdvisor" 
                         :options="advisorOptions" 
                         showClear
-                        style="width: 100%; height:3.45rem;" 
+                        style="width: 30%; height:3.45rem;" 
                         />
                         <label for="advisor">Advisor:</label>
                         </FloatLabel>
                     </div>
                     
-                    <div class="col-12 col-offset xl:col-8 xl:col-offset-2">
+                    <div class="col-10 col-offset-1">
                         <div :class="styles.customMessage">
                             <p>To be accepted to the Computer Science Professional Program, you must complete the following Pre-Professional Courses <em>with a grade of C or better</em> and <em>with a 2.3 cumulative</em> GPA <strong>within these courses</strong>.</p>
                             <p>Any courses you are currently taking can be marked as <em>In Progress</em>. Any courses that you do not plan on taking need to be marked <em>Waiver Requested</em> and the reasons you are asking for the waiver must be explained below.</p>
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-10 col-offset-1">
                         <div :class="styles.customTableContainer"> 
                             <DataTable :value="courses" stripedRows class="styles.customTable">
                                 <Column field="class_descr" header="Course" />
@@ -53,13 +53,13 @@
                     </div>
                     </div>
                     
-                    <div class="col-12 xl:col-6 xl:col-offset-3">
+                    <div class="col-10 col-offset-1">
                         <div :class="styles.customMessage">
                         <p>Please use this space to add any comments that should be made regarding these classes.</p>
                         <p>If you requested a waiver for any of these classes, please explain in detail the reasons you are requesting a waiver for meeting all of the requirements for entrance into the Computer Science Professional Program. You may also be required to meet with the curriculum committee to evaluate the waiver request.</p> 
                     </div>
                     </div>
-                    <div class="col-12 xl:col-6 xl:col-offset-3">
+                    <div class="col-10 col-offset-1">
                         <Textarea 
                         placeholder="Add comments or additional information here" 
                         v-model="additionalInfo" 
