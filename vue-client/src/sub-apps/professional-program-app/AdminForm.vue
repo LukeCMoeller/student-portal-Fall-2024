@@ -118,9 +118,9 @@ export default {
         return;
       }
       try{ //below items commented out because causes program to crash. im assuming due to it not beign set up yet but it may just be wrong
-          //const response = await fetch(`http://localhost:3002/api/courses?id=${wid}`);
-          //const data = await response.json();
-          //setCourses(data.courses);  
+          const response = watch(fetch(`http://localhost:3002/api/courses?id=${wid}`));
+          const data = watch(response.json());
+          setCourses(data.courses);  
       } catch (error){
         console.error('Failed to fetch courses: ${error.message}');
       }

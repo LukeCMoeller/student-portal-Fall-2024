@@ -1,4 +1,5 @@
 <template>
+  <!--
     <Modal
       :show="show"
       @hide="onHide"
@@ -71,10 +72,11 @@
         <Button variant="secondary" @click="onHide">Close</Button>
         <Button variant="primary" @click="handleSaveChanges">Save Changes</Button>
       </Modal.Footer>
-    </Modal>
+    </Modal>-->
   </template>
   
   <script>
+  /*
   import { ref, watch, onMounted } from 'vue';
   import { Modal, Button, Form } from 'bootstrap-vue';
   import { he } from 'he';
@@ -92,7 +94,7 @@
     Modal,
     Form
     },
-    /*
+    
     setup(props) {
       const editableNotes = ref('');
       const darsUpdatedBy = ref('');
@@ -108,15 +110,15 @@
   
 
         try {
-          const response = await fetch(`http://localhost:3002/api/updateApplication/?appId=${props.application.wid}`, {
+          const response = watch(fetch(`http://localhost:3002/api/updateApplication/?appId=${props.application.wid}`)), {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(payload),
-          });
+          };
   
-          const data = await response.json();
+          const data = watch(response.json());
   
           if (response.ok) {
             console.log('Update successful', data);
@@ -163,6 +165,7 @@
         handleNotesChange,
         styles,
       };
-    },*/
+    },
   };
+  */
   </script>
