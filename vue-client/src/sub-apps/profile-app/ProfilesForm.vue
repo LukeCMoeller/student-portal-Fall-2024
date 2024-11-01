@@ -60,15 +60,16 @@
                   <!-- Submit Button -->
                   <button type="button" :class="styles['btn-update']" @click="DiscordLater"><img :src="discordIcon" alt="discord Logo" width="35" Height="35" /></button>
                 </div>
+              </div>
 
                 <div class="col-12" style="margin-top: 20px;">
                   <div style="background-color: gray; border: 3px solid #757575; border-radius: 10px;" class="col border-round-sm">
                     <div class="col-12 sml">
                       <img :src="githubText" alt="github text" width="150" height="50" style="margin: 15px;" />
-                      <h4 :class="style.text" style="text-align: center; color:white">Click the button below to link your GitHub account.</h4>
+                      <h4 :class="styles['text']" style="text-align: center; color:white">Click the button below to link your GitHub account.</h4>
                     </div>
                     <div class="col flex align-items-center justify-content-center">
-                      <button type="button" :class="style.btnUpdate"  @click="GithubLater">
+                      <button type="button" :class="styles['btn-update']"  @click="GithubLater">
                         <img :src="githubIcon" alt="github icon" width="25" height="25" />
                       </button>
                     </div>
@@ -76,6 +77,7 @@
                 </div>
               </div>
             </div>
+          
           </form>
         </div>
       </div> 
@@ -105,6 +107,8 @@ import { useProfileStore } from '@/stores/ProfileStore';
 import { storeToRefs } from 'pinia'
 import Logger from 'js-logger';
 import { useToast } from 'primevue/usetoast'
+import githubText from '../../img/GitHub_Logo_White.png'
+import githubIcon from '../../img/GitHub-Logo.png'
 
 export default {
   name: 'ProfilesForm',
@@ -172,7 +176,7 @@ export default {
     loading.value = false
     }
     
-    return { user, styles, shared, discordIcon, discordText, errors, message, loading, save};
+    return { user, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon};
   },
 };
 </script>
