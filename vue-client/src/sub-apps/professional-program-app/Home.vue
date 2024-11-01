@@ -24,11 +24,21 @@
 </div>
 
 <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-0">
-  <div :class="style.applyBoxStyle" style="background-color: #d1d1d1;">
+  <div v-if="IsAdminMode" :class="style.applyBoxStyle" style="background-color: #d1d1d1;">
+    <h2 :class="style.h2Style">Review Applications</h2>
+    <p :class="style.pStyleApply">When you are ready to review student cs applications, click the button below!</p>
+    <br />
+    <router-link :to="{ name: 'apply' }" :class="style['link-no-decoration']">
+      <div :class="style.buttonContainer">
+        <Button label="Apply Now" />
+      </div>
+    </router-link>
+  </div>
+  <div v-else :class="style.applyBoxStyle" style="background-color: #d1d1d1;">
     <h2 :class="style.h2Style">Apply</h2>
     <p :class="style.pStyleApply">When you are ready to apply, click the button below!</p>
     <br />
-    <router-link to="professional-program/apply" :class="style['link-no-decoration']">
+    <router-link :to="{ name: 'apply' }" :class="style['link-no-decoration']">
       <div :class="style.buttonContainer">
         <Button label="Apply Now" />
       </div>
@@ -46,6 +56,7 @@
 import Button from '../../components/common/Button.vue';
 import styles from '../../styles/HomePage.module.css';
 import '/node_modules/primeflex/primeflex.css'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'HomePage',
@@ -53,6 +64,7 @@ export default {
     Button,
   },
   computed: {
+    ...mapGetters(['IsAdminMode']), 
     style() {
       return styles;
     },

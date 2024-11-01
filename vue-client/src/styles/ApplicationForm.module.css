@@ -9,6 +9,13 @@
   margin-bottom: 30px;
 }
 
+.doc{
+  background-color: #d1d1d1;
+  margin-bottom: 3rem;
+  border: solid 3px #757575;
+  border-radius: 2rem;
+}
+
 .alertStyle {
   margin-top: -50px;
   margin-bottom: 50px;
@@ -93,6 +100,7 @@ border: 3px solid #757575;
 
 .customTableContainer {
   margin:20px;
+  margin-top:0;
   padding-left: 0;
   padding-right: 0;
 }

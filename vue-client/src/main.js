@@ -5,10 +5,11 @@ import Aura from '@primevue/themes/aura';
 import { definePreset } from '@primevue/themes';
 import PrimeVue from 'primevue/config'
 import App from './App.vue'
-import userStore from './stores/UserStore'
+import userStore from './stores/AdminStore'
 import router from './router'
 import Logger from 'js-logger'
 import setupInterceptors from './services/interceptors'
+import ToastService from 'primevue/toastservice'
 
 const kPreset = definePreset(Aura, {
     semantic: {
@@ -27,7 +28,6 @@ const kPreset = definePreset(Aura, {
         }
     }
 });
-
 Logger.useDefaults()
 Logger.setLevel(import.meta.env.DEV ? Logger.DEBUG : Logger.WARN)
 console.log('Log Level: ' + Logger.getLevel().name)
@@ -48,5 +48,6 @@ createApp(App)
 .use(router)
 .use(userStore)
 .use(createPinia())
+.use(ToastService)
 .mount('#app')
 
