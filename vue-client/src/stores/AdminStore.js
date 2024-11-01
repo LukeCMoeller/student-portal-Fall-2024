@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 
 const store = createStore({
     state: {
-        IsAdminMode: false, // Initial value for the toggle switch
+        IsAdminMode: true, // Initial value for the toggle switch
       },
       mutations: {
         setIsAdminMode(state, value) {

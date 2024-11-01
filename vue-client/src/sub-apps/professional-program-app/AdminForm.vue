@@ -1,22 +1,5 @@
 <template>
-  <div class="AdminForm"> 
-     
-    <ViewNotesModal
-    v-if="showNotesModal"
-    :show="showNotesModal"
-    @close="setShowNotesModal(false)"
-    :notes="currentNotes"
-    @save="(updatedNotes) => saveNotes(currentAppId, updatedNotes)"
-  />
-  <!--
-  <ReviewModal
-        show={showReviewModal}
-        onHide={closeReviewModal}
-        application={currentReviewApp}
-        courses={courses}
-        fetchCourses={fetchCourses} 
-    />
-    -->
+  <div> 
     <!-- Dialogs go here -->
     
     <LoadingIndicator v-if="isLoading" />
@@ -24,71 +7,66 @@
     <div class="grid" v-else>
       <!-- Alert goes here-->
 
-      <!-- Review Applications Header -->
-      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3">
-          <h3 :class="styles.h3StyleTop">Review Applications</h3>
-          <h3 :class="styles.h3StyleBot">Total Applications: {{ applications.length }}</h3>
+      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
+          <h1 :class="shared['h1-style']">Review Applications</h1>
+          <h4 :class="shared['h4-style']">Total Applications: {{ applications.length }}</h4>
       </div>
 
       <!-- Action Buttons -->
-      <div class="col-10 col-offset-1" :class="styles.button-container">
-          <Button label="Reset Sort" @click="resetSortConfig" />
+      <div class="col-10 col-offset-1" :class="styles['button-container']">
           <div>
             <Button
               @click="handleDisable"
-              type="button"
+              label="Disable Application(s)" 
               id="disable_application"
-              variant="danger"
-              style="margin-right: 8px"
+              severity="danger"
+              :class="styles['form-header-button']"
               :disabled="isNoApplicationsChecked"
-            >
-              Disable Application(s)
-            </Button>
+            />
             <Button
+            label="Download Selected"
               @click="handleDownloadSelected"
-              type="button"
               id="download_selected"
               variant="success"
-              style="margin-right: 8px"
+              :class="styles['form-header-button']"
               :disabled="isNoApplicationsChecked"
-            >
-              Download Selected
-            </Button>
+            />
             <Button
               @click="handleEmailSelected"
-              type="button"
+              label="Email Selected"
               id="email_selected"
               variant="secondary"
-              style="margin-right: 8px"
+              :class="styles['form-header-button']"
               :disabled="isNoApplicationsChecked"
-            >
-              Email Selected
-            </Button>
+            />
           </div>
       </div>
 
       <!-- Applications Table -->
-      <div class="col-10 col-offset-1">
-        <div :class="styles.custom-table-container">
-            <DataTable :value="applications" stripedRows>
-                <Column field="firstName" header="First Name" />
-                <Column field="lastName" header="Last Name" />
+      <div class="col-10 col-offset-1" :class="styles['table']">
+        <div>
+            <DataTable :value="applications" stripedRows removableSort paginator :rows="8">
+                <Column selectionMode="multiple"/>
+                <Column field="firstName" header="First Name" sortable />
+                <Column field="lastName" header="Last Name" sortable />
                 <Column field="eid" header="EID" />
-                <Column field="email" header="Email" />
+                <Column field="email" header="Email" sortable />
                 <Column field="wid" header="WID" />
                 <Column field="advisor" header="Advisor" />
                 <Column field="semester" header="Semester" />
                 <Column field="waiver" header="Waiver" />
                 <Column field="status" header="Status" />
                 <Column field="review" header="Review" />
-                <Column field="edit" header="Edit" />
-                <Column field="adminNotes" header="Admin Notes" />
+                <Column header="Admin Notes">
+                    <template #body="slotProps">
+                        <Button label="View Notes" @click="handleAdminNoteClick(slotProps.data)" />
+                    </template>
+                </Column>
                 <Column field="dars" header="DARS Update" />
+                <Column field="edit" header="Edit" />
             </DataTable>
         </div>
       </div>
-
-      <!-- Pagination goes here -->
     </div>
   </div>
 </template>
@@ -105,10 +83,14 @@ import Textarea from 'primevue/textarea';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
+import { applicationData } from './test-data/applicationData.js';
+
+//CSS
 import styles from '../../styles/AdminForm.module.css'; 
-import ViewNotesModal from './adminModals/ViewNotesModal.vue';
+import shared from '../../styles/Shared.module.css';
+
+//import ViewNotesModal from './adminModals/ViewNotesModal.vue';
 //import ReviewModal from './adminModals/ReviewModal.vue';
-import ApplicationForm from './ApplicationForm.vue';
 
 export default {
     components: {
@@ -121,53 +103,17 @@ export default {
     return {
       // Define all reactive data properties here
       styles,
-      showNotesModal: ref(false),
-      showReviewModal: ref(false),
-      currentNotes: ref(''),
-      showApplicationModal: ref(false),
+      shared,
       isLoading: ref(false),
-      showAlert: ref(false),
-      alertStatus: ref('success'),
-      statusMessage: ref(''),
-      applications: ref([]),
-      currentItems: ref([]),
-      courses: ref([]),
-      filters: ref({
-        firstName: '',
-        lastName: '',
-        eid: '',
-        email: '',
-        advisor: 'All',
-        semester: 'All',
-        waiver: 'Both',
-        status: 'All',
-      }),
-      checkedStates: ref({}),
-      sortConfig: ref({ key: '', direction: 'ascending' }),
-      currentPage: ref(1),
-      itemsPerPage: ref(10),
-      totalPages: ref(1),
-      currentEId: ref(null),
-      currentAppId: ref(null),
-      currentReviewApp: ref(null),
-      advisorOptions: ref([]),
-      semesterOptions: ref([]),
-      filteredApplications: ref([]),
+      applications: ref(applicationData),
     };
   },
-  computed: {
-    isNoApplicationsChecked() {
-      return Object.values(this.checkedStates).every(isChecked => !isChecked);
-    },
-  },
   methods: {
-    resetSortConfig(event){ /* event to handle reseting the sort */
-      sortConfig.key.value = null;
-      sortConfig.direction.value = 'ascending';
+    resetSortConfig(event){
+
     },
     fetchCourses(wid) { 
       if (!WID){
-        this.error("WID is undefined, cannot fetch courses.");
         console.error("WID is undefined, cannot fetch courses.");
         return;
       }
@@ -177,93 +123,40 @@ export default {
           //setCourses(data.courses);  
       } catch (error){
         console.error('Failed to fetch courses: ${error.message}');
-        this.error('Failed to fetch courses: ${error.message}');
       }
     },
-    saveNotes(appId, notes) { /* Save notes logic */ 
-      isLoading.value = true;
-        const sanitizedInput = sanitizeForServer(notes);
-        fetch(`http://localhost:3002/api/saveNotes?appId=${appId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ notes: sanitizedInput })
-        })
-        .then(response => response.json())
-        .then(data => {
-            fetchApplications();
-            statusMessage.value  = `Notes saved for wid: ${appId} successfully.`;
-            salertStatus.value  = 'success';
-            showAlert.value  = true;
-        })
-        .catch(error => {
-            console.error(error);
-            statusMessage.value  = `Failed to save notes for wid: ${appId}!`;
-            alertStatus.value  = 'danger';
-            showAlert.value  = true;
-        })
-        .finally(() => {
-            isLoading.value = false;
-        }); 
+    saveNotes(appId, notes) {
+      console.log("Attempted to save notes, not implemented")
     },
     closeReviewModal() { /* Close review modal logic */
-      showReviewModal.value = false;
-        refreshApplications();
-        currentReviewApp.value = null;
+      console.log("Attempted to close review modal, not implemented")
      },
-    refreshApplications() { /* Refresh applications logic */ 
-      fetchApplications();  
+    refreshApplications() {
+      console.log("Attempted to refresh applications, not implemented") 
     },
     handleCheckAllChange(event) { /* Handle check all checkbox change */ 
-      const isChecked = event.target.checked;
-        const newCheckedStates = applications.reduce((acc, app) => {
-            acc[app.wid] = isChecked;  
-            return acc;
-        }, {});
-        checkedStates.value = newCheckedStates;
+      console.log("handle check box change, not implemented")
     },
     handleSort(key) { /* Handle sorting */ 
-      let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-          direction = 'descending';
-        }
-        sortConfig.value = { key, direction };
+      console.log("Attempted to sort, not implemented")
     },
     handleFilterChange(e) { /* Handle filter change */ 
-      const { name, value } = e.target;
-      currentPage.value = 1;
-      filters.value = (prevFilters) => ({
-        ...prevFilters,
-        [name]: value,
-      });  
+      console.log("Attempted to change filter, not implemented")
     },
     handleCheckboxChange(appId, isChecked) { /* Handle individual checkbox change */ 
-      checkedStates.value = prevStates => ({ ...prevStates, [appId]: isChecked });
+      console.log("Attempted to handle checkbox change, not implemented")
     },
-    handlePageChange(page) { /* Handle page change */ 
-      currentPage.value = pageNumber;
-    },
-    handleChangeItemsPerPage() { /* Handle change of items per page */ },
     handleReview(wid) { /* Handle review action */ 
-      const application = applications.find(app => app.wid === appId);
-        currentReviewApp.value = application;
-        fetchCourses(appId);
-        showReviewModal.value = true;
+      console.log("Attempted to handle review, not implemented")
     },
     handleEdit(eid) { 
-      currentEId.value = Eid;
-      showApplicationModal.value = true; 
+      console.log("Attempted eid edit, not implemented") 
     },
     closeApplicationModal() {
-        showApplicationModal.value = false;
-        currentAppId = null; 
+      console.log("Attempted to close application modal, not implemented")
     },
     handleViewNotes(wid, notes) { /* Handle view notes action */ 
-      currentNotes.value = notes;
-        console.log(notes);
-        currentAppId.value = appId;
-        showNotesModal.value = true;
+      console.log("Attempted to view notes, not implemented")
     },
     formatDate(dateString) { /* Format date logic */ 
       const date = new Date(dateString);
@@ -274,93 +167,13 @@ export default {
         return `${formattedDate} at ${formattedTime}`;
     },
     handleDisable() { /* Handle disable action */ 
-      const disabledIds = Object.entries(checkedStates).filter(([id, isChecked]) => isChecked).map(([id]) => id); 
-        this.isLoading(true); // Start loading
-        fetch('http://localhost:3002/api/disableApplications', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ ids: disabledIds })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.disabledIds && data.disabledIds.length > 0) {
-                statusMessage.value = `The following applications have been disabled successfully, wid(s): ${data.disabledIds.join(', ')}`;  
-                alertStatus.value = 'success';
-                showAlert.value = true;
-                fetchApplications();
-            }
-            
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            statusMessage.value = 'Failed to disable applications.';
-            alertstatus.value = 'danger';
-            showAlert.value = true;
-        })
-        .finally(() => {
-          this.isLoading(false);  
-        });
+      console.log("Attempted to save disable application, not implemented")
     },
     handleDownloadSelected(applications, checkedStates) { /* Handle download selected applications */ 
-      // Filter applications to include only those that are checked
-      const filteredApps = applications.filter(app => checkedStates[app.wid]);
-    // exclude 'Review' and 'Edit' columns
-    const data = filteredApps.map(app => ({
-        "First Name": app.first_name,
-        "Last Name": app.last_name,
-        "EID": app.eid,
-        "Email": app.email,
-        "WID": app.wid,
-        "Advisor": app.advisor,
-        "Semester": app.semester,
-        "Waiver": app.waiver ? "Yes" : "No",
-        "Status": app.status,
-        "Admin Notes": app.notes,
-        "DARS Update": formatDate(app.d_update)  
-    }));
-
-    // Convert data to CSV
-    const csv = unparse(data);
-
-    // Create a blob link to download
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'download.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      console.log("Attempted to download selected, not implemented")
     },
     handleEmailSelected() { /* Handle email selected applications */ 
-      const emailIds = Object.entries(checkedStates).filter(([id, isChecked]) => isChecked).map(([id]) => id);
-    
-        isLoading.value = true; // Start loading
-        fetch('http://localhost:3002/api/sendEmail', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ ids: emailIds })
-        })
-        .then(response => response.json())
-        .then(data => {
-            statusMessage.value  ='Emails have been sent successfully.';
-            AlertStatus.value  = 'success';
-            showAlert.value  = true;
-        })
-        .catch((error) => {
-            console.error('Error sending email:', error);
-            statusMessage.value  = `Failed to send emails: ${error.message}`;
-            AlertStatus.value  = 'danger';
-            showAlert.value  = true;
-        })
-        .finally(() => {
-            isLoading.value = false;  
-        });
+      console.log("Attempted to handle email selected, not implemented")
     },
   },
 };

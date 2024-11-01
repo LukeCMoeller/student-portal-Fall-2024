@@ -1,46 +1,8 @@
-.appHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-  margin-bottom: 30px;
-}
-
-.HomePage{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.homeContainer{
+.home-container{
   min-height: 80vh;
 }
  
-.h1Style {
-  background-color: #512888; 
-  color: #fff; 
-  width: 100%;
-  text-align: center;
-  margin: 0; 
-  line-height: 1.2; 
-  padding: 10px 0;  
-  border: 3px solid #757575;
-}
-
-.h4Style {
-  background-color: #d1d1d1; 
-  color: #512888;  
-  width: 100%;
-  text-align: center;
-  margin: 0; 
-  line-height: 1.2; 
-  padding: 10px 0;  
-  border: 3px solid #757575;
-  border-top: transparent;
-}
- 
-.boxStyle, .applyBoxStyle {
+.box-style, .apply-box-style {
   border: 1px solid #ddd;  
   padding: 15px;  
   border: 2px solid #512888;
@@ -48,17 +10,7 @@
   box-shadow: 5px 4px 8px 0 #512888;  
   background-color: #fff;  
   border-radius: 5px;  
-}
-
-.buttonContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  
-}
-
-.link-no-decoration {
-  text-decoration: none; 
+  background-color: #d1d1d1;
 }
 
 .btn-apply {
@@ -77,7 +29,7 @@
   background-color: #BF8CF7;  
 }
  
-.h2Style {
+.h2-style {
   text-align: center;  
   color: #512888; 
   padding: 10px 0; 
@@ -85,18 +37,13 @@
   width: 100%;  
 }
 
-.pStyleApply {
+.apply-box-style p {
   font-size: 1.25rem;  
   text-align: center;
   margin: 0 auto;  
 }
 
-.pListApply {
-  font-size: 1rem;  
-  margin: 0 auto;  
-}
-
-.customList{
+.custom-list{
   list-style-position: inside; 
   text-align: left;
   padding: 20px;

@@ -1,24 +1,24 @@
 <template>
-    <div :class="styles.ApplicationForm">
+    <div>
       <div class="grid nested-grid">
         <div class="col-10 col-offset-1 xl:col-6 xl:col-offset-3">
-            <div :class="styles.appHeader">
-                <h1 :class="styles.h1Style">Professional Program Application</h1>
-                <h4 :class="styles.h4Style">Application For Entry Into the CS Professional Program</h4>
+            <div :class="shared['app-header']">
+                <h1 :class="shared['h1-style']">Professional Program Application</h1>
+                <h4 :class="shared['h4-style']">Application For Entry Into the CS Professional Program</h4>
             </div>
         </div>
-        <div class="col-11 col-offset-1 xl:col-6 xl:col-offset-3">
-            <form @submit.prevent="handleSubmit" id="applyForm" :class="styles.doc">
+        <div class="col-10 col-offset-1 xl:col-6 xl:col-offset-3">
+            <form @submit.prevent="handleSubmit" id="applyForm" :class="styles['doc']">
                 <div class="grid" style="padding-top: 3rem">
                     <div class="col-offset-1 col-11">
                         <FloatLabel variant="in">
-                        <InputText id="studentName" v-model="studentData.name" variant="filled" style="width: 30%; height:100%;" />
+                        <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" />
                         <label for="studentName">Name:</label>
                         </FloatLabel>
                     </div>
                     <div class="col-offset-1 col-11">
                         <FloatLabel variant="in">
-                        <InputText id="wid" v-model="studentData.wid" variant="filled" style="width: 30%; height:100%;" />
+                        <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" />
                         <label for="wid">WID:</label>
                         </FloatLabel>
                     </div>
@@ -29,22 +29,22 @@
                         v-model="selectedAdvisor" 
                         :options="advisorOptions" 
                         showClear
-                        style="width: 30%; height:3.45rem;" 
+                        :class="styles['input']"
                         />
                         <label for="advisor">Advisor:</label>
                         </FloatLabel>
                     </div>
                     
                     <div class="col-10 col-offset-1">
-                        <div :class="styles.customMessage">
+                        <div :class="styles['custom-message']">
                             <p>To be accepted to the Computer Science Professional Program, you must complete the following Pre-Professional Courses <em>with a grade of C or better</em> and <em>with a 2.3 cumulative</em> GPA <strong>within these courses</strong>.</p>
                             <p>Any courses you are currently taking can be marked as <em>In Progress</em>. Any courses that you do not plan on taking need to be marked <em>Waiver Requested</em> and the reasons you are asking for the waiver must be explained below.</p>
                         </div>
                     </div>
 
-                    <div class="col-10 col-offset-1">
-                        <div :class="styles.customTableContainer"> 
-                            <DataTable :value="courses" stripedRows class="styles.customTable">
+                    <div class="col-12">
+                        <div :class="styles['table']"> 
+                            <DataTable :value="courses" stripedRows>
                                 <Column field="class_descr" header="Course" />
                                 <Column field="course_id" header="Course ID" />
                                 <Column field="status" header="Status" />
@@ -54,7 +54,7 @@
                     </div>
                     
                     <div class="col-10 col-offset-1">
-                        <div :class="styles.customMessage">
+                        <div :class="styles['custom-message']">
                         <p>Please use this space to add any comments that should be made regarding these classes.</p>
                         <p>If you requested a waiver for any of these classes, please explain in detail the reasons you are requesting a waiver for meeting all of the requirements for entrance into the Computer Science Professional Program. You may also be required to meet with the curriculum committee to evaluate the waiver request.</p> 
                     </div>
@@ -69,8 +69,8 @@
                         />
                     </div>
                     <div class="col-12">
-                        <div :class="styles['buttonContainer']">
-                        <button type="button" :class="styles.btnSubmit">
+                        <div :class="shared['flex-centered']">
+                        <button type="button" :class="styles['btn-submit']">
                             Submit
                         </button>
                     </div>
@@ -92,7 +92,10 @@
   import Textarea from 'primevue/textarea';
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
+
+  //CSS
   import styles from '../../styles/ApplicationForm.module.css'; 
+  import shared from '../../styles/Shared.module.css';
 
   
   export default {
@@ -145,7 +148,7 @@
             "Advisor1", "Advisor2"
         ];
 
-        return {styles, studentData, courses, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
+        return {styles, shared, studentData, courses, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
     }
 }
   

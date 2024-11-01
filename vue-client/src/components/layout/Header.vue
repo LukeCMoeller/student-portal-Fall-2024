@@ -1,7 +1,7 @@
 <template>
   <header :class="styles.headerContainer">
     <div :class="styles.headerTop" style="background-color: gainsboro; display: grid; justify-content: end; grid-auto-flow: column; padding-top: .1rem;">
-      <p style="padding-right: 1rem;">Admin </p>
+      <p style="padding-right: 1rem;">Admin Mode:</p>
         <ToggleSwitch v-model="adminMode" style="margin-right:5vw" />
         <RouterLink :to="''" @click="logout" :class="styles.logout">Logout</RouterLink>
     </div>
@@ -50,7 +50,6 @@ import ToggleSwitch from 'primevue/toggleswitch';
 import logo from '../../img/ksuLogo.png';
 import styles from '../../styles/Header.module.css';
 import {useTokenStore} from '../../stores/TokenStore.js';
-import ToggleSwitch from 'primevue/toggleswitch';
 import { useStore } from 'vuex';
 
 export default defineComponent({
