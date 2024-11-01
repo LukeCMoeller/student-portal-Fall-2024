@@ -1,34 +1,30 @@
 <template>
-  <div :class="style.HomePage">
-    <div :class="style.homeContainer" class="w-12 xl:w-6 md:w-9">
+  <div :class="shared['flex-centered']">
+    <div :class="styles['home-container']" class="w-12 xl:w-6 md:w-9">
     <div class="grid">
-
-<div class="col-8 col-offset-2 xl:col-12 xl:col-offset-0">
-  <div :class="style.appHeader">
-    <h1 :class="style.h1Style">CS Student Portal</h1>
-    <h4 :class="style.h4Style">Welcome to the CS Student Portal System</h4>
+      <div class="col-8 col-offset-2 xl:col-12 xl:col-offset-0">
+        <div :class="shared['app-header']">
+          <h1 :class="shared['h1-style']">CS Student Portal</h1>
+          <h4 :class="shared['h4-style']">Welcome to the CS Student Portal System</h4>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-
-</div>
-</div>
 </div>
 </template>
 
 <script>
 import Button from '../common/Button.vue';
 import styles from '../../styles/HomePage.module.css';
-import '/node_modules/primeflex/primeflex.css'
+import shared from '../../styles/Shared.module.css';
 
 export default {
   name: 'HomePage',
   components: {
     Button,
   },
-  computed: {
-    style() {
-      return styles;
-    },
+  setup(){
+    return {styles, shared}
   },
 };
 </script>

@@ -1,37 +1,14 @@
-
-
-.h3StyleTop {
-  background-color: #512888;  
-  color: #fff;  
-  width: 100%;
-  text-align: center;
-  margin: 0; 
-  margin-top: 20px; 
-  line-height: 1.2;  
-  padding: 10px 0;  
-  border: 3px solid #757575;
+.table{
+  margin-bottom: 5rem;
 }
 
-.h3StyleBot {
-  background-color: #d1d1d1; 
-  color: #512888; 
-  width: 100%;
-  text-align: center;
-  margin: 0;  
-  line-height: 1.2; 
-  padding: 10px 0;  
-  border: 3px solid #757575;
-  border-top: transparent;
-} 
+.button-container{
+  
+}
 
-.buttoncontainer { 
-  display: flex; 
-  width: 100%;
-  padding-top: 30px; 
-  flex-direction: row;
-  justify-content: space-between; 
-
-} 
+.form-header-button{
+  margin-right: 8px;
+}
 
 .customtablecontainer {
   display: flex;
@@ -40,71 +17,6 @@
   padding-right: 0;
   width: 100%;  
 } 
-.custom-table {
-  width: 100; 
-  margin: 2rem auto;
-  color: #212529;
-  border-collapse: collapse;
-  border-spacing: 0;
-  box-shadow: 5px 4px 8px #512888;
-}
-
-.custom-table th {
-  vertical-align: middle;
-  padding: 0.5rem;
-  border-bottom: 5px solid #BF8CF7; 
-  vertical-align: middle;
-  text-align: center;
-} 
-
-.custom-table td {
-  white-space: nowrap; 
-  padding: 0.5rem;
-  vertical-align: middle;
-  text-align: left; 
-  overflow: hidden; 
-  text-overflow: ellipsis;  
-  border-bottom: 5px solid #BF8CF7; 
-} 
-
-.custom-table thead th {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: #512888;
-  color: white;
-  box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4);
-}
-
-.custom-table thead th:first-child {
-  border-top-left-radius: 10px; /* Rounds the top-left corner */
-}
-
-.custom-table thead th:last-child {
-  border-top-right-radius: 10px; /* Rounds the top-right corner */
-}
-
-.custom-table thead th:not(:last-child) {
-  border-right: 2px solid white;
-} 
-
-.custom-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.custom-table thead tr:first-child th {
-  border-bottom: none;
-}
-
-.custom-table-striped tbody tr:nth-of-type(odd) {
-  background-color: white;
-  color: black;
-}
-
-.custom-table-striped tbody tr:nth-of-type(even) {
-  background-color: #a7a7a7;
-  color: black;
-}
 
 .filter-input {
   width: auto; 

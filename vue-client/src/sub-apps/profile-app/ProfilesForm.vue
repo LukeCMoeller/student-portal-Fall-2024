@@ -1,12 +1,12 @@
 <template>
-  <div :class="style.ProfilesForm">
+  <div>
     <div class="nested-grid">
-      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="style.appHeader">
-            <h1 :class="style.h1Style">Profile App</h1>
-            <h4 :class="style.h4Style">Update your user profile:</h4>
+      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
+            <h1 :class="shared['h1-style']">Profile App</h1>
+            <h4 :class="shared['h4-style']">Update your user profile:</h4>
       </div>
       <div class="col-12">
-        <div :class="style.formContainer">
+        <div :class="shared['flex-centered']">
           
           <form @submit.prevent="submitForm" id="profileForm">
             <div class="grid flex align-items-stretch flex-wrap">
@@ -45,23 +45,20 @@
 
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Submit Button -->
-                  <button type="button" class=" align-items-stretch" :class="style.btnUpdate" @click="save" :loading="loading">Save</button>
+                  <button type="button" class=" align-items-stretch" :class="styles['btn-update']" @click="save" :loading="loading">Save</button>
                 </div>
               </div>
-
-              <div class="col-8 col-offset-2 xl:col-4 xl:col-offset-2 flex flex-column align-items-center">
-                <div class="col-12">
-                  <div style="background-color: gray; border: 3px solid #757575; border-radius: 10px;" class="col border-round-sm">
-                    <div class="col-12 sml">
-                      <img :src="discordText" alt="discord text" style="margin: 15px;" />
-                      <h4 :class="style.text" style="text-align: center; color:white">Click the button below to connect to the official K-State Discord</h4>
-                    </div>
-                    <div class="col flex align-items-center justify-content-center">
-                      <button type="button" :class="style.btnUpdate" @click="DiscordLater">
-                        <img :src="discordIcon" alt="discord Logo" width="25" height="25" />
-                      </button>
-                    </div>
+              
+              <div class="col-6 col-offset-3 xl:col-6 xl:col-offset-0">
+                <div style="background-color: gray; border: 3px solid #757575;  border-radius: 10px;" class="col border-round-sm">
+                  <div class="col-12 sml">
+                    <img :src="discordText" alt="discord text" style = "margin: 15px;" />
+                    <br>
+                    <h4 :class="styles['text']" style ="text-align: center; color:white">Click the button below to connect to the offical K-State Discord</h4>
                   </div>
+                  <div class="col flex align-items-center justify-content-center">
+                  <!-- Submit Button -->
+                  <button type="button" :class="styles['btn-update']" @click="DiscordLater"><img :src="discordIcon" alt="discord Logo" width="35" Height="35" /></button>
                 </div>
 
                 <div class="col-12" style="margin-top: 20px;">
@@ -84,7 +81,7 @@
       </div> 
     </div>
     <div class="col-12 p-0 m-0">
-      <div :class="style.footer">
+      <div :class="styles['footer']">
         <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
       </div>
     </div>
@@ -92,10 +89,15 @@
 </template>
 
 <script>
+/*PrimeVue components*/
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
-import style from '../../styles/ProfileForm.module.css';
-import '/node_modules/primeflex/primeflex.css'
+import TextField from '@/components/common/TextField.vue'
+
+/*CSS*/
+import styles from '../../styles/ProfileForm.module.css';
+import shared from '../../styles/Shared.module.css';
+
 import { ref } from 'vue';
 import discordIcon from '../../img/Discord.svg'
 import discordText from '../../img/DiscordText.svg'
@@ -103,7 +105,6 @@ import { useProfileStore } from '@/stores/ProfileStore';
 import { storeToRefs } from 'pinia'
 import Logger from 'js-logger';
 import { useToast } from 'primevue/usetoast'
-import TextField from '@/components/common/TextField.vue'
 
 export default {
   name: 'ProfilesForm',
@@ -171,7 +172,7 @@ export default {
     loading.value = false
     }
     
-    return { user, style, discordIcon, discordText, errors, message, loading, save};
+    return { user, styles, shared, discordIcon, discordText, errors, message, loading, save};
   },
 };
 </script>
