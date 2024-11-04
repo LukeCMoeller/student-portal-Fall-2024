@@ -90,7 +90,7 @@ export default defineComponent({
 
     const navItems = ref([
       { label: 'Home', link: '/home', subRoutes: [] },
-      { label: 'CS Applications', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
+      { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
       { label: 'Profile', link: '/profile', subRoutes: [] },
     ]);
 
