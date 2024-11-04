@@ -1,20 +1,27 @@
 <template>
   <header :class="styles['headerContainer']">
+    <!--Header bar-->
     <div :class="styles.headerTop" style="background-color: gainsboro; display: grid; justify-content: end; grid-auto-flow: column; padding-top: .1rem;">
       <p style="padding-right: 1rem;">Admin Mode:</p>
+        <!--Admin toggle-->
         <ToggleSwitch v-model="adminMode" style="margin-right:5vw" />
+        <!--Logout-->
         <RouterLink :to="''" @click="logout" :class="styles['logout']">Logout</RouterLink>
     </div>
+    <!--Header-->
     <div :class="styles.headerTop">
+      <!--Header Icon-->
       <a href="https://ksu.edu" :class="styles.noBackground">
         <img :src="logo" alt="Logo" :class="styles.logo" style="height: 40px;" />
       </a>
       <div :class="styles.divider"></div>
+      <!--Header Text-->
       <a href="https://cs.ksu.edu" :class="styles.noBackground">
         <h1 :class="styles.headerTitle">Computer Science Student Portal</h1>
       </a>
     </div>
 
+    <!--Navigation Links-->
     <nav :class="styles.navSection">
       <ul :class="styles.navList">
         <li 
@@ -45,12 +52,19 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch } from 'vue';
-import ToggleSwitch from 'primevue/toggleswitch';
-import logo from '../../img/ksuLogo.png';
+//CSS
 import styles from '../../styles/Header.module.css';
+
+//Components
+import { defineComponent, ref, watch } from 'vue';
 import {useTokenStore} from '../../stores/TokenStore.js';
 import { useStore } from 'vuex';
+
+//Primevue components
+import ToggleSwitch from 'primevue/toggleswitch';
+
+//Images and icons
+import logo from '../../img/ksuLogo.png';
 
 export default defineComponent({
   name: 'Header',

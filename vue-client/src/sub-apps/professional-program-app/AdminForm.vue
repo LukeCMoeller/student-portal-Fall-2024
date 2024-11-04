@@ -1,6 +1,6 @@
 <template>
   <div> 
-    <!-- Dialogs go here -->
+    <!--Admin notes dialog-->
     <Dialog v-model:visible="AdminNotes" modal header="Edit Notes" :style="{ width: '25rem' }">
       <div class="flex items-center gap-4">
         <label for="username" class="font-semibold w-24">Name: {{ NotesName }}</label>
@@ -26,8 +26,8 @@
     <LoadingIndicator v-if="isLoading" />
 
     <div class="grid" v-else>
-      <!-- Alert goes here-->
 
+      <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
           <h1 :class="shared['h1-style']">Review Applications</h1>
           <h4 :class="shared['h4-style']">Total Applications: {{ applications.length }}</h4>
@@ -36,6 +36,8 @@
       <!-- Action Buttons -->
       <div class="col-10 col-offset-1" :class="styles['button-container']">
           <div>
+
+            <!--Button to disable selected applicants-->
             <Button
               @click="handleDisable"
               label="Disable Application(s)" 
@@ -44,6 +46,8 @@
               :class="styles['form-header-button']"
               :disabled="isNoApplicationsChecked"
             />
+
+            <!--Button to download selected applicants-->
             <Button
             label="Download Selected"
               @click="handleDownloadSelected"
@@ -52,6 +56,8 @@
               :class="styles['form-header-button']"
               :disabled="isNoApplicationsChecked"
             />
+
+            <!--Button to email selected applicants-->
             <Button
               @click="handleEmailSelected"
               label="Email Selected"
@@ -93,8 +99,10 @@
 </template>
 
 <script>
-
+//Components
 import { shallowRef, ref } from 'vue';
+
+//Primevue components
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Alert from 'primevue/message';
@@ -104,6 +112,8 @@ import Textarea from 'primevue/textarea';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
+
+//Test data
 import { applicationData } from './test-data/applicationData.js';
 
 //CSS

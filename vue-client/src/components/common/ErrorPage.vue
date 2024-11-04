@@ -1,5 +1,8 @@
 <script setup>
+//Components
 import { useRoute } from 'vue-router';
+
+//CSS
 import '../../styles/ErrorPage.css';
  
 const route = useRoute();

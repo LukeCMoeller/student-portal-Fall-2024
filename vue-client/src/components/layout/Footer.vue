@@ -1,10 +1,11 @@
 <template>
   <footer :class="style.footer">
-    <div class="style.test">
-    <img :src="footerImage" alt="Footer Background" :class="style.footerImg" />
-    <img :src="footerImage" alt="Footer Background" :class="style.footerImgSmall" />
-  </div>
-
+    <!--Footer Images-->
+    <div class="style.imgContainer">
+      <img :src="footerImage" alt="Footer Background" :class="style.footerImg" />
+      <img :src="footerImage" alt="Footer Background" :class="style.footerImgSmall" />
+    </div>
+    <!--Footer Text-->
     <div class="grid" :class="style.footerContent">
       <div class="col-12">
         <p>Department of Computer Science<br />
@@ -28,10 +29,12 @@
 </template>
 
 <script>
+//CSS
 import styles from '../../styles/Footer.module.css'; 
-import footerImage from '../../img/Footer2.jpg'; 
-//import footerImageSmall from '../../img/Footer.jpg';
 import '/node_modules/primeflex/primeflex.css'
+
+//Images and icons
+import footerImage from '../../img/Footer2.jpg'; 
 
 export default {
   name: 'Footer',
@@ -43,7 +46,6 @@ export default {
   data() {
     return {
       footerImage,
-      //footerImageSmall,
     };
   },
 };
