@@ -1,4 +1,5 @@
 <script>
+//CSS
 import "../../styles/Button.scss";
 
 export default {

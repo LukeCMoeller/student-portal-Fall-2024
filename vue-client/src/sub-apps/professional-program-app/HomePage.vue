@@ -2,7 +2,7 @@
   <div :class="shared['flex-centered']">
     <div :class="styles['home-container']" class="w-12 xl:w-6 md:w-9">
       <div class="grid">
-
+        <!--Header-->
         <div class="col-8 col-offset-2 xl:col-12 xl:col-offset-0">
           <div :class="shared['app-header']">
             <h1 :class="shared['h1-style']">CS Applications</h1>
@@ -10,6 +10,7 @@
           </div>
         </div>
 
+        <!--Requirements box-->
         <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-0">
           <div :class="styles['box-style']" style="background-color: #d1d1d1" >
             <h2 :class="styles['h2-style']">Requirements</h2>
@@ -23,6 +24,7 @@
           </div>
         </div>
 
+        <!--Apply box-->
         <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-0">
           <div v-if="IsAdminMode" :class="styles['apply-box-style']">
             <h2 :class="styles['h2-style']">Review Applications</h2>
@@ -51,9 +53,12 @@
 </template>
 
 <script>
+//CSS
 import Button from '../../components/common/Button.vue';
 import styles from '../../styles/HomePage.module.css';
 import shared from '../../styles/Shared.module.css';
+
+//Components
 import { mapGetters } from 'vuex';
 
 export default {

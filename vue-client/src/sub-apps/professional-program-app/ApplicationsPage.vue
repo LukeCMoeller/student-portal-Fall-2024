@@ -1,4 +1,5 @@
 <template>
+    <!--Entry point for the Applications Page-->
     <div>
         <AdminForm v-if="IsAdminMode"/>
         <ApplicationForm v-else />
@@ -6,8 +7,11 @@
 </template>
 
 <script>
+//CSS
 import ApplicationForm from './ApplicationForm.vue';
 import AdminForm from './AdminForm.vue';
+
+//Components
 import { mapGetters } from 'vuex';
 
 export default {

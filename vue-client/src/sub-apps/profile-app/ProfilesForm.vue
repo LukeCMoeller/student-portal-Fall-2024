@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="nested-grid">
+      <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
             <h1 :class="shared['h1-style']">Profile App</h1>
             <h4 :class="shared['h4-style']">Update your user profile:</h4>
       </div>
+      <!--Form-->
       <div class="col-12">
         <div :class="shared['flex-centered']">
           
@@ -49,6 +51,7 @@
                 </div>
               </div>
               
+              <!--Discord-->
               <div class="col-6 col-offset-3 xl:col-6 xl:col-offset-0">
                 <div style="background-color: gray; border: 3px solid #757575;  border-radius: 10px;" class="col border-round-sm">
                   <div class="col-12 sml">
@@ -62,6 +65,7 @@
                 </div>
               </div>
 
+              <!--GitHub-->
                 <div class="col-12" style="margin-top: 20px;">
                   <div style="background-color: gray; border: 3px solid #757575; border-radius: 10px;" class="col border-round-sm">
                     <div class="col-12 sml">
@@ -83,6 +87,7 @@
       </div> 
     </div>
     <div class="col-12 p-0 m-0">
+      <!--Footer-->
       <div :class="styles['footer']">
         <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
       </div>
@@ -91,22 +96,26 @@
 </template>
 
 <script>
-/*PrimeVue components*/
+
+//Components
+import { ref } from 'vue';
+import { useProfileStore } from '@/stores/ProfileStore';
+import { storeToRefs } from 'pinia'
+import Logger from 'js-logger'
+
+//PrimeVue components
 import InputText from 'primevue/inputtext';
 import IftaLabel from 'primevue/iftalabel';
 import TextField from '@/components/common/TextField.vue'
+import { useToast } from 'primevue/usetoast'
 
-/*CSS*/
+//CSS
 import styles from '../../styles/ProfileForm.module.css';
 import shared from '../../styles/Shared.module.css';
 
-import { ref } from 'vue';
+//Images and icons
 import discordIcon from '../../img/Discord.svg'
 import discordText from '../../img/DiscordText.svg'
-import { useProfileStore } from '@/stores/ProfileStore';
-import { storeToRefs } from 'pinia'
-import Logger from 'js-logger';
-import { useToast } from 'primevue/usetoast'
 import githubText from '../../img/GitHub_Logo_White.png'
 import githubIcon from '../../img/GitHub-Logo.png'
 
