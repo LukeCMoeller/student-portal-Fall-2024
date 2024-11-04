@@ -110,9 +110,6 @@ import { applicationData } from './test-data/applicationData.js';
 import styles from '../../styles/AdminForm.module.css'; 
 import shared from '../../styles/Shared.module.css';
 
-//import ViewNotesModal from './adminModals/ViewNotesModal.vue';
-//import ReviewModal from './adminModals/ReviewModal.vue';
-
 export default {
     components: {
     Button,
@@ -143,7 +140,7 @@ export default {
     },
     handleAdminNoteClick(firstName, lastName ){
       this.NotesName = firstName + " " + lastName;
-      this.studentNotes = "testing purposes here"; //get students nots and put them here
+      this.studentNotes = "testing purposes here"; //get students notes and put them here
       this.AdminNotes = true;
     },
     fetchCourses(wid) { 
@@ -151,7 +148,7 @@ export default {
         console.error("WID is undefined, cannot fetch courses.");
         return;
       }
-      try{ //below items commented out because causes program to crash. im assuming due to it not beign set up yet but it may just be wrong
+      try{
           const response = watch(fetch(`http://localhost:3002/api/courses?id=${wid}`));
           const data = watch(response.json());
           setCourses(data.courses);  
@@ -159,12 +156,6 @@ export default {
         console.error('Failed to fetch courses: ${error.message}');
       }
     },
-    saveNotes(appId, notes) {
-      console.log("Attempted to save notes, not implemented")
-    },
-    closeReviewModal() { /* Close review modal logic */
-      console.log("Attempted to close review modal, not implemented")
-     },
     refreshApplications() {
       console.log("Attempted to refresh applications, not implemented") 
     },

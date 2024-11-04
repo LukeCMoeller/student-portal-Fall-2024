@@ -51,7 +51,7 @@ import logo from '../../img/ksuLogo.png';
 import styles from '../../styles/Header.module.css';
 import {useTokenStore} from '../../stores/TokenStore.js';
 import { useStore } from 'vuex';
-
+ 
 export default defineComponent({
   name: 'Header',
   components: {
