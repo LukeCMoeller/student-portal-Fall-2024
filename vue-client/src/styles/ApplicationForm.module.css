@@ -35,14 +35,10 @@
 }
 
 .input{
-  width: 30%;
+  width: 100%;
   height: 100%;
 }
 
-.table{
-  margin-left: 5rem;
-  margin-right: 5rem;
-}
 .doc{
   background-color: #d1d1d1;
   margin-bottom: 3rem;
@@ -51,12 +47,4 @@
 }
 
 @media (max-width: 768px) {
-  .table{
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-  .input{
-    width: 60%;
-    height: 100%;
-  }
 }
