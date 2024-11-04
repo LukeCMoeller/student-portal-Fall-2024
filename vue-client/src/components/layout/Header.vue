@@ -95,6 +95,7 @@ export default defineComponent({
       popupTop,
       popupLeft,
       showPopup,
+      logout,
     };
   },
 });
