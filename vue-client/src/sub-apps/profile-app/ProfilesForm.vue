@@ -13,34 +13,34 @@
               <div class="col-8 col-offset-2 xl:col-4 xl:col-offset-1 bg-white border-round-sm">
                 <div class="col flex align-items-center justify-content-center">
                   <!-- First Name Field -->
-                  <FloatLabel variant="in">
+                  <IftaLabel variant="in">
                     <InputText id="firstName" v-model="user.first_name" variant="filled"/>
                     <label for="firstName">First Name</label>
-                  </FloatLabel>
+                  </IftaLabel>
                 </div>
 
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Last Name Field -->
-                  <FloatLabel variant="in">
+                  <IftaLabel variant="in">
                     <InputText id="lastName" v-model="user.last_name" variant="filled" />
                     <label for="lastName">Last Name</label>
-                  </FloatLabel>
+                  </IftaLabel>
                 </div>
 
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Email Field -->
-                  <FloatLabel variant="in">
+                  <IftaLabel variant="in">
                     <InputText id="email" v-model="user.email" variant="filled" disabled />
                     <label for="email">Email</label>
-                  </FloatLabel>
+                  </IftaLabel>
                 </div>
 
                 <div class="col flex align-items-center justify-content-center">
                   <!-- WID Field -->
-                  <FloatLabel variant="in">
+                  <IftaLabel variant="in">
                     <InputText id="wid" v-model="user.wid" variant="filled" disabled />
                     <label for="wid">WID</label>
-                  </FloatLabel>
+                  </IftaLabel>
                 </div>
 
                 <div class="col flex align-items-center justify-content-center">
@@ -93,7 +93,7 @@
 <script>
 /*PrimeVue components*/
 import InputText from 'primevue/inputtext';
-import FloatLabel from 'primevue/floatlabel';
+import IftaLabel from 'primevue/iftalabel';
 import TextField from '@/components/common/TextField.vue'
 
 /*CSS*/
@@ -114,7 +114,7 @@ export default {
   name: 'ProfilesForm',
   components: {
     InputText,
-    FloatLabel,
+    IftaLabel,
   },
   methods: {
     SaveProfile(event) {
