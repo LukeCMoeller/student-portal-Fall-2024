@@ -10,19 +10,19 @@
         <div class="col-10 col-offset-1 xl:col-6 xl:col-offset-3">
             <form @submit.prevent="handleSubmit" id="applyForm" :class="styles['doc']">
                 <div class="grid" style="padding-top: 3rem">
-                    <div class="col-offset-1 col-11">
+                    <div class="col-10 col-offset-1">
                         <FloatLabel variant="in">
                         <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" />
                         <label for="studentName">Name:</label>
                         </FloatLabel>
                     </div>
-                    <div class="col-offset-1 col-11">
+                    <div class="col-10 col-offset-1">
                         <FloatLabel variant="in">
                         <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" />
                         <label for="wid">WID:</label>
                         </FloatLabel>
                     </div>
-                    <div class="col-offset-1 col-11">
+                    <div class="col-10 col-offset-1">
                         <FloatLabel variant="in">
                         <Select 
                         id="advisor" 
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
                             <DataTable :value="courses" stripedRows>
                                 <Column field="class_descr" header="Course" />
