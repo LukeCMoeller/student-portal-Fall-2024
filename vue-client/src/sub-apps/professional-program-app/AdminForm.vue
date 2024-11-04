@@ -2,26 +2,26 @@
   <div> 
     <!-- Dialogs go here -->
     <Dialog v-model:visible="AdminNotes" modal header="Edit Notes" :style="{ width: '25rem' }">
-  <div class="flex items-center gap-4">
-    <label for="username" class="font-semibold w-24">Name: {{ NotesName }}</label>
-  </div>
-  <br>
-  <div class="flex items-center gap-4 mb-8">
-    <FloatLabel variant="in">
-      <Textarea 
-        rows="10" 
-        cols="75"
-        autoResize
-        style="width:100%">
-      {{ studentNotes }}
-      </Textarea>
-    </FloatLabel>
-  </div>
-  <div class="flex justify-end gap-2">
-    <Button type="button" label="Cancel" severity="secondary" @click="AdminNotes = false"></Button>
-    <Button type="button" label="Save" @click="HandleSaveNotesClick; AdminNotes = false"></Button>
-  </div>
-</Dialog>
+      <div class="flex items-center gap-4">
+        <label for="username" class="font-semibold w-24">Name: {{ NotesName }}</label>
+      </div>
+      <br>
+      <div class="flex items-center gap-4 mb-8">
+        <IftaLabel variant="in">
+          <Textarea 
+            rows="10" 
+            cols="75"
+            autoResize
+            style="width:100%">
+          {{ studentNotes }}
+          </Textarea>
+        </IftaLabel>
+      </div>
+      <div class="flex justify-end gap-2">
+        <Button type="button" label="Cancel" severity="secondary" @click="AdminNotes = false"></Button>
+        <Button type="button" label="Save" @click="HandleSaveNotesClick; AdminNotes = false"></Button>
+      </div>
+    </Dialog>
 
     <LoadingIndicator v-if="isLoading" />
 
@@ -98,7 +98,7 @@ import { shallowRef, ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Alert from 'primevue/message';
-import FloatLabel from 'primevue/floatlabel';
+import IftaLabel from 'primevue/iftalabel';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
 import DataTable from 'primevue/datatable';
@@ -116,7 +116,7 @@ export default {
     Dialog,
     DataTable,
     Column,
-    FloatLabel,
+    IftaLabel,
   },
   data() {
     return {
