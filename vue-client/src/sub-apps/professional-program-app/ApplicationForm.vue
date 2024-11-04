@@ -11,19 +11,19 @@
             <form @submit.prevent="handleSubmit" id="applyForm" :class="styles['doc']">
                 <div class="grid" style="padding-top: 3rem">
                     <div class="col-offset-1 col-11">
-                        <FloatLabel variant="in">
+                        <IftaLabel variant="in">
                         <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" />
                         <label for="studentName">Name:</label>
-                        </FloatLabel>
+                        </IftaLabel>
                     </div>
                     <div class="col-offset-1 col-11">
-                        <FloatLabel variant="in">
+                        <IftaLabel variant="in">
                         <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" />
                         <label for="wid">WID:</label>
-                        </FloatLabel>
+                        </IftaLabel>
                     </div>
                     <div class="col-offset-1 col-11">
-                        <FloatLabel variant="in">
+                        <IftaLabel variant="in">
                         <Select 
                         id="advisor" 
                         v-model="selectedAdvisor" 
@@ -32,7 +32,7 @@
                         :class="styles['input']"
                         />
                         <label for="advisor">Advisor:</label>
-                        </FloatLabel>
+                        </IftaLabel>
                     </div>
                     
                     <div class="col-10 col-offset-1">
@@ -87,7 +87,7 @@
   import InputText from 'primevue/inputtext';
   import Button from 'primevue/button';
   import Alert from 'primevue/message';
-  import FloatLabel from 'primevue/floatlabel';
+  import IftaLabel from 'primevue/iftalabel';
   import Select from 'primevue/select';
   import Textarea from 'primevue/textarea';
   import DataTable from 'primevue/datatable';
@@ -106,7 +106,7 @@
       Select,
       Button,
       Alert,
-      FloatLabel,
+      IftaLabel,
       DataTable,
       Column
     },
@@ -151,5 +151,5 @@
         return {styles, shared, studentData, courses, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
     }
 }
-  
+
 </script>
