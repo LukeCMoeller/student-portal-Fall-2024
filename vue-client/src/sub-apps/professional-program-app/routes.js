@@ -1,4 +1,4 @@
-import ProfessionalHome from './HomePage.vue';
+import ProfessionalHome from './ProfessionalHome.vue';
 import ApplicationsPage from './ApplicationsPage.vue';
 
 const routes = [
