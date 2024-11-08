@@ -89,4 +89,22 @@ describe('ProfilesForm tests', () => {
     
         expect(profileStore.user.value.firstName).toBe('New Name');
     }) 
+
+    it('save should show success toast on successful update', async () => {
+
+        // Mock the toast plugin
+        const toast = wrapper.vm.$toast
+        vi.spyOn(toast, 'add')
+    
+        profileStore.update.mockResolvedValueOnce() // Mock a successful update
+    
+        await wrapper.vm.save();
+    
+        expect(toast.add).toHaveBeenCalledWith({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Profile Updated!',
+          life: 3000
+        })
+      })
 })

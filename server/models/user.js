@@ -66,13 +66,18 @@ class User extends Model {
     let user = await User.query().where('email', email).limit(1)
     // user not found - create user
     if (user.length === 0) {
+      let admin = false
+      if (process.env.NODE_ENV !== 'production' && email === "admin@ksu.edu") {
+          admin = true
+      }
       user = [
         await User.query().insert({
           email: email,
           eid: email,
           wid: getRandomInt(1000000000),
-          first_name: 'Ethan',
-          last_name: 'Jones'
+          first_name: email,
+          last_name: email,
+          is_admin: admin
         }),
       ]
       if(process.env.NODE_ENV !== 'production'){
