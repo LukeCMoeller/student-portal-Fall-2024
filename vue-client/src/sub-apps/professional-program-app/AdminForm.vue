@@ -44,7 +44,6 @@
               id="disable_application"
               severity="danger"
               :class="styles['form-header-button']"
-              :disabled="isNoApplicationsChecked"
             />
 
             <!--Button to download selected applicants-->
@@ -54,7 +53,6 @@
               id="download_selected"
               variant="success"
               :class="styles['form-header-button']"
-              :disabled="isNoApplicationsChecked"
             />
 
             <!--Button to email selected applicants-->
@@ -64,7 +62,6 @@
               id="email_selected"
               variant="secondary"
               :class="styles['form-header-button']"
-              :disabled="isNoApplicationsChecked"
             />
           </div>
       </div>
