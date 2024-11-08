@@ -112,6 +112,7 @@ import Textarea from 'primevue/textarea';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
+import LoadingIndicator from '@/components/common/LoadingIndicator.vue';
 
 //Test data
 import { applicationData } from './test-data/applicationData.js';
@@ -127,6 +128,8 @@ export default {
     DataTable,
     Column,
     IftaLabel,
+    Textarea,
+    LoadingIndicator,
   },
   data() {
     return {
@@ -154,7 +157,7 @@ export default {
       this.AdminNotes = true;
     },
     fetchCourses(wid) { 
-      if (!WID){
+      if (!wid){
         console.error("WID is undefined, cannot fetch courses.");
         return;
       }
