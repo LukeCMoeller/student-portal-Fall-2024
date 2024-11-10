@@ -31,63 +31,33 @@ describe('ProfilesForm tests', () => {
     let profileStore
 
     beforeEach(() => {
-        // //Mocks the profileStore
-        // profileStore = {
-        //     hydrate: vi.fn().mockReturnValue(),
-        //     update: vi.fn().mockReturnValue(),
-        //     user: ref({
-        //       email: 'jdoe@ksu.edu',
-        //       firstName: 'Johnathan',
-        //       lastName: 'Doe',
-        //       wid: '888888888'
-        //     }),
-        //   }
-        // useProfileStore.mockReturnValue(profileStore)
-        // profileStore.hydrate.mockResolvedValue()
+        //Mocks the profileStore
+        profileStore = {
+            hydrate: vi.fn().mockReturnValue(),
+            update: vi.fn().mockReturnValue(),
+            user: ref({
+              email: 'jdoe@ksu.edu',
+              firstName: 'Johnathan',
+              lastName: 'Doe',
+              wid: '888888888'
+            }),
+          }
+        useProfileStore.mockReturnValue(profileStore)
     
         //Renders the form
-        // wrapper = mount(ProfilesForm, {
-        //     global: {
-        //         plugins: [createTestingPinia({
-        //             createSpy: vi.fn()
-        //         })], 
-        //     },
-        // })
-
-        setActivePinia(createPinia({stubActions:true}))
+        wrapper = mount(ProfilesForm, {
+            global: {
+                plugins: [createTestingPinia({
+                    createSpy: vi.fn()
+                })], 
+            },
+        })
     })
 
     it("Should render the ProfilesForm", async () => {
-        //const profileStore = useProfileStore()
-        const testPinia = createTestingPinia({
-            createSpy: vi.fn(),
-            initialState: {
-                profile: {
-                    hydrate: vi.fn().mockReturnValue(),
-                    update: vi.fn().mockReturnValue(),
-                    user: ref({
-                    email: 'jdoe@ksu.edu',
-                    firstName: 'Johnathan',
-                    lastName: 'Doe',
-                    wid: '888888888'
-                    })
-                }
-            }
-        })
         //https://github.com/vuejs/pinia/discussions/1292
         //This seems to actually be the issue that's happening.
-        useProfileStore(testPinia)
-
-        wrapper = mount(ProfilesForm, {
-            global: {
-                plugins: [testPinia], 
-            },
-        })
-        wrapper.vm.$nextTick()
-
-        profileStore.hydrate = vi.fn()
-
-        //profileStore.hydrate.mockResolvedValue()
+        // useProfileStore(testPinia)
 
         const profile = wrapper.findComponent(ProfilesForm)
         expect(profile.exists()).toBe(true)

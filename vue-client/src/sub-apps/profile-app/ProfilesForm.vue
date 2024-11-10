@@ -154,7 +154,9 @@ export default {
   setup() {
     // Stores
     const profileStore = useProfileStore()
-    profileStore.hydrate()
+    if (process.env.NODE_ENV !== 'test') {
+      profileStore.hydrate()
+    }
     // Setup Stores
     const { user } = storeToRefs(profileStore)
     const toast = useToast()
