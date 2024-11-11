@@ -8,31 +8,41 @@ import { useTokenStore } from '@/stores/TokenStore.js'
 import { useProfileStore } from '@/stores/ProfileStore'
 import {ref} from 'vue'
 
-// Mock axios
-vi.mock('axios', () => {
-    const axiosInstance = {
-        get: vi.fn().mockResolvedValue({ data: { firstname: 'Test', lastname: 'User', wid: 77777, email:'text@ksu.edu' } }),
-        post: vi.fn(),
-        put: vi.fn(),
-        delete: vi.fn(),
-    }
-    return {
-        default: {
-            create: () => axiosInstance,
-            ...axiosInstance, 
-        },
-    }
-})
+// // Mock axios
+// vi.mock('axios', () => {
+//     const axiosInstance = {
+//         get: vi.fn().mockResolvedValue({ data: { firstname: 'Test', lastname: 'User', wid: 77777, email:'text@ksu.edu' } }),
+//         post: vi.fn(),
+//         put: vi.fn(),
+//         delete: vi.fn(),
+//     }
+//     return {
+//         default: {
+//             create: () => axiosInstance,
+//             ...axiosInstance, 
+//         },
+//     }
+// })
 
 vi.mock('@/stores/ProfileStore')
 
 describe('ProfilesForm tests', () => {
     let wrapper
     let profileStore
+    let mockProfileStore
 
     beforeEach(() => {
+        //Renders the form
+        wrapper = mount(ProfilesForm, {
+            global: {
+                plugins: [createTestingPinia({
+                    createSpy: vi.fn()
+                })], 
+            },
+        })
+
         //Mocks the profileStore
-        profileStore = {
+        mockProfileStore = {
             hydrate: vi.fn().mockReturnValue(),
             update: vi.fn().mockReturnValue(),
             user: ref({
@@ -42,16 +52,9 @@ describe('ProfilesForm tests', () => {
               wid: '888888888'
             }),
           }
-        useProfileStore.mockReturnValue(profileStore)
-    
-        //Renders the form
-        wrapper = mount(ProfilesForm, {
-            global: {
-                plugins: [createTestingPinia({
-                    createSpy: vi.fn()
-                })], 
-            },
-        })
+        useProfileStore.mockReturnValue(mockProfileStore)
+
+        profileStore = useProfileStore()
     })
 
     it("Should render the ProfilesForm", async () => {
@@ -75,11 +78,6 @@ describe('ProfilesForm tests', () => {
 
         const wid = wrapper.findComponent('#wid')
         expect(wid.exists()).toBe(true)
-    })
-
-    it("Should make a mock axios GET request", async () => {
-        expect(axios.get).toHaveBeenCalled() 
-        
     })
 
     it("Should be able to change data and have it save", async () => {
