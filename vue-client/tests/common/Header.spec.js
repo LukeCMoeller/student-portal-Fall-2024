@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import Header from '@/components/layout/Header.vue'
 import { createRouter, createWebHistory } from 'vue-router';
 import { createTestingPinia } from '@pinia/testing'
@@ -18,6 +18,22 @@ const createMockStore = (state) => {
 };
 //I think we need to instead use the TokenStore, but mock the returned value of 
 //the isAdmin() getter. Don't know where that needs to go, however.
+
+//Mock Router
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        { path: '/', name: 'Home' },
+        { path: '/home', name: 'Home' },
+        { path: '/professional-program', name:'ProfessionalProgram',
+           children: professionalRoutes
+        },
+        { path : '/profile',
+          children: ProfileRoutes
+        },
+        { path: '/:catchAll(.*)', name: 'Error' }
+    ]
+})
 
 describe('Header tests', () => {
     let wrapper
@@ -76,8 +92,8 @@ describe('Header tests', () => {
         })
     })
 
-    describe.skip('Header routing tests', () => {
-        it('Send you to Home if you click the menu item', () => {
+    describe('Header routing tests', () => {
+        it('Send you to Home if you click the menu item', async () => {
             //Create mock admin user
             const wrapper = mount(Header, {
                 global: {
@@ -85,6 +101,7 @@ describe('Header tests', () => {
                         initialState: {
                             token: {is_admin: true}
                         }
+                        , createSpy: vi.fn()
                     })]
                 }
             })
@@ -92,8 +109,11 @@ describe('Header tests', () => {
             //Create the token store using the testing pinia (guaranteed admin)
             const tokenStore = useTokenStore()
 
-            //I'm not sure how to grab the specific menu item, they're being generated programatically and don't have unique classes
-            const homeLink = wrapper.findComponent('')
+            const homeLink = wrapper.findComponent('#nav0')
+
+            await homeLink.trigger('click');
+
+            expect(router.currentRoute.value.name).toBe('Home')
         })
     })
 })
