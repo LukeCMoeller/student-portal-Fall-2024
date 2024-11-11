@@ -3,6 +3,10 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import axios from 'axios'
 import ProfilesForm from '@/sub-apps/profile-app/ProfilesForm.vue'
+import { createTestingPinia } from '@pinia/testing'
+import { useTokenStore } from '@/stores/TokenStore.js'
+import { useProfileStore } from '@/stores/ProfileStore'
+import {ref} from 'vue'
 
 // Mock axios
 vi.mock('axios', () => {
@@ -20,23 +24,32 @@ vi.mock('axios', () => {
     }
 })
 
-// Mock Pinia
-const createTestPinia = () => {
-  const pinia = createPinia()
-  setActivePinia(pinia)
-  return pinia
-}
+vi.mock('@/stores/ProfileStore')
 
 describe('ProfilesForm tests', () => {
     let wrapper
-    let pinia
+    let profileStore
 
     beforeEach(() => {
-        pinia = createTestPinia()
-
+        //Mocks the profileStore
+        profileStore = {
+            hydrate: vi.fn(),
+            update: vi.fn(),
+            user: ref({
+              email: 'jdoe@ksu.edu',
+              firstName: 'Johnathan',
+              lastName: 'Doe',
+              wid: '888888888'
+            }),
+          }
+        useProfileStore.mockReturnValue(profileStore)
+        
+        //Renders the form
         wrapper = mount(ProfilesForm, {
             global: {
-                plugins: [pinia], 
+                plugins: [createTestingPinia({
+                    createSpy: vi.fn()
+                })], 
             },
         })
     })
@@ -46,9 +59,52 @@ describe('ProfilesForm tests', () => {
         expect(profile.exists()).toBe(true)
     })
 
-    it("Should make a mock axios GET request", async () => {
+    it("Should render each of the text fields", () => {
+        const firstName = wrapper.findComponent("#firstName")
+        expect(firstName.exists()).toBe(true)
+
+        const lastName = wrapper.findComponent('#lastName')
+        expect(lastName.exists()).toBe(true)
+
+        const email = wrapper.findComponent('#email')
+        expect(email.exists()).toBe(true)
+
+        const wid = wrapper.findComponent('#wid')
+        expect(wid.exists()).toBe(true)
+    })
+
+    it.skip("Should make a mock axios GET request", async () => {
 
         expect(axios.get).toHaveBeenCalled()
         
     })
+
+    it("Should be able to change data and have it save", async () => {
+        const spy = vi.spyOn(wrapper.vm, 'save');
+        profileStore.user.value.firstName = 'New Name'
+        await wrapper.vm.save();
+        expect(spy).toHaveBeenCalled()
+    
+        profileStore.hydrate()
+
+        expect(profileStore.user.value.firstName).toBe('New Name');
+    }) 
+
+    it('save should show success toast on successful update', async () => {
+
+        // Mock the toast plugin
+        const toast = wrapper.vm.$toast
+        vi.spyOn(toast, 'add')
+    
+        profileStore.update.mockResolvedValueOnce() // Mock a successful update
+    
+        await wrapper.vm.save();
+    
+        expect(toast.add).toHaveBeenCalledWith({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Profile Updated!',
+          life: 3000
+        })
+      })
 })

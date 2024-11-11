@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@pinia/testing": "^0.1.7",
     "@primevue/themes": "^4.1.1",
     "@vueuse/core": "^11.1.0",
     "axios": "^1.7.7",

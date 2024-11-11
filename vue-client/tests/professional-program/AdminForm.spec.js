@@ -15,4 +15,9 @@ describe('AdminForm tests', () => {
 
         expect(adminForm.exists()).toBe(true)
     })
+
+    it("Should render the datatable", () => {
+        const table = wrapper.findComponent("#applicationTable")
+        expect(table.exists()).toBe(true)
+    })
 })

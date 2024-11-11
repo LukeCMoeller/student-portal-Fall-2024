@@ -30,21 +30,21 @@
             <h2 :class="styles['h2-style']">Review Applications</h2>
             <p>When you are ready to review student CS applications, click the button below!</p>
             <br />
-            <router-link :to="{ name: 'apply' }" :class="shared['no-decoration']">
+            <RouterLink :to="{ name: 'apply' }" :class="shared['no-decoration']">
               <div :class="shared['flex-centered']">
                 <Button buttonText="Go!"/>
               </div>
-            </router-link>
+            </RouterLink>
           </div>
           <div v-else :class="styles['apply-box-style']">
             <h2 :class="styles['h2-style']">Apply</h2>
             <p>When you are ready to apply, click the button below!</p>
             <br />
-            <router-link :to="{ name: 'apply' }" :class="shared['no-decoration']">
+            <RouterLink :to="{ name: 'apply' }" :class="shared['no-decoration']">
               <div :class="shared['flex-centered']">
                 <Button/>
               </div>
-            </router-link>
+            </RouterLink>
           </div>
         </div>
       </div>
