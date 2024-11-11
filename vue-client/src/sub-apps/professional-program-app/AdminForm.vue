@@ -72,7 +72,7 @@
       <!-- Applications Table -->
       <div class="col-10 col-offset-1" :class="styles['table']">
         <div>
-            <DataTable :value="applications" stripedRows removableSort paginator :rows="8">
+            <DataTable :value="applications" stripedRows removableSort paginator :rows="8" id="applicationTable">
                 <Column selectionMode="multiple"/>
                 <Column field="firstName" header="First Name" sortable />
                 <Column field="lastName" header="Last Name" sortable />

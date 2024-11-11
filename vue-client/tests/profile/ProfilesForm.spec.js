@@ -86,7 +86,7 @@ describe('ProfilesForm tests', () => {
         expect(spy).toHaveBeenCalled()
     
         profileStore.hydrate()
-    
+
         expect(profileStore.user.value.firstName).toBe('New Name');
     }) 
 

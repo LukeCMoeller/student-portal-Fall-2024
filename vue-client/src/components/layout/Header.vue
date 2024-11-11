@@ -27,7 +27,8 @@
         <li 
           :class="styles.navItemContainer" 
           v-for="(item, index) in navItems" 
-          :key="index" 
+          :key="index"
+          :id="'nav'+index" 
           @mouseenter="showPopup($event, item)" 
           @mouseleave="item.showPopup = false"
         >
@@ -39,7 +40,7 @@
                :style="{ top: popupTop - 20 + 'px', left: popupLeft -2 + 'px' }">
             <ul class="subNavList">
               <li v-for="(route, subIndex) in item.subRoutes" :key="subIndex" style="margin-top:1.3rem;">
-                <RouterLink :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
+                <RouterLink :id="'subnav' + subIndex" :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
               </li>
             </ul>
           </div>
