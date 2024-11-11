@@ -3,27 +3,13 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import ProfessionalProgram from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
-// Mock route
-const routes = [
-  {
-    path: '/professional-program',
-    component: ProfessionalProgram
-  },
-];
-
-//Mock router
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
 describe('ProfessionalProgram tests', () => {
     let wrapper
 
     beforeEach(() => {
         wrapper = mount(ProfessionalProgram, {
             global: {
-                plugins: [router],
+                plugins: [],
             },
         })
     })

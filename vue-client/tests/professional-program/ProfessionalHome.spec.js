@@ -3,6 +3,13 @@ import { createStore } from 'vuex'
 import { describe, it, expect, beforeEach } from 'vitest'
 import ProfessionalHome from '@/sub-apps/professional-program-app/ProfessionalHome.vue'
 
+//Route imports
+import Error from '@/components/common/ErrorPage.vue'
+import Home from '@/components/forms/HomePage.vue'
+import professionalRoutes from '@/sub-apps/professional-program-app/routes'
+import ProfessionalProgram from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
+import ProfileRoutes from '@/sub-apps/profile-app/ProfileRoutes'
+
 // Mock store creation
 const createMockStore = (state) => {
   return createStore({
