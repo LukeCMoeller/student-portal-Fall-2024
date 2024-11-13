@@ -9,6 +9,18 @@ const session = require('./configs/session.js');
 const serverConfig = require('./configs/server');
 const knex = require('./configs/db');
 
+//Discord
+const { Client, GatewayIntentBits } = require('discord.js');
+const client = new Client({ intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+] });
+
+client.once('ready', () => {
+  console.log('Bot is online!');
+});
+
+
 const app = express();
 const PORT = serverConfig.port || 3001;
 
