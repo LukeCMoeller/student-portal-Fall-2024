@@ -16,7 +16,7 @@ const client = new Client({ intents: [
     GatewayIntentBits.GuildMembers,
 ] });
 let ourServerguild;
-let role;
+let role; 
 //KEEP SAFE   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 client.once('ready',async () => {
   console.log('Bot is online!');
