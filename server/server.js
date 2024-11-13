@@ -17,7 +17,6 @@ const client = new Client({ intents: [
 ] });
 let ourServerguild;
 let role;
-//client.login('remove this MTI4NjU remove this xMj remove this gyNz A1Mz M remove this 3OTc 1Ng.GjHn remove this pU.0Xf2tpt3 kBCVrTY kL_M-aWjl pOXHh3Gs g_B y-Y');
 //KEEP SAFE   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 client.once('ready',async () => {
   console.log('Bot is online!');
