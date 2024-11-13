@@ -27,10 +27,10 @@ if (process.env.Node_ENV === 'test') {
     },
     migrations: {
       tableName: 'migrations',
-      directory: './migrations'
+      directory: '../migrations'
     },
     seeds: {
-      directory: './seeds'
+      directory: '../seeds'
     },
   }
 }

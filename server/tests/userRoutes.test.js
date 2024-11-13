@@ -342,19 +342,26 @@ const updateUserFailsOnInvalidName = (adminUser) => {
 
 
 const deleteUser = (adminUser) => {
-  it('should delete a user', async () => {
-    await request(server)
+  it('should delete a user', (done) => {
+    request(server)
       .delete('/api/v1/users/1')
       .set('Authorization', `Bearer ${adminUser.token}`)
       .expect(200)
-    const res = await request(server)
+      .end((err) => {
+        if (err) return done(err)
+        request(server)
           .get('/api/v1/users/')
           .set('Authorization', `Bearer ${adminUser.token}`)
           .expect(200)
-        res.body.should.be.an('array')
-        res.body.should.have.lengthOf(2)
-        const deleteduser = res.body.find((u) => u.id === 2)
-        assert.isUndefined(deleteduser)
+          .end((err, res) => {
+            if (err) return done(err)
+            res.body.should.be.an('array')
+            res.body.should.have.lengthOf(2)
+            const deleteduser = res.body.find((u) => u.id === 2)
+            assert.isUndefined(deleteduser)
+            done()
+          })
+      })
   })
 }
 
