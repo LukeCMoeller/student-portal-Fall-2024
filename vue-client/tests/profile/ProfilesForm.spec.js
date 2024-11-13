@@ -8,22 +8,6 @@ import { useTokenStore } from '@/stores/TokenStore.js'
 import { useProfileStore } from '@/stores/ProfileStore'
 import {ref} from 'vue'
 
-// // Mock axios
-// vi.mock('axios', () => {
-//     const axiosInstance = {
-//         get: vi.fn().mockResolvedValue({ data: { firstname: 'Test', lastname: 'User', wid: 77777, email:'text@ksu.edu' } }),
-//         post: vi.fn(),
-//         put: vi.fn(),
-//         delete: vi.fn(),
-//     }
-//     return {
-//         default: {
-//             create: () => axiosInstance,
-//             ...axiosInstance, 
-//         },
-//     }
-// })
-
 vi.mock('@/stores/ProfileStore')
 
 describe('ProfilesForm tests', () => {
@@ -32,30 +16,35 @@ describe('ProfilesForm tests', () => {
     let mockProfileStore
 
     beforeEach(() => {
-        //Renders the form
+        // Mock the profileStore object
+        profileStore = {
+          hydrate: vi.fn(),
+          update: vi.fn(),
+          user: ref({
+            email: 'jdoe@ksu.edu',
+            firstName: 'Johnathan',
+            lastName: 'Doe',
+            wid: '888888888'
+          })
+        };
+    
+        // Mock the return of the useProfileStore
+        useProfileStore.mockReturnValue(profileStore);
+    
+        // Mount the component with the necessary plugins and mocks
         wrapper = mount(ProfilesForm, {
             global: {
-                plugins: [createTestingPinia({
-                    createSpy: vi.fn()
-                })], 
-            },
-        })
-
-        //Mocks the profileStore
-        mockProfileStore = {
-            hydrate: vi.fn().mockReturnValue(),
-            update: vi.fn().mockReturnValue(),
-            user: ref({
-              email: 'jdoe@ksu.edu',
-              firstName: 'Johnathan',
-              lastName: 'Doe',
-              wid: '888888888'
-            }),
-          }
-        useProfileStore.mockReturnValue(mockProfileStore)
-
-        profileStore = useProfileStore()
-    })
+              plugins: [
+                createTestingPinia({
+                  createSpy: vi.fn 
+                })
+              ],
+              provide: {
+                $toast: { add: vi.fn() }
+              }
+            }
+          });
+      });
 
     it("Should render the ProfilesForm", async () => {
         //https://github.com/vuejs/pinia/discussions/1292
@@ -95,19 +84,20 @@ describe('ProfilesForm tests', () => {
 
     it('save should show success toast on successful update', async () => {
 
-        // Mock the toast plugin
-        const toast = wrapper.vm.$toast
-        vi.spyOn(toast, 'add')
-    
-        profileStore.update.mockResolvedValueOnce() // Mock a successful update
-    
+        const toast = wrapper.vm.$toast;
+        const toastSpy = vi.spyOn(toast, 'add');
+
+        profileStore.update.mockResolvedValueOnce();
+
         await wrapper.vm.save();
-    
-        expect(toast.add).toHaveBeenCalledWith({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Profile Updated!',
-          life: 3000
-        })
+
+        await wrapper.vm.$nextTick();
+
+        expect(toastSpy).toHaveBeenCalledWith({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Profile Updated!',
+        life: 3000
+        });
       })
 })
