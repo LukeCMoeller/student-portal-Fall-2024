@@ -9,7 +9,10 @@ if (process.env.Node_ENV === 'test') {
     useNullAsDefault: true,
     migrations: {
       tableName: 'migrations',
-      directory: '../migrations'
+      directory: './migrations'
+    },
+    seeds: {
+      directory: './seeds'
     },
   }
 } else {
@@ -24,10 +27,10 @@ if (process.env.Node_ENV === 'test') {
     },
     migrations: {
       tableName: 'migrations',
-      directory: '../migrations'
+      directory: './migrations'
     },
     seeds: {
-      directory: '../seeds'
+      directory: './seeds'
     },
   }
 }

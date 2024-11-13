@@ -8,22 +8,6 @@ import { useTokenStore } from '@/stores/TokenStore.js'
 import { useProfileStore } from '@/stores/ProfileStore'
 import {ref} from 'vue'
 
-// // Mock axios
-// vi.mock('axios', () => {
-//     const axiosInstance = {
-//         get: vi.fn().mockResolvedValue({ data: { firstname: 'Test', lastname: 'User', wid: 77777, email:'text@ksu.edu' } }),
-//         post: vi.fn(),
-//         put: vi.fn(),
-//         delete: vi.fn(),
-//     }
-//     return {
-//         default: {
-//             create: () => axiosInstance,
-//             ...axiosInstance, 
-//         },
-//     }
-// })
-
 vi.mock('@/stores/ProfileStore')
 
 describe('ProfilesForm tests', () => {
@@ -32,15 +16,6 @@ describe('ProfilesForm tests', () => {
     let mockProfileStore
 
     beforeEach(() => {
-        //Renders the form
-        wrapper = mount(ProfilesForm, {
-            global: {
-                plugins: [createTestingPinia({
-                    createSpy: vi.fn()
-                })], 
-            },
-        })
-
         //Mocks the profileStore
         mockProfileStore = {
             hydrate: vi.fn().mockReturnValue(),
@@ -54,14 +29,24 @@ describe('ProfilesForm tests', () => {
           }
         useProfileStore.mockReturnValue(mockProfileStore)
 
-        profileStore = useProfileStore()
+        //Renders the form
+        wrapper = mount(ProfilesForm, {
+            global: {
+                plugins: [createTestingPinia({
+                    createSpy: vi.fn()
+                })], 
+                provide: {
+                    $toast: {add: vi.fn()}
+                }
+            },
+        })
+
+        
+
+        //profileStore = useProfileStore()
     })
 
     it("Should render the ProfilesForm", async () => {
-        //https://github.com/vuejs/pinia/discussions/1292
-        //This seems to actually be the issue that's happening.
-        // useProfileStore(testPinia)
-
         const profile = wrapper.findComponent(ProfilesForm)
         expect(profile.exists()).toBe(true)
     })
