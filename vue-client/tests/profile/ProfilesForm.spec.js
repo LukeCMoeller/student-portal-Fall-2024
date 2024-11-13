@@ -13,6 +13,7 @@ vi.mock('@/stores/ProfileStore')
 describe('ProfilesForm tests', () => {
     let wrapper
     let profileStore
+    let mockProfileStore
 
     beforeEach(() => {
         // Mock the profileStore object
@@ -45,7 +46,11 @@ describe('ProfilesForm tests', () => {
           });
       });
 
-    it("Should render the ProfilesForm", () => {
+    it("Should render the ProfilesForm", async () => {
+        //https://github.com/vuejs/pinia/discussions/1292
+        //This seems to actually be the issue that's happening.
+        // useProfileStore(testPinia)
+
         const profile = wrapper.findComponent(ProfilesForm)
         expect(profile.exists()).toBe(true)
     })
@@ -65,6 +70,8 @@ describe('ProfilesForm tests', () => {
     })
 
     it("Should be able to change data and have it save", async () => {
+        const profileStore = useProfileStore()
+
         const spy = vi.spyOn(wrapper.vm, 'save');
         profileStore.user.value.firstName = 'New Name'
         await wrapper.vm.save();
