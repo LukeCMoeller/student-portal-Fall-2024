@@ -44,7 +44,6 @@ router.use(requestLogger)
  *         description: user is logged in, redirect to homepage
  */
 router.get('/login', refreshToken, async function (req, res, next) {
-  console.log("session:", req.session)
   if (!req.session.user_id) {
     let email = ''
     if (req.query.email && process.env.FORCE_AUTH === 'true') {
@@ -67,7 +66,6 @@ router.get('/login', refreshToken, async function (req, res, next) {
     if (email && email.length != 0) {
       // Find or Create User for email
       let user = await User.findOrCreate(email)
-      console.log("created user: ", user)
       // Store User ID in session
       // req.session.user_id = user.id
       // req.session.user_email = email

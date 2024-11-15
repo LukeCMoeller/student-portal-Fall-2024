@@ -14,9 +14,6 @@ const discord = require('./models/discord.js');
 //runs the discord bot
 discord.runDiscordBot();
 
-
-
-
 const app = express();
 const PORT = serverConfig.port || 3001;
 
@@ -74,3 +71,5 @@ app.use(function (err, req, res, next) {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = app

@@ -47,10 +47,6 @@ describe('ProfilesForm tests', () => {
       });
 
     it("Should render the ProfilesForm", async () => {
-        //https://github.com/vuejs/pinia/discussions/1292
-        //This seems to actually be the issue that's happening.
-        // useProfileStore(testPinia)
-
         const profile = wrapper.findComponent(ProfilesForm)
         expect(profile.exists()).toBe(true)
     })

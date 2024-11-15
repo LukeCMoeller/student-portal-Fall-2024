@@ -1,6 +1,6 @@
 let config = null
 
-if (process.env.Node_ENV === 'test') {
+if (process.env.NODE_ENV === 'test') {
   config = {
     client: 'sqlite3',
     connection: {
@@ -9,7 +9,10 @@ if (process.env.Node_ENV === 'test') {
     useNullAsDefault: true,
     migrations: {
       tableName: 'migrations',
-      directory: '../migrations'
+      directory: './migrations'
+    },
+    seeds: {
+      directory: './seeds'
     },
   }
 } else {
