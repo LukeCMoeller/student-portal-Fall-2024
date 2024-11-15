@@ -109,8 +109,6 @@ describe('Header tests', () => {
             })
 
             //Create the token store using the testing pinia (guaranteed admin)
-            const tokenStore = useTokenStore()
-
             const homeLink = wrapper.findComponent('#nav0')
 
             await homeLink.trigger('click');
