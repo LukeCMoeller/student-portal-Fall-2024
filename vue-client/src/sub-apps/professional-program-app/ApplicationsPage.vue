@@ -10,6 +10,8 @@
 //CSS
 import ApplicationForm from './ApplicationForm.vue';
 import AdminForm from './AdminForm.vue';
+import {mapState} from 'pinia'
+import {useAdminStore} from '../../stores/AdminStore.js'
 
 //Components
 import { mapGetters } from 'vuex';
@@ -21,7 +23,7 @@ export default {
     AdminForm
   },
   computed: {
-    ...mapGetters(['IsAdminMode']), 
+    ...mapState(useAdminStore, ['IsAdminMode']), 
   },
 };
 </script>
