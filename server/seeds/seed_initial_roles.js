@@ -25,7 +25,7 @@ exports.seed = async function(knex) {
       eid: 'E101',
       first_name: 'John',
       last_name: 'Doe',
-      email: 'johndoe@example.com',
+      email: 'johndoe@ksu.edu',
       refresh_token: null,
       admin: false,
       advisor: false,
@@ -38,7 +38,7 @@ exports.seed = async function(knex) {
       eid: 'E102',
       first_name: 'Jane',
       last_name: 'Smith',
-      email: 'janesmith@example.com',
+      email: 'janesmith@ksu.edu',
       refresh_token: null,
       admin: false,
       advisor: false,
@@ -51,7 +51,7 @@ exports.seed = async function(knex) {
       eid: 'E103',
       first_name: 'Alice',
       last_name: 'Johnson',
-      email: 'alicejohnson@example.com',
+      email: 'alicejohnson@ksu.edu',
       refresh_token: null,
       admin: false,
       advisor: false,
@@ -71,6 +71,105 @@ exports.seed = async function(knex) {
       warning: false,
       updated_at: '2024-11-01 10:00:00',
       updated_by: 'system'
+    },
+    {
+      wid: 105,
+      eid: 'E105',
+      first_name: 'user',
+      last_name: 'user',
+      email: 'user@ksu.edu',
+      refresh_token: null,
+      admin: false,
+      advisor: false,
+      warning: false,
+      updated_at: '2024-11-01 10:00:00',
+      updated_by: 'system'
+    },
+  ]);
+
+  await knex('user_courses').insert([
+    {
+      user_id: 1, // John Doe
+      class_number: 101,
+      term: 202401,
+      subject: 'MATH',
+      catalog: '101',
+      name: 'Calculus I',
+      component: 'LEC', 
+      grade: 'A',
+      ignore_in_gpa: false,
+    },
+    {
+      user_id: 2, // Jane Smith
+      class_number: 102,
+      term: 202403, 
+      subject: 'PHYS',
+      catalog: '201',
+      name: 'Physics I',
+      component: 'LEC',
+      grade: 'B',
+      ignore_in_gpa: false,
+    },
+    {
+      user_id: 3, // Alice Johnson
+      class_number: 103,
+      term: 202402,
+      subject: 'CS',
+      catalog: '120',
+      name: 'Introduction to Programming',
+      component: 'LEC',
+      grade: 'A',
+      ignore_in_gpa: false,
+    },
+    {
+      user_id: 5, // user user
+      class_number: 104,
+      term: 202401,
+      subject: 'ENGL',
+      catalog: '110',
+      name: 'College Writing',
+      component: 'LEC',
+      grade: 'C',
+      ignore_in_gpa: false,
+    },
+  ]);
+
+  await knex('professional_program_applications').insert([
+    {
+      user_id: 1, // John Doe
+      semester: '2024 Spring',
+      status: 'Pending',
+      notes: 'Looking to apply for the Math program',
+      waiver: false,
+      created_by: 'system',
+      updated_by: 'system',
+    },
+    {
+      user_id: 2, // Jane Smith
+      semester: '2024 Fall',
+      status: 'Submitted',
+      notes: 'Physics program application submitted',
+      waiver: true, // Waiver granted
+      created_by: 'system',
+      updated_by: 'system',
+    },
+    {
+      user_id: 3, // Alice Johnson
+      semester: '2024 Summer',
+      status: 'Approved',
+      notes: 'Accepted into the Computer Science program',
+      waiver: false,
+      created_by: 'system',
+      updated_by: 'system',
+    },
+    {
+      user_id: 5, // user user
+      semester: '2024 Spring',
+      status: 'Pending',
+      notes: 'Waiting for approval in the English program',
+      waiver: false,
+      created_by: 'system',
+      updated_by: 'system',
     },
   ]);
 

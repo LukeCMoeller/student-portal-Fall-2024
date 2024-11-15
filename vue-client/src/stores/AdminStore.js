@@ -6,7 +6,7 @@ import api from '@/services/tokenApi'
 export const useAdminStore = defineStore('admin', {
   state: () => {
     return {
-      IsAdminMode: true
+      IsAdminMode: false
     }
   },
   actions: {

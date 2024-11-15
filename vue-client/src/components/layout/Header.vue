@@ -57,11 +57,10 @@
 import styles from '../../styles/Header.module.css';
 
 //Components
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watch, computed } from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
-import { useAdminStore } from '@/stores/AdminStore';
-import { useProfileStore } from '@/stores/ProfileStore';
 import { storeToRefs } from 'pinia'
+import adminMixin from '@/mixins/adminMixin';
 import Logger from 'js-logger'
 
 //Primevue components
@@ -75,6 +74,7 @@ export default defineComponent({
   components: {
     ToggleSwitch,
   },
+  mixins: [adminMixin],
   methods: {
     logout(event) {
       const tokenStore = useTokenStore();
@@ -82,15 +82,8 @@ export default defineComponent({
     }
   },
   setup() {
-    // Stores
-    const adminStore = useAdminStore()
-    const tokenStore = useTokenStore();
 
-    // Store states
-    const { IsAdminMode } = storeToRefs(adminStore)
-    const IsAdmin = tokenStore.is_admin
-    console.log(IsAdmin)
-    console.log(tokenStore.email)
+    const { IsAdmin, IsAdminMode } = adminMixin.setup();
 
     const popupTop = ref(0);
     const popupLeft = ref(0);
@@ -112,11 +105,11 @@ export default defineComponent({
       logo,
       styles,
       navItems,
-      IsAdminMode,
-      IsAdmin,
       popupTop,
       popupLeft,
       showPopup,
+      IsAdmin,
+      IsAdminMode
     };
   },
 });

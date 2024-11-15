@@ -26,7 +26,7 @@
 
         <!--Apply box-->
         <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-0">
-          <div v-if="IsAdminMode" :class="styles['apply-box-style']">
+          <div v-if="IsAdminMode && IsAdmin" :class="styles['apply-box-style']">
             <h2 :class="styles['h2-style']">Review Applications</h2>
             <p>When you are ready to review student CS applications, click the button below!</p>
             <br />
@@ -59,26 +59,22 @@ import styles from '../../styles/HomePage.module.css';
 import shared from '../../styles/Shared.module.css';
 
 //Components
-import { useAdminStore } from '@/stores/AdminStore';
-import { storeToRefs } from 'pinia'
+import adminMixin from '@/mixins/adminMixin';
 
 export default {
   name: 'HomePage',
   components: {
     Button,
   },
+  mixins:[adminMixin],
   setup() {
-    // Stores
-    const adminStore = useAdminStore()
-    //adminStore.hydrate()
-
-    // Setup Stores
-    const { IsAdminMode } = storeToRefs(adminStore)
+    const { IsAdmin, IsAdminMode } = adminMixin.setup();
 
     return{
       IsAdminMode,
+      IsAdmin,
       styles, 
-      shared
+      shared,
     }
   },
 };
