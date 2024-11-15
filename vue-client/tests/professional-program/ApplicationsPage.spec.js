@@ -4,9 +4,9 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import ApplicationsPage from '@/sub-apps/professional-program-app/ApplicationsPage.vue'
 
 // Mock store creation
-const createMockStore = (state) => {
+const createMockStore = (getters) => {
   return createStore({
-    state,
+    getters,
   });
 };
 
@@ -17,7 +17,7 @@ describe('ApplicationsPage tests', () => {
     beforeEach(() => {
         // Create store with necessary initial state
         store = createMockStore({
-            IsAdminMode: false,
+            IsAdminMode: (state) => false,
         });
 
         // Mount component with the mock store

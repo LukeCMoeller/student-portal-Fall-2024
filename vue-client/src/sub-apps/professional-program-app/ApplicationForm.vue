@@ -54,7 +54,7 @@
                     <!--Course table-->
                     <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
-                            <DataTable :value="courses" stripedRows>
+                            <DataTable :value="courses" stripedRows id="appTable">
                                 <Column field="class_descr" header="Course" />
                                 <Column field="course_id" header="Course ID" />
                                 <Column field="status" header="Status" />
@@ -80,16 +80,17 @@
                         v-model="additionalInfo" 
                         rows="7" cols="75"
                         autoResize
+                        id="commentBox"
                         style="width:100%"
                         />
                     </div>
 
                     <!--Submit button-->
                     <div class="col-12">
-                        <div :class="shared['flex-centered']">
-                        <button type="button" :class="styles['btn-submit']">
+                        <div :class="shared['flex-centered']" >
+                        <Button id="submitBtn" type="button" :class="styles['btn-submit']">
                             Submit
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
