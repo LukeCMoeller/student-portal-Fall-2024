@@ -7,7 +7,6 @@ import db from '../configs/db.js'
 // Set up environment variables
 process.env.FORCE_AUTH = 'true'
 
-
 //Creates a mock user
 let adminUser = {
   eid:'test-admin',

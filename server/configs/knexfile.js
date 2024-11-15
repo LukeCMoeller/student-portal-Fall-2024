@@ -1,6 +1,6 @@
 let config = null
 
-if (process.env.Node_ENV === 'test') {
+if (process.env.NODE_ENV === 'test') {
   config = {
     client: 'sqlite3',
     connection: {
