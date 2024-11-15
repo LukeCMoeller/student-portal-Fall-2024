@@ -1,9 +1,22 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
+import Logger from 'js-logger'
 
-//Simple pinia store to track if the user is 
+// Services
+import api from '@/services/adminApi'
+
 export const useAdminStore = defineStore('admin', {
-    state: () => ({
-        //Wether the user is an admin
-        isAdminMode: false
-    })
+  state: () => {
+    applications: []
+    return {
+      IsAdminMode: false
+    }
+  },
+  actions: {
+    async fetchApplications() {
+      Logger.info('admin:fetchApplications')
+      await api.get('/api/applications').then((response) => {
+        this.applications = response.data
+      })
+    },
+  }
 })

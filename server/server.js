@@ -14,12 +14,12 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.MessageContent,
 ] });
-
+/*client.login('MTI4NjUxMjgyNzA1MzM3OTc1Ng.GjHnpU.0Xf2tpt3kBCVrTYkL_M-aWjlpOXHh3Gsg_By-Y')
 client.once('ready', () => {
   console.log('Bot is online!');
-});
-
+});*/
 
 const app = express();
 const PORT = serverConfig.port || 3001;

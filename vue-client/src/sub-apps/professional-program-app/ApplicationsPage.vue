@@ -1,7 +1,7 @@
 <template>
     <!--Entry point for the Applications Page-->
     <div>
-        <AdminForm v-if="IsAdminMode"/>
+        <AdminForm v-if="IsAdminMode && IsAdmin"/>
         <ApplicationForm v-else />
     </div>
 </template>
@@ -10,11 +10,7 @@
 //CSS
 import ApplicationForm from './ApplicationForm.vue';
 import AdminForm from './AdminForm.vue';
-import {mapState} from 'pinia'
-import {useAdminStore} from '../../stores/AdminStore.js'
-
-//Components
-import { mapGetters } from 'vuex';
+import adminMixin from '@/mixins/adminMixin';
 
 export default {
   name: 'ApplicationsPage',
@@ -22,8 +18,15 @@ export default {
     ApplicationForm,
     AdminForm
   },
-  computed: {
-    ...mapState(useAdminStore, ['IsAdminMode']), 
+  mixins: [adminMixin],
+  setup() {
+    // Stores
+    const { IsAdmin, IsAdminMode } = adminMixin.setup();
+
+    return{
+      IsAdminMode,
+      IsAdmin
+    }
   },
 };
 </script>

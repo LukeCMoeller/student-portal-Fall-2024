@@ -5,7 +5,6 @@ import Aura from '@primevue/themes/aura';
 import { definePreset } from '@primevue/themes';
 import PrimeVue from 'primevue/config'
 import App from './App.vue'
-import userStore from './stores/AdminStoreV1'
 import router from './router'
 import Logger from 'js-logger'
 import setupInterceptors from './services/interceptors'
@@ -46,7 +45,6 @@ createApp(App)
     }
  })
 .use(router)
-.use(userStore)
 .use(createPinia())
 .use(ToastService)
 .mount('#app')

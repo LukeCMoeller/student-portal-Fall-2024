@@ -2,11 +2,9 @@
   <header :class="styles['headerContainer']">
     <!--Header bar-->
     <div :class="styles.headerTop" style="background-color: gainsboro; display: grid; justify-content: end; grid-auto-flow: column; padding-top: .1rem;">
-        <!--<div v-if="isAdmin">-->
-          <!--Admin toggle-->
-          <p style="padding-right: 1rem;">Admin Mode:</p>
-          <ToggleSwitch v-model="adminMode" style="margin-right:5vw" />
-        <!--</div>-->
+      <p v-if="IsAdmin" style="padding-right: 1rem;">Admin Mode:</p>
+        <!--Admin toggle-->
+        <ToggleSwitch v-if="IsAdmin" v-model="IsAdminMode" style="margin-right:5vw" />
         <!--Logout-->
         <RouterLink :to="''" @click="logout" :class="styles['logout']">Logout</RouterLink>
     </div>
@@ -59,9 +57,11 @@
 import styles from '../../styles/Header.module.css';
 
 //Components
-import { defineComponent, ref, watch } from 'vue';
-import {useTokenStore} from '../../stores/TokenStore.js';
-import {useAdminStore} from '../../stores/AdminStore.js';
+import { defineComponent, ref, watch, computed } from 'vue';
+import { useTokenStore } from '../../stores/TokenStore.js';
+import { storeToRefs } from 'pinia'
+import adminMixin from '@/mixins/adminMixin';
+import Logger from 'js-logger'
 
 //Primevue components
 import ToggleSwitch from 'primevue/toggleswitch';
@@ -74,6 +74,7 @@ export default defineComponent({
   components: {
     ToggleSwitch,
   },
+  mixins: [adminMixin],
   methods: {
     logout(event) {
       const tokenStore = useTokenStore();
@@ -81,21 +82,11 @@ export default defineComponent({
     }
   },
   setup() {
-    //Store for whether the admin toggle is on or off
-    const adminStore = useAdminStore(); // Get the store instance
-    const adminMode = ref(adminStore.IsAdminMode);
 
-    //Store for whether the user is an admin
-    const tokenStore = useTokenStore();
-    const isAdmin = ref(tokenStore.is_admin) || false
+    const { IsAdmin, IsAdminMode } = adminMixin.setup();
 
     const popupTop = ref(0);
     const popupLeft = ref(0);
-
-    // Watch for changes to adminMode and update Vuex state accordingly
-    watch(adminMode, (newVal) => {
-      adminStore.IsAdminMode = newVal
-    });
 
     const navItems = ref([
       { label: 'Home', link: '/home', subRoutes: [] },
@@ -114,11 +105,11 @@ export default defineComponent({
       logo,
       styles,
       navItems,
-      adminMode,
       popupTop,
       popupLeft,
       showPopup,
-      isAdmin,
+      IsAdmin,
+      IsAdminMode
     };
   },
 });

@@ -3,7 +3,7 @@
     <!--Admin note dialog-->
     <Dialog id="notesDialog" class="notes-dialog" v-model:visible="AdminNotes" modal header="Edit Notes" :style="{ width: '25rem' }">
       <div class="flex items-center gap-4">
-        <label for="username" class="font-semibold w-24">Name: {{ NotesName }}</label>
+        <label for="username" class="font-semibold w-24">Name: {{ fullName }}</label>
       </div>
       <br>
       <div class="flex items-center gap-4 mb-8">
@@ -24,6 +24,81 @@
       </div>
     </Dialog>
 
+    <!--Edit application dialog-->
+    <Dialog id="editDialog" class="edit-dialog" v-model:visible="EditDialog" modal header="Application" :style="{ width: '60rem' }">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="grid" style="padding-top: 3rem; width: 100%">
+
+          <!--Info field-->
+          <div class="col-10 col-offset-1">
+              <label class="font-semibold w-24" :class="styles['input']">Name: <span>{{ fullName }}</span></label>
+              <br />
+              <label class="font-semibold w-24" :class="styles['input']">EID: <span>{{ ApplicationData.eid }}</span></label>
+              <br />
+              <label class="font-semibold w-24" :class="styles['input']">Email: <span>{{ ApplicationData.email }}</span></label>
+              <br />
+              <label class="font-semibold w-24" :class="styles['input']">WID: <span>{{ ApplicationData.wid }}</span></label>
+              <br />
+              <label class="font-semibold w-24" :class="styles['input']">Waiver: <span>{{ ApplicationData.waiver }}</span></label>
+          </div>
+
+          <!--Advisor drop down-->
+          <div class="col-10 col-offset-1">
+              <IftaLabel variant="in">
+              <Select 
+              id="advisor" 
+              v-model="ApplicationData.advisor" 
+              :class="styles['input']"
+              />
+              <label for="status">Advisor:</label>
+              </IftaLabel>
+          </div>
+
+          <!--Semester drop down-->
+          <div class="col-10 col-offset-1">
+              <IftaLabel variant="in">
+              <Select 
+              id="semester" 
+              v-model="ApplicationData.semester" 
+              :class="styles['input']"
+              />
+              <label for="status">Semester:</label>
+              </IftaLabel>
+          </div>
+
+          <!--Status drop down-->
+          <div class="col-10 col-offset-1">
+              <IftaLabel variant="in">
+              <Select 
+              id="status" 
+              v-model="ApplicationData.status" 
+              :options="statusOptions" 
+              :class="styles['input']"
+              />
+              <label for="status">Status:</label>
+              </IftaLabel>
+          </div>
+
+          <!--Course table-->
+          <div class="col-10 col-offset-1">
+            <div :class="styles['table']"> 
+                <DataTable :value="ApplicationData.courses" stripedRows id="appTable">
+                    <Column field="class_descr" header="Course" />
+                    <Column field="course_id" header="Course ID" />
+                    <Column field="status" header="Status" />
+                    <Column field="grade" header="Grade" />
+                </DataTable>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="flex justify-end gap-2">
+        <Button id="editDialogCancel" label="Cancel" severity="secondary" @click="EditDialog = false"></Button>
+        <Button id="editDialogUpdate" label="Update" @click="HandleSaveApplicationClick; EditDialog = false"></Button>
+      </div>
+    </Dialog>
+
     <LoadingIndicator v-if="isLoading" />
 
     <div class="grid" v-else>
@@ -31,7 +106,7 @@
       <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
           <h1 :class="shared['h1-style']">Review Applications</h1>
-          <h4 :class="shared['h4-style']">Total Applications: {{ applications.length }}</h4>
+          <h4 :class="shared['h4-style']">Total Applications: {{ applications?.length || 0  }}</h4>
       </div>
 
       <!-- Action Buttons -->
@@ -70,10 +145,10 @@
       <!-- Applications Table -->
       <div class="col-10 col-offset-1" :class="styles['table']">
         <div>
-            <DataTable :value="applications" stripedRows removableSort paginator :rows="8" id="adminTable">
+            <DataTable :value="applications" v-model:selection="selectedApplications" stripedRows removableSort paginator :rows="8" id="adminTable">
                 <Column selectionMode="multiple"/>
-                <Column field="firstName" header="First Name" sortable />
-                <Column field="lastName" header="Last Name" sortable />
+                <Column field="first_name" header="First Name" sortable />
+                <Column field="last_name" header="Last Name" sortable />
                 <Column field="eid" header="EID" />
                 <Column field="email" header="Email" sortable />
                 <Column field="wid" header="WID" />
@@ -81,14 +156,16 @@
                 <Column field="semester" header="Semester" />
                 <Column field="waiver" header="Waiver" />
                 <Column field="status" header="Status" />
-                <Column field="review" header="Review" />
                 <Column header="Admin Notes">
                   <template #body="slotProps">
-                    <Button label="View Notes" @click="handleAdminNoteClick(slotProps.data.firstName, slotProps.data.lastName)" />
+                    <Button label="View Notes" @click="handleAdminNoteClick(slotProps.data)" />
                   </template>
                 </Column>
-                <Column field="dars" header="DARS Update" />
-                <Column field="edit" header="Edit" />
+                <Column header="">
+                  <template #body="slotProps">
+                    <Button label="Review" @click="HandleEditClick(slotProps.data)" />
+                  </template>
+                </Column>
             </DataTable>
         </div>
       </div>
@@ -99,6 +176,9 @@
 <script>
 //Components
 import { shallowRef, ref } from 'vue';
+import { unparse } from 'papaparse';
+import { useAdminStore } from '@/stores/AdminStore';
+import { storeToRefs } from 'pinia'
 
 //Primevue components
 import InputText from 'primevue/inputtext';
@@ -110,6 +190,8 @@ import Textarea from 'primevue/textarea';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
+
+//Our components
 import LoadingIndicator from '@/components/common/LoadingIndicator.vue';
 
 //Test data
@@ -122,37 +204,75 @@ import shared from '../../styles/Shared.module.css';
 export default {
     components: {
     Button,
+    Select,
     Dialog,
     DataTable,
     Column,
+    InputText,
     IftaLabel,
     Textarea,
     LoadingIndicator,
   },
   data() {
+    const statusOptions = [
+      "All",
+      "Accepted",
+      "Pending",
+      "Pending/Exception",
+      "Pending/Dismissed",
+      "Pending/Reinstated",
+      "Pending(All)",
+      "Declined",
+      "Declined/Exception",
+      "Withdrawn"
+    ];
+
     return {
       // Define all reactive data properties here
       styles,
       shared,
       isLoading: false,
-      applications: applicationData,
+      applications: [],
+      selectedApplications: [],
       AdminNotes: false,
-      NotesName: "",
-      studentNotes: "",
-      
+      EditDialog: false,
+      ApplicationData: {
+        first_name: "",
+        last_name: "",
+        eid: "",
+        email: "",
+        wid: "",
+        advisor: "",
+        semester: "",
+        waiver: "",
+        status: "",
+        adminNotes: "",
+        courses: [
+        {class_descr: "", course_id: "", status: "", grade: ""},
+        ]
+      },
+      statusOptions,
     };
   },
   methods: {
-    resetSortConfig(event){
-
+    async loadApplications() {
+      const adminStore = useAdminStore();
+      await adminStore.fetchApplications(); // Fetch applications from the store
+      this.applications = adminStore.applications; // Set the applications to the component
     },
     HandleSaveNotesClick(event){
       //take the studentNotes and save it wherever it needs to go
     },
-    handleAdminNoteClick(firstName, lastName ){
-      this.NotesName = firstName + " " + lastName;
-      this.studentNotes = "testing purposes here"; //get students notes and put them here
+    HandleSaveApplicationClick(event){
+      //update application being edited
+    },
+    handleAdminNoteClick(data){
+      this.ApplicationData = data;
       this.AdminNotes = true;
+    },
+    HandleEditClick(data){
+      this.ApplicationData = data;
+      this.EditDialog = true;
     },
     fetchCourses(wid) { 
       if (!wid){
@@ -170,29 +290,11 @@ export default {
     refreshApplications() {
       console.log("Attempted to refresh applications, not implemented") 
     },
-    handleCheckAllChange(event) { /* Handle check all checkbox change */ 
-      console.log("handle check box change, not implemented")
-    },
-    handleSort(key) { /* Handle sorting */ 
-      console.log("Attempted to sort, not implemented")
-    },
-    handleFilterChange(e) { /* Handle filter change */ 
-      console.log("Attempted to change filter, not implemented")
-    },
-    handleCheckboxChange(appId, isChecked) { /* Handle individual checkbox change */ 
-      console.log("Attempted to handle checkbox change, not implemented")
-    },
     handleReview(wid) { /* Handle review action */ 
       console.log("Attempted to handle review, not implemented")
     },
     handleEdit(eid) { 
       console.log("Attempted eid edit, not implemented") 
-    },
-    closeApplicationModal() {
-      console.log("Attempted to close application modal, not implemented")
-    },
-    handleViewNotes(wid, notes) { /* Handle view notes action */ 
-      console.log("Attempted to view notes, not implemented")
     },
     formatDate(dateString) { /* Format date logic */ 
       const date = new Date(dateString);
@@ -205,11 +307,53 @@ export default {
     handleDisable() { /* Handle disable action */ 
       console.log("Attempted to save disable application, not implemented")
     },
-    handleDownloadSelected(applications, checkedStates) { /* Handle download selected applications */ 
-      console.log("Attempted to download selected, not implemented")
+    handleDownloadSelected() { /* Handle download selected applications */ 
+    
+      const data = this.selectedApplications.map(app => ({
+            "First Name": app.first_name,
+            "Last Name": app.last_name,
+            "EID": app.eid,
+            "Email": app.email,
+            "WID": app.wid,
+            "Advisor": app.advisor,
+            "Semester": app.semester,
+            "Waiver": app.waiver ? "Yes" : "No",
+            "Status": app.status,
+            "Admin Notes": app.notes,
+            "DARS Update": this.formatDate(app.d_update)  
+        }));
+
+        // Convert data to CSV
+        const csv = unparse(data);
+
+        // Create a blob link to download
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'download.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     },
     handleEmailSelected() { /* Handle email selected applications */ 
       console.log("Attempted to handle email selected, not implemented")
+    },
+  },
+  mounted() {
+    this.loadApplications(); // Call the loadApplications method on mount
+  },
+  computed: {
+    fullName: {
+      get() {
+        return `${this.ApplicationData.first_name} ${this.ApplicationData.last_name}`
+      },
+      set(value) {
+        const [firstName, ...lastName] = value.split(" ")
+        this.ApplicationData.first_name = firstName;
+        this.ApplicationData.last_name = lastName.join(" ")
+      }
     },
   },
 };
