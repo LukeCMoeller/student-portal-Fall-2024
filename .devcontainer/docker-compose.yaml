@@ -34,6 +34,7 @@ services:
       CAS_REDIRECT_URL: /auth/login
       TOKEN_SECRET: "secret_hex"
 
+
   postgres:
     image: postgres:12
     restart: unless-stopped
