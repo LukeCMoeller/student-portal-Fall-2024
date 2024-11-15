@@ -61,7 +61,9 @@
                   </div>
                   <div class="col flex align-items-center justify-content-center">
                   <!-- Submit Button -->
+                  <a href=https://discord.gg/wmeSvXxSfN>
                   <button type="button" :class="styles['btn-update']" @click="DiscordLater"><img :src="discordIcon" alt="discord Logo" width="35" Height="35" /></button>
+                  </a>
                 </div>
               </div>
 
@@ -132,14 +134,7 @@ export default {
       }
     },
     DiscordLater(event) {
-      if (event) {
-        if(this.firstName === ''){
-          alert(`Sending you to link with discord *space sound effects*`);
-        }else{
-          alert(`Sending ${this.firstName} to link with discord *space sound effects*`);
-        }
-
-      }
+      
     }, GithubLater(event) {
       if (event) {
         if(this.firstName === ''){
