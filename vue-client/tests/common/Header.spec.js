@@ -7,14 +7,12 @@ import { createTestingPinia } from '@pinia/testing'
 import ToggleSwitch from 'primevue/toggleswitch';
 import { useTokenStore } from '@/stores/TokenStore';
 
+
 //Route imports
 import Error from '@/components/common/ErrorPage.vue'
 import professionalRoutes from '@/sub-apps/professional-program-app/routes'
 import ProfessionalProgram from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
 import ProfileRoutes from '@/sub-apps/profile-app/ProfileRoutes'
-
-//Need to figure out how to use a getter properly in the tests for the admin toggle
-//DistrictList tests have a getter they mock, so start there.
 
 // Mock store
 const createMockStore = (state) => {
@@ -54,7 +52,7 @@ describe('Header tests', () => {
         // Mount the component with the mock store
         wrapper = mount(Header, {
             global: {
-                plugins: [store, router],
+                plugins: [store],
             },
         });
     })
