@@ -21,7 +21,6 @@ exports.seed = async function(knex) {
   // Insert users
   await knex('users').insert([
     {
-      id: 1,
       wid: 101,
       eid: 'E101',
       first_name: 'John',
@@ -35,7 +34,6 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      id: 2,
       wid: 102,
       eid: 'E102',
       first_name: 'Jane',
@@ -49,7 +47,6 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      id: 3,
       wid: 103,
       eid: 'E103',
       first_name: 'Alice',
@@ -63,9 +60,8 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      id: 4,
-      wid: 101,
-      eid: 'E101',
+      wid: 104,
+      eid: 'E104',
       first_name: 'admin',
       last_name: 'admin',
       email: 'admin@ksu.edu',
@@ -84,21 +80,5 @@ exports.seed = async function(knex) {
     { user_id: 2, role_id: 1 },
     { user_id: 3, role_id: 1 },
     { user_id: 4, role_id: 2 },
-  ]);
-
-  // Insert programs
-  await knex('programs').insert([
-    { id: 1, name: 'Computer Science', plan: 'CS-Plan-B', subplan: 'Data Science' },
-    { id: 2, name: 'Computer Science', plan: 'CS-Plan-A' },
-    { id: 3, name: 'Computer Science', plan: 'CS-Plan-A' },
-    { id: 4, name: 'Computer Science', plan: 'CS-Plan-A' }
-  ]);
-
-  // Assign programs to users
-  await knex('user_program').insert([
-    { user_id: 1, program_id: 1, graduated: false, withdrew: false, dismissed: false, program_gpa: 3.5, on_warning: false },
-    { user_id: 2, program_id: 2, graduated: false, withdrew: false, dismissed: false, program_gpa: 3.8, on_warning: false },
-    { user_id: 3, program_id: 3, graduated: false, withdrew: false, dismissed: false, program_gpa: 4.0, on_warning: false },
-    { user_id: 4, program_id: 3, graduated: false, withdrew: false, dismissed: false, program_gpa: 4.0, on_warning: false },
   ]);
 };
