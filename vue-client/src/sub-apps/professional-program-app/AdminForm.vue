@@ -106,7 +106,7 @@
       <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
           <h1 :class="shared['h1-style']">Review Applications</h1>
-          <h4 :class="shared['h4-style']">Total Applications: {{ applications.length }}</h4>
+          <h4 :class="shared['h4-style']">Total Applications: {{ applications?.length || 0  }}</h4>
       </div>
 
       <!-- Action Buttons -->
@@ -177,6 +177,8 @@
 //Components
 import { shallowRef, ref } from 'vue';
 import { unparse } from 'papaparse';
+import { useAdminStore } from '@/stores/AdminStore';
+import { storeToRefs } from 'pinia'
 
 //Primevue components
 import InputText from 'primevue/inputtext';
@@ -212,7 +214,6 @@ export default {
     LoadingIndicator,
   },
   data() {
-
     const statusOptions = [
       "All",
       "Accepted",
@@ -231,7 +232,7 @@ export default {
       styles,
       shared,
       isLoading: false,
-      applications: applicationData,
+      applications: [],
       selectedApplications: [],
       AdminNotes: false,
       EditDialog: false,
@@ -254,6 +255,11 @@ export default {
     };
   },
   methods: {
+    async loadApplications() {
+      const adminStore = useAdminStore();
+      await adminStore.fetchApplications(); // Fetch applications from the store
+      this.applications = adminStore.applications; // Set the applications to the component
+    },
     HandleSaveNotesClick(event){
       //take the studentNotes and save it wherever it needs to go
     },
@@ -334,6 +340,9 @@ export default {
     handleEmailSelected() { /* Handle email selected applications */ 
       console.log("Attempted to handle email selected, not implemented")
     },
+  },
+  mounted() {
+    this.loadApplications(); // Call the loadApplications method on mount
   },
   computed: {
     fullName: {

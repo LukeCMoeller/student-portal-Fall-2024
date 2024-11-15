@@ -1,29 +1,21 @@
 import { mount } from '@vue/test-utils'
-import { createStore } from 'vuex'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import ApplicationsPage from '@/sub-apps/professional-program-app/ApplicationsPage.vue'
-
-// Mock store creation
-const createMockStore = (getters) => {
-  return createStore({
-    getters,
-  });
-};
+import { createTestingPinia } from '@pinia/testing'
 
 describe('ApplicationsPage tests', () => {
     let wrapper
-    let store
 
     beforeEach(() => {
-        // Create store with necessary initial state
-        store = createMockStore({
-            IsAdminMode: (state) => false,
-        });
 
         // Mount component with the mock store
         wrapper = mount(ApplicationsPage, {
             global: {
-                plugins: [store],
+                plugins: [
+                    createTestingPinia({
+                        createSpy: vi.fn 
+                      })
+                ],
             },
         });
     })
