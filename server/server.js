@@ -8,18 +8,11 @@ const cookieParser = require('cookie-parser');
 const session = require('./configs/session.js');
 const serverConfig = require('./configs/server');
 const knex = require('./configs/db');
+const discord = require('./models/discord.js');
 
-//Discord
-const { Client, GatewayIntentBits } = require('discord.js');
-const client = new Client({ intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.MessageContent,
-] });
-/*client.login('MTI4NjUxMjgyNzA1MzM3OTc1Ng.GjHnpU.0Xf2tpt3kBCVrTYkL_M-aWjlpOXHh3Gsg_By-Y')
-client.once('ready', () => {
-  console.log('Bot is online!');
-});*/
+
+//runs the discord bot
+discord.runDiscordBot();
 
 const app = express();
 const PORT = serverConfig.port || 3001;
@@ -46,6 +39,7 @@ const applicationRoutes = require('./routes/applicationRoutes');
 const dataRoutes = require('./routes/dataRoutes');
 const authRoutes = require('./routes/auth'); // Renamed for clarity
 const adminRoutes = require('./routes/adminRoutes');
+//const discordRoutes = require('./routes/discordRoutes');
 
 // Use routes
 app.use('/api/v1', (req, res, next) => {console.log(req.path); next()}, apiRoutes);
@@ -54,6 +48,7 @@ app.use('/api', applicationRoutes);
 app.use('/api', dataRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', adminRoutes);
+//app.use('/api', discordRoutes);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
