@@ -32,7 +32,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- Email Field -->
                   <IftaLabel variant="in">
-                    <InputText id="email" v-model="user.email" variant="filled" disabled />
+                    <InputText id="email" v-model="user.email" variant="filled" readonly />
                     <label for="email">Email</label>
                   </IftaLabel>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="col flex align-items-center justify-content-center">
                   <!-- WID Field -->
                   <IftaLabel variant="in">
-                    <InputText id="wid" v-model="user.wid" variant="filled" disabled />
+                    <InputText id="wid" v-model="user.wid" variant="filled" readonly />
                     <label for="wid">WID</label>
                   </IftaLabel>
                 </div>

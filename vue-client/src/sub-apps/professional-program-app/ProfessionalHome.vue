@@ -59,18 +59,27 @@ import styles from '../../styles/HomePage.module.css';
 import shared from '../../styles/Shared.module.css';
 
 //Components
-import { mapGetters } from 'vuex';
+import { useAdminStore } from '@/stores/AdminStore';
+import { storeToRefs } from 'pinia'
 
 export default {
   name: 'HomePage',
   components: {
     Button,
   },
-  computed: {
-    ...mapGetters(['IsAdminMode']), 
-  },
   setup() {
-      return {styles, shared }
+    // Stores
+    const adminStore = useAdminStore()
+    //adminStore.hydrate()
+
+    // Setup Stores
+    const { IsAdminMode } = storeToRefs(adminStore)
+
+    return{
+      IsAdminMode,
+      styles, 
+      shared
+    }
   },
 };
 </script>

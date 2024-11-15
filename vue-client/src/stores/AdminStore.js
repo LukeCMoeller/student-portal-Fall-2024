@@ -1,23 +1,15 @@
-import { createStore } from 'vuex';
+import { defineStore } from 'pinia'
 
-const store = createStore({
-    state: {
-        IsAdminMode: true, // Initial value for the toggle switch
-      },
-      mutations: {
-        setIsAdminMode(state, value) {
-          state.IsAdminMode = value; // Mutation to update the value
-        },
-      },
-      actions: {
-        updateIsAdminMode({ commit }, value) {
-          commit('setIsAdminMode', value); // Action to commit the mutation
-        },
-      },
-      getters: {
-        IsAdminMode: (state) => state.IsAdminMode, // Getter to access the value
-      },
-});
+// Services
+import api from '@/services/tokenApi'
 
-
-export default store;
+export const useAdminStore = defineStore('admin', {
+  state: () => {
+    return {
+      IsAdminMode: true
+    }
+  },
+  actions: {
+    
+  }
+})

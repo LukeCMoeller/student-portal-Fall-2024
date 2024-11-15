@@ -10,9 +10,8 @@
 //CSS
 import ApplicationForm from './ApplicationForm.vue';
 import AdminForm from './AdminForm.vue';
-
-//Components
-import { mapGetters } from 'vuex';
+import { useAdminStore } from '@/stores/AdminStore';
+import { storeToRefs } from 'pinia'
 
 export default {
   name: 'ApplicationsPage',
@@ -20,8 +19,17 @@ export default {
     ApplicationForm,
     AdminForm
   },
-  computed: {
-    ...mapGetters(['IsAdminMode']), 
+  setup() {
+    // Stores
+    const adminStore = useAdminStore()
+    //adminStore.hydrate()
+
+    // Setup Stores
+    const { IsAdminMode } = storeToRefs(adminStore)
+
+    return{
+      IsAdminMode
+    }
   },
 };
 </script>
