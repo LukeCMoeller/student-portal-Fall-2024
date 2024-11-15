@@ -8,7 +8,7 @@ class discord extends Model {
     ] });
     let ourServerguild;
     let role;
-    client.login("process.env.DISCORD_SECRET")
+    client.login(process.env.DISCORD_SECRET)
     client.once('ready',async () => {
       console.log('Bot is online!');
       ourServerguild = client.guilds.cache.get('1285994775282978900'); // the server id
