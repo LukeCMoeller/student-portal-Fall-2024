@@ -29,10 +29,13 @@ const router = createRouter({
 
 router.beforeEach(async function (to) {
   const tokenStore = useTokenStore()
-  const userStore = useUsersStore()
+  //const userStore = useUsersStore()
   if (!tokenStore.token) {
     await tokenStore.getToken()
     //await userStore.loadCurrentUser()
+  }
+  if (tokenStore.token.profile_updated() === false) {
+    router.push({path: '/profile'})
   }
 })
 

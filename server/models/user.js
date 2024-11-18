@@ -77,7 +77,8 @@ class User extends Model {
           wid: getRandomInt(1000000000),
           first_name: email,
           last_name: email,
-          is_admin: admin
+          is_admin: admin,
+          profile_updated: false
         }),
       ]
       if(process.env.NODE_ENV !== 'production'){
@@ -149,6 +150,7 @@ class User extends Model {
           email: user.email,
           is_admin: is_admin,
           //refresh_token: refresh_token,
+          profile_updated: user.profile_updated
         },
         process.env.TOKEN_SECRET,
         {

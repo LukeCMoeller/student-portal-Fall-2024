@@ -11,6 +11,10 @@ export const useTokenStore = defineStore('token', {
   state: () => {
     return {
       token: '',
+      email: '',
+      id: '',
+      is_admin: '',
+      profile_updated: '',
       ltik: useStorage('ltik', '') // store current user LTI key in browser storage
     }
   },
@@ -33,10 +37,14 @@ export const useTokenStore = defineStore('token', {
      * @returns String: the user's email
      */
     email() {
-      if (this.token) {
-        return jwtDecode(this.token)['email']
+      if (!this.email) {
+        if (this.token) {
+          return jwtDecode(this.token)['email']
+        } else {
+          return ''
+        }
       } else {
-        return ''
+        return this.email
       }
     },
     /**
@@ -45,10 +53,14 @@ export const useTokenStore = defineStore('token', {
      * @returns String: the user's internal ID
      */
     id() {
-      if (this.token) {
-        return jwtDecode(this.token)['user_id']
+      if (!this.id) {
+        if (this.token) {
+          return jwtDecode(this.token)['user_id']
+        } else {
+          return ''
+        }
       } else {
-        return ''
+        return this.id
       }
     },
     /**
@@ -57,10 +69,14 @@ export const useTokenStore = defineStore('token', {
      * @returns Boolean: true if the user is an admin, otherwise false
      */
     is_admin() {
-      if (this.token) {
-        return jwtDecode(this.token)['is_admin']
+      if (!this.is_admin) {
+        if (this.token) {
+          return jwtDecode(this.token)['is_admin']
+        } else {
+          return ''
+        }
       } else {
-        return false
+        return this.is_admin
       }
     },
     /**
@@ -73,6 +89,23 @@ export const useTokenStore = defineStore('token', {
         return jwtDecode(this.ltik)
       } else {
         return ''
+      }
+    },
+    /**
+     * Gets whether the user has updated their profile at least once.
+     * Should only be false on a new user.
+     *
+     * @returns Boolean: true is the user has updated their profile at least once, false otherwise
+     */
+    profile_updated() {
+      if (!this.profile_updated) {
+        if (this.token) {
+          return jwtDecode(this.token)['profile_updated']
+        } else {
+          return ''
+        }
+      } else {
+        return this.profile_updated
       }
     }
   },
