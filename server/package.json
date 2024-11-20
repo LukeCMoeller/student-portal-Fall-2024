@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "student-portal-server",
   "version": "1.0.0",
   "description": "",
@@ -12,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.8",
+    "ci": "^2.3.0",
     "connect-session-knex": "^5.0.0",
     "cookie-parser": "^1.4.7",
     "csv-parse": "^5.5.6",
@@ -24,7 +26,9 @@
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
     "nanoid": "^5.0.7",
+    "nconf": "^0.12.1",
     "node-cas-authentication": "git+ssh://git@github.com:alt-cs-lab/cas-authentication",
+    "node-fetch": "^3.3.2",
     "objection": "^3.1.5",
     "pg": "^8.13.0",
     "sqlite3": "^5.1.7",
