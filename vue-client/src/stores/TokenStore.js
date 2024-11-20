@@ -36,7 +36,7 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's email
      */
-    email() {
+    get_email() {
       if (!this.email) {
         if (this.token) {
           return jwtDecode(this.token)['email']
@@ -52,7 +52,7 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's internal ID
      */
-    id() {
+    get_id() {
       if (!this.id) {
         if (this.token) {
           return jwtDecode(this.token)['user_id']
@@ -68,7 +68,7 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns Boolean: true if the user is an admin, otherwise false
      */
-    is_admin() {
+    get_admin() {
       if (!this.is_admin) {
         if (this.token) {
           return jwtDecode(this.token)['is_admin']
@@ -84,7 +84,7 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's LTI token
      */
-    lti_token() {
+    get_lti_token() {
       if (this.ltik) {
         return jwtDecode(this.ltik)
       } else {
@@ -97,7 +97,7 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns Boolean: true is the user has updated their profile at least once, false otherwise
      */
-    profile_updated() {
+    get_profile_updated() {
       if (!this.profile_updated) {
         if (this.token) {
           return jwtDecode(this.token)['profile_updated']

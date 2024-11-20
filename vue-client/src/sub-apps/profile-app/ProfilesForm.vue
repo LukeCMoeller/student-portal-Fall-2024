@@ -102,6 +102,7 @@
 //Components
 import { ref } from 'vue';
 import { useProfileStore } from '@/stores/ProfileStore';
+import { useTokenStore } from '@/stores/TokenStore';
 import { storeToRefs } from 'pinia'
 import Logger from 'js-logger'
 
@@ -152,6 +153,7 @@ export default {
     if (process.env.NODE_ENV !== 'test') {
       profileStore.hydrate()
     }
+    const tokenStore = useTokenStore()
     // Setup Stores
     const { user } = storeToRefs(profileStore)
     const toast = useToast()
@@ -169,6 +171,7 @@ export default {
     message.value = ''
     try {
       await profileStore.update()
+      await tokenStore.getToken()
       toast.add({ severity: 'success', summary: 'Success', detail: 'Profile Updated!', life: 3000 })
     } catch (error) {
       if (error.response.data.data) {

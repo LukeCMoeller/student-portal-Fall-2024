@@ -33,10 +33,12 @@ router.beforeEach(async function (to) {
   if (!tokenStore.token) {
     await tokenStore.getToken()
     //await userStore.loadCurrentUser()
+  } 
+  console.log(tokenStore.token.get_profile_updated)
+  if (tokenStore.token.get_profile_updated !== true && to.path !== '/profile') {
+    return {path: '/profile'}
   }
-  if (tokenStore.token.profile_updated() === false) {
-    router.push({path: '/profile'})
-  }
+  
 })
 
 export default router;

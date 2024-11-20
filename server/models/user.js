@@ -124,7 +124,7 @@ class User extends Model {
     return refresh_token
   }
 
-  async is_admin() {
+  async get_admin() {
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
     //Roles for current user
     //console.log(roles)
@@ -142,8 +142,10 @@ class User extends Model {
     let user = await User.query().findById(id)
     // tokens are only for users with 'api' or 'admin' roles
     const is_api = await user.is_api()
-    const is_admin = await user.is_admin()
+    const is_admin = await user.get_admin()
     if (is_api || is_admin) {
+    //Can pass role information in the token here,
+    //then use middleware like admin-required to check roles when accessing a route.
       const token = jwt.sign(
         {
           user_id: id,

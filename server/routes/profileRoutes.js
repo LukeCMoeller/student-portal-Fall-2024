@@ -63,6 +63,7 @@ router.post('/', async function (req, res, next) {
     await User.query().findById(req.user_id).patch({
       first_name: req.body.user.first_name,
       last_name: req.body.user.last_name,
+      profile_updated: true
     })
     res.status(200)
     res.json({ message: 'Profile Saved' })
