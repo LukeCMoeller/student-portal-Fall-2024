@@ -5,6 +5,7 @@ import Logger from 'js-logger'
 // Services
 import api from '../services/tokenApi.js'
 
+//Admin level store to get list of users, currently unused
 export const useUsersStore = defineStore('users', 'currentUser', {
   state: () => {
     return {

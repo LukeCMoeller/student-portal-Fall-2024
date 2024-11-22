@@ -11,15 +11,12 @@ const router = express.Router()
 
 // Load Middleware
 const adminOnly = require('../middleware/admin-required.js')
-const loginRequired = require('../middleware/login-required.js')
 
 // Load Models
 const User = require('../models/user.js')
 
-//router.use(loginRequired)
-
-// Require Admin Role on All Routes
-//router.use(adminOnly)
+//API routes to get information about all stored users.
+//Admin access only.
 
 /**
  * @swagger
@@ -39,7 +36,7 @@ const User = require('../models/user.js')
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/', async function (req, res, next) {
+router.get('/', adminOnly, async function (req, res, next) {
   let users = {}
     users = await User.query()
     .select('users.id', 'users.email', 'users.first_name', 'users.last_name')
@@ -82,7 +79,7 @@ router.get('/', async function (req, res, next) {
  *       422:
  *         $ref: '#/components/responses/UpdateError'
  */
-router.post('/:id', async function (req, res, next) {
+router.post('/:id', adminOnly, async function (req, res, next) {
   try {
     // strip out other data from roles
     const roles = req.body.user.roles.map(({ id, ...next }) => {
@@ -137,7 +134,7 @@ router.post('/:id', async function (req, res, next) {
  *       422:
  *         $ref: '#/components/responses/UpdateError'
  */
-router.put('/', async function (req, res, next) {
+router.put('/', adminOnly, async function (req, res, next) {
   try {
     // strip out other data from roles
     const roles = req.body.user.roles.map(({ id, ...next }) => {
@@ -187,7 +184,7 @@ router.put('/', async function (req, res, next) {
  *       422:
  *         $ref: '#/components/responses/UpdateError'
  */
-router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', adminOnly, async function (req, res, next) {
   if (req.params.id == req.user_id) {
     res.status(422)
     res.json({ error: 'Cannot Delete Yourself' })

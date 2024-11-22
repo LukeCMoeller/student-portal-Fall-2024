@@ -20,7 +20,7 @@ export default {
   },
   mixins: [adminMixin],
   setup() {
-    // Stores
+    // Mixin to toggle admin view
     const { IsAdmin, IsAdminMode } = adminMixin.setup();
 
     return{

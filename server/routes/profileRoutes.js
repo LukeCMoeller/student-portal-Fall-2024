@@ -12,6 +12,7 @@ const router = express.Router()
 // Load Models
 const User = require('../models/user.js')
 
+//API routes for getting information about the currently logged in user, available to all.
 /**
  * @swagger
  * /api/v1/profile:

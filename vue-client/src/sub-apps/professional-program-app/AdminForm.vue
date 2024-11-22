@@ -266,15 +266,18 @@ export default {
     HandleSaveApplicationClick(event){
       //update application being edited
     },
+    //Open notes
     handleAdminNoteClick(data){
       this.ApplicationData = data;
       this.AdminNotes = true;
     },
+    //Open edit dialog
     HandleEditClick(data){
       this.ApplicationData = data;
       this.EditDialog = true;
     },
     fetchCourses(wid) { 
+      //This could just be an axios request, I think? We have a courseRoutes that currently isn't getting used
       if (!wid){
         console.error("WID is undefined, cannot fetch courses.");
         return;

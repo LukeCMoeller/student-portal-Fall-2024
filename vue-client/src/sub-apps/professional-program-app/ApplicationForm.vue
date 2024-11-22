@@ -133,6 +133,7 @@
       Column
     },
     setup() {
+      //Could easily get the profileStore in here and pull information from the logged in user
       const studentData = ref({wid: 1234, name: "Test Student"});
       const courses = shallowRef([
         {class_descr: "Required", course_id: "CIS642", status: "Passed", grade: "A"},

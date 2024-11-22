@@ -161,7 +161,7 @@ export default {
     const { profile_updated, get_profile_updated } = storeToRefs(tokenStore)
     const toast = useToast()
 
-    Logger.debug(user)
+    //Logger.debug(user)
 
     //Save Button Code
     const errors = ref({})

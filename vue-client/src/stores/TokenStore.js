@@ -112,6 +112,7 @@ export const useTokenStore = defineStore('token', {
   actions: {
     /**
      * Gets a token from the API using an existing cookie session
+     * Will always get a new token.
      */
     async getToken() {
       Logger.info('token:get')
@@ -135,6 +136,7 @@ export const useTokenStore = defineStore('token', {
 
     /**
      * Tries the existing token or refresh token to establish a session
+     * Will only get a new token if the current one is invalid
      */
     async tryToken() {
       Logger.info('token:try')

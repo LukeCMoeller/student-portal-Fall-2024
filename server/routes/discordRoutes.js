@@ -1,8 +1,8 @@
 /**
  * @swagger
  * tags:
- *   name: Profile
- *   description: Profile API
+ *   name: Discord
+ *   description: Discord API
  */
 
 // Load Libraries

@@ -140,7 +140,8 @@ class User extends Model {
 
   static async getToken(id) {
     let user = await User.query().findById(id)
-    // tokens are only for users with 'api' or 'admin' roles
+    // tokens are currently only for users with 'api' or 'admin' roles
+    // should change this to pass role information in the token, and attach middleware to the api routes that should be admin only
     const is_api = await user.is_api()
     const is_admin = await user.get_admin()
     if (is_api || is_admin) {
@@ -151,6 +152,7 @@ class User extends Model {
           user_id: id,
           email: user.email,
           is_admin: is_admin,
+          is_api: is_api,
           //refresh_token: refresh_token,
           profile_updated: user.profile_updated
         },
