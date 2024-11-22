@@ -4,16 +4,19 @@ import { createPinia, setActivePinia } from 'pinia'
 import axios from 'axios'
 import ProfilesForm from '@/sub-apps/profile-app/ProfilesForm.vue'
 import { createTestingPinia } from '@pinia/testing'
-import { useTokenStore } from '@/stores/TokenStore.js'
+import { useTokenStore } from '@/stores/TokenStore'
 import { useProfileStore } from '@/stores/ProfileStore'
 import {ref} from 'vue'
+import router from '@/router'
+import { useRoute } from 'vue-router'
 
 vi.mock('@/stores/ProfileStore')
+vi.mock('@/stores/TokenStore')
 
 describe('ProfilesForm tests', () => {
     let wrapper
     let profileStore
-    let mockProfileStore
+    let tokenStore
 
     beforeEach(() => {
         // Mock the profileStore object
@@ -27,9 +30,16 @@ describe('ProfilesForm tests', () => {
             wid: '888888888'
           })
         };
+
+        tokenStore = {
+          getToken: vi.fn(),
+          tryToken: vi.fn(),
+          profile_updated: false
+        };
     
-        // Mock the return of the useProfileStore
-        useProfileStore.mockReturnValue(profileStore);
+        // Mock the return of the useStore functions
+        useProfileStore.mockReturnValue(profileStore)
+        useTokenStore.mockReturnValue(tokenStore);
     
         // Mount the component with the necessary plugins and mocks
         wrapper = mount(ProfilesForm, {
@@ -96,4 +106,12 @@ describe('ProfilesForm tests', () => {
         life: 3000
         });
       })
+
+    it.skip('should prevent a new user from leaving the profile page', async () => {
+        //Try to go to home page.
+        router.push('/')
+        await router.isReady()
+        //Should still be on profile page
+        expect(useRoute().path).toBe('/profile')
+    })
 })

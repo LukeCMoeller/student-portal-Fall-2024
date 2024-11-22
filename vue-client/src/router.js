@@ -1,5 +1,5 @@
 // src/router.js
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import Error from './components/common/ErrorPage.vue'
 import Home from './components/forms/HomePage.vue'
 import professionalRoutes from './sub-apps/professional-program-app/routes'
@@ -34,11 +34,10 @@ router.beforeEach(async function (to) {
     await tokenStore.getToken()
     //await userStore.loadCurrentUser()
   } 
-  console.log(tokenStore.token.get_profile_updated)
-  if (tokenStore.token.get_profile_updated !== true && to.path !== '/profile') {
+  //Redirect users that haven't updated their profile at least once to the profile page.
+  if (tokenStore.get_profile_updated !== true && to.path !== '/profile') {
     return {path: '/profile'}
   }
-  
 })
 
 export default router;

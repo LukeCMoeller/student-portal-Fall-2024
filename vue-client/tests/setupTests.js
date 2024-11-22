@@ -31,6 +31,7 @@ const router = createRouter({
   ]
 })
 
+
 // Install PrimeVue globally in tests
 config.global.plugins = [PrimeVue, ConfirmationService, ToastService, router];
 

@@ -4,7 +4,8 @@
       <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
             <h1 :class="shared['h1-style']">Profile App</h1>
-            <h4 :class="shared['h4-style']">Update your user profile:</h4>
+            <h4 :class="shared['h4-style']" v-if="get_profile_updated">Update your user profile:</h4>
+            <h4 :class="shared['h4-style']" v-else>Please set your first and last name:</h4>
       </div>
       <!--Form-->
       <div class="col-12">
@@ -154,8 +155,10 @@ export default {
       profileStore.hydrate()
     }
     const tokenStore = useTokenStore()
+
     // Setup Stores
     const { user } = storeToRefs(profileStore)
+    const { profile_updated, get_profile_updated } = storeToRefs(tokenStore)
     const toast = useToast()
 
     Logger.debug(user)
@@ -185,7 +188,7 @@ export default {
     loading.value = false
     }
     
-    return { user, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon};
+    return { user, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon, profile_updated, get_profile_updated};
   },
 };
 </script>
