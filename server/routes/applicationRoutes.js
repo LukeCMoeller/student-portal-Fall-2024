@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const adminOnly = require('../middleware/admin-required.js')
 
 //Route to get the list of applications
 router.get('/applications', adminOnly, async (req, res) => {
