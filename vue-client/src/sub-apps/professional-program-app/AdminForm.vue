@@ -175,15 +175,12 @@
 
 <script>
 //Components
-import { shallowRef, ref } from 'vue';
 import { unparse } from 'papaparse';
 import { useAdminStore } from '@/stores/AdminStore';
-import { storeToRefs } from 'pinia'
 
 //Primevue components
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import Alert from 'primevue/message';
 import IftaLabel from 'primevue/iftalabel';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
@@ -193,9 +190,6 @@ import Dialog from 'primevue/dialog';
 
 //Our components
 import LoadingIndicator from '@/components/common/LoadingIndicator.vue';
-
-//Test data
-import { applicationData } from './test-data/applicationData.js';
 
 //CSS
 import styles from '../../styles/AdminForm.module.css'; 

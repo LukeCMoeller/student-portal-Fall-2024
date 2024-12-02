@@ -5,7 +5,6 @@ import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import FocusTrap from 'primevue/focustrap';
-import { vi } from 'vitest'
 import { createRouter, createWebHistory } from 'vue-router';
 
 //Route imports
@@ -32,7 +31,7 @@ const router = createRouter({
 })
 
 
-// Install PrimeVue globally in tests
+// Install PrimeVue, Toast, and the router globally in tests
 config.global.plugins = [PrimeVue, ConfirmationService, ToastService, router];
 
 config.global.directives = {

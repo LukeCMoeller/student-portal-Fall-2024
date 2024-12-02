@@ -1,14 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { createPinia, setActivePinia } from 'pinia'
-import axios from 'axios'
 import ProfilesForm from '@/sub-apps/profile-app/ProfilesForm.vue'
 import { createTestingPinia } from '@pinia/testing'
 import { useTokenStore } from '@/stores/TokenStore'
 import { useProfileStore } from '@/stores/ProfileStore'
 import {ref} from 'vue'
 import router from '@/router'
-import { useRoute } from 'vue-router'
 
 vi.mock('@/stores/ProfileStore')
 vi.mock('@/stores/TokenStore')
@@ -107,11 +104,21 @@ describe('ProfilesForm tests', () => {
         });
       })
 
-    it.skip('should prevent a new user from leaving the profile page', async () => {
+    it('should prevent a new user from leaving the profile page', async () => {
         //Try to go to home page.
         router.push('/')
         await router.isReady()
         //Should still be on profile page
-        expect(useRoute().path).toBe('/profile')
+        expect(router.currentRoute.value.path).toBe('/profile')
+    })
+
+    it('should allow a user who has saved to leave the profile page', async () => {
+      //Pretend the profile was updated
+      await wrapper.vm.save();
+      //Try to go to home page.
+      router.push('/')
+      await router.isReady()
+      //Should be on the home page
+      expect(router.currentRoute.value.path).toBe('/')
     })
 })

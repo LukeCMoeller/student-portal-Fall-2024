@@ -105,12 +105,10 @@ import { ref } from 'vue';
 import { useProfileStore } from '@/stores/ProfileStore';
 import { useTokenStore } from '@/stores/TokenStore';
 import { storeToRefs } from 'pinia'
-import Logger from 'js-logger'
 
 //PrimeVue components
 import InputText from 'primevue/inputtext';
 import IftaLabel from 'primevue/iftalabel';
-import TextField from '@/components/common/TextField.vue'
 import { useToast } from 'primevue/usetoast'
 
 //CSS
