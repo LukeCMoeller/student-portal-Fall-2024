@@ -9,20 +9,20 @@ const url = `https://discord.com/api/v10/applications/${config.DISCORD_CLIENT_ID
 const body = [
   {
     key: 'egg',
-    name: 'Cookies Eaten',
-    description: 'Cookies Eaten Greater Than',
+    name: 'eggs  Eaten',
+    description: 'eggs  Eaten Greater Than',
     type: 2,
   },
   {
     key: 'test egg',
-    name: 'Allergic To Nuts',
-    description: 'Is Allergic To Nuts',
+    name: 'Allergic To eggs',
+    description: 'Is Allergic To eggs',
     type: 7,
   },
   {
     key: 'testing the egg',
-    name: 'Baking Since',
-    description: 'Days since baking their first cookie',
+    name: 'Baking Since egg',
+    description: 'Days since baking their first eggs',
     type: 6,
   },
 ];
