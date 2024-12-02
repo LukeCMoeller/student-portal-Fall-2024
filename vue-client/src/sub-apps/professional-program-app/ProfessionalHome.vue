@@ -26,7 +26,7 @@
 
         <!--Apply box-->
         <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-0">
-          <div v-if="IsAdminMode" :class="styles['apply-box-style']">
+          <div v-if="IsAdminMode && IsAdmin" :class="styles['apply-box-style']">
             <h2 :class="styles['h2-style']">Review Applications</h2>
             <p>When you are ready to review student CS applications, click the button below!</p>
             <br />
@@ -59,18 +59,23 @@ import styles from '../../styles/HomePage.module.css';
 import shared from '../../styles/Shared.module.css';
 
 //Components
-import { mapGetters } from 'vuex';
+import adminMixin from '@/mixins/adminMixin';
 
 export default {
   name: 'HomePage',
   components: {
     Button,
   },
-  computed: {
-    ...mapGetters(['IsAdminMode']), 
-  },
+  mixins:[adminMixin],
   setup() {
-      return {styles, shared }
+    const { IsAdmin, IsAdminMode } = adminMixin.setup();
+
+    return{
+      IsAdminMode,
+      IsAdmin,
+      styles, 
+      shared,
+    }
   },
 };
 </script>

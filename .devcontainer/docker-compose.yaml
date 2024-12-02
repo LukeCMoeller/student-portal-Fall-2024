@@ -21,7 +21,7 @@ services:
     environment:
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_PASSWORD: postgres 
       DB_NAME: postgres
       DB_PORT: 5432
       SERVER_PORT: 3002
@@ -33,6 +33,7 @@ services:
       CAS_DEV_USER: testcas
       CAS_REDIRECT_URL: /auth/login
       TOKEN_SECRET: "secret_hex"
+
 
   postgres:
     image: postgres:12

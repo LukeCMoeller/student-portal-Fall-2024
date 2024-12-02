@@ -1,23 +1,22 @@
-import { createStore } from 'vuex';
+import { defineStore } from 'pinia'
+import Logger from 'js-logger'
 
-const store = createStore({
-    state: {
-        IsAdminMode: true, // Initial value for the toggle switch
-      },
-      mutations: {
-        setIsAdminMode(state, value) {
-          state.IsAdminMode = value; // Mutation to update the value
-        },
-      },
-      actions: {
-        updateIsAdminMode({ commit }, value) {
-          commit('setIsAdminMode', value); // Action to commit the mutation
-        },
-      },
-      getters: {
-        IsAdminMode: (state) => state.IsAdminMode, // Getter to access the value
-      },
-});
+// Services
+import api from '@/services/adminApi'
 
-
-export default store;
+export const useAdminStore = defineStore('admin', {
+  state: () => {
+    applications: []
+    return {
+      IsAdminMode: false
+    }
+  },
+  actions: {
+    async fetchApplications() {
+      Logger.info('admin:fetchApplications')
+      await api.get('/api/applications').then((response) => {
+        this.applications = response.data
+      })
+    },
+  }
+})

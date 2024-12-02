@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils'
-import { createStore } from 'vuex'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import Header from '@/components/layout/Header.vue'
 import { createRouter, createWebHistory } from 'vue-router';
@@ -21,7 +20,7 @@ const createMockStore = (state) => {
   });
 };
 //I think we need to instead use the TokenStore, but mock the returned value of 
-//the isAdmin() getter. Don't know where that needs to go, however.
+//the isAdmin() getter. Don't know where that needs to go, however
 
 //Mock Router
 const router = createRouter({
@@ -41,18 +40,17 @@ const router = createRouter({
 
 describe('Header tests', () => {
     let wrapper
-    let store
 
     beforeEach(() => {
-        // Create store with initial state
-        store = createMockStore({
-            IsAdminMode: false,
-        });
 
         // Mount the component with the mock store
         wrapper = mount(Header, {
             global: {
-                plugins: [store],
+                plugins: [
+                    createTestingPinia({
+                    createSpy: vi.fn 
+                  })
+                ],
             },
         });
     })
@@ -111,8 +109,6 @@ describe('Header tests', () => {
             })
 
             //Create the token store using the testing pinia (guaranteed admin)
-            const tokenStore = useTokenStore()
-
             const homeLink = wrapper.findComponent('#nav0')
 
             await homeLink.trigger('click');

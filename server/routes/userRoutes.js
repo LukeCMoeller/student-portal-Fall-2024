@@ -42,7 +42,7 @@ const User = require('../models/user.js')
 router.get('/', async function (req, res, next) {
   let users = {}
     users = await User.query()
-    .select('users.id', 'users.email', 'users.name')
+    .select('users.id', 'users.email', 'users.first_name', 'users.last_name')
     .withGraphFetched('roles')
   
   res.json(users)
@@ -72,7 +72,8 @@ router.get('/', async function (req, res, next) {
  *           schema:
  *             $ref: '#/components/schemas/User'
  *           example:
- *             name: Test Administrator
+ *             first_name: Test
+ *             last_name: Administrator
  *             roles:
  *               - id: 1
  *     responses:
@@ -92,7 +93,8 @@ router.post('/:id', async function (req, res, next) {
     await User.query().upsertGraph(
       {
         id: req.params.id,
-        name: req.body.user.name,
+        first_name: req.body.user.first_name,
+        last_name: req.body.user.last_name,
         roles: roles,
       },
       {
@@ -125,7 +127,8 @@ router.post('/:id', async function (req, res, next) {
  *             $ref: '#/components/schemas/User'
  *           example:
  *             email: test-admin
- *             name: Test Administrator
+ *             first_name: Test
+ *             last_name: Administrator
  *             roles:
  *               - id: 1
  *     responses:
@@ -145,7 +148,8 @@ router.put('/', async function (req, res, next) {
     await User.query().upsertGraph(
       {
         email: req.body.user.email,
-        name: req.body.user.name,
+        first_name: req.body.user.first_name,
+        last_name: req.body.user.last_name,
         roles: roles,
       },
       {

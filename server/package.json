@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "dev": "nodemon server.js"
   },
   "keywords": [],
@@ -27,6 +27,9 @@
     "node-cas-authentication": "git+ssh://git@github.com:alt-cs-lab/cas-authentication",
     "objection": "^3.1.5",
     "pg": "^8.13.0",
+    "sqlite3": "^5.1.7",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.5",
     "winston": "^3.14.2"
   },
   "devDependencies": {
