@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv'
  */
 
 dotenv.config()
-
+//https://github.com/JustinBeckwith/linked-role-bot?tab=readme-ov-file
 const config = {
   DISCORD_TOKEN: 'MTI4NTk4MzA4MzkyNDgyMDA3MA.GhYaKq.POsz_sDylprUr7MLzav19Cu8nFTq3pdoJDRN18',
   DISCORD_CLIENT_ID: 1285983083924820070,
