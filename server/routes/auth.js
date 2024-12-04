@@ -1,3 +1,24 @@
+const db = require('../configs/db.js')
+const axios = require('axios');
+const qs = require('qs');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.HUBGIT_CLIENT_ID,
+      clientSecret: process.env.HUBGIT_CLIENT_SECRET,
+      callbackURL: `https://${CODESPACE_NAME}-3002.app.github.dev/auth/github-callback`   //process.env.GITHUB_CALLBACK_URL,
+    },
+    (accessToken, refreshToken, profile, done) => {
+      return done(null, profile);
+    }
+  )
+);
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
+
 /**
  * @swagger
  * tags:
@@ -83,6 +104,78 @@ router.get('/login', refreshToken, async function (req, res, next) {
   // Redirect to Homepage
   res.redirect('/')
 })
+
+/* Discord */
+router.get('/discord-callback', async (req, res) => {
+  const { code } = req.query;
+
+  const data = qs.stringify({
+    client_id: process.env.HUBGIT_CLIENT_ID,
+    client_secret: process.env.HUBGIT_CLIENT_SECRET,
+    code: code,
+    redirect_uri: 'https://${CODESPACE_NAME}-3002.app.github.dev/auth/github-callback',
+    grant_type: 'authorization_code',
+  });
+
+  try {
+    const response = await axios.post('https://discord.com/api/oauth2/token', data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    const accessToken = response.data.access_token;
+    const userData = await axios.get('https://discord.com/api/v10/users/@me', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const user = userData.data;
+    const id = req.query.state;
+    console.log(id);
+    await db('user_discord')
+      .insert({
+        user_id: id,
+        discord_id: user.id, 
+        username: user.username, 
+      })
+      .onConflict('user_id')
+      .merge();
+
+    res.redirect('https://${CODESPACE_NAME}-5173.app.github.dev/profile')
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Authentication failed');
+  }
+});
+
+/* GitHub */
+router.get('/github', (req, res, next) => {
+  const userId = req.query.state;
+
+  passport.authenticate('github', {
+    scope: ['user:email'],
+    state: userId 
+  })(req, res, next);
+});
+router.get(
+  '/github-callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  async (req, res) => {
+    console.log(req.query.state)
+    await db('user_github')
+      .insert({
+        user_id: req.query.state,
+        github_id: req.user.id, 
+        username: req.user.username, 
+        profile_url: req.user.profileUrl
+      })
+      .onConflict('user_id')
+      .merge();
+    res.redirect('https://${CODESPACE_NAME}-5173.app.github.dev/profile')
+  }
+);
 
 /**
  * @swagger

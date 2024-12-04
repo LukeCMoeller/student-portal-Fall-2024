@@ -1,7 +1,7 @@
 <template>
   <div> 
     <!--Admin note dialog-->
-    <Dialog id="notesDialog" class="notes-dialog" v-model:visible="AdminNotes" modal header="Edit Notes" :style="{ width: '25rem' }">
+    <Dialog id="notesDialog" class="notes-dialog" v-model:visible="NotesDialog" modal header="Edit Notes" :style="{ width: '25rem' }">
       <div class="flex items-center gap-4">
         <label for="username" class="font-semibold w-24">Name: {{ fullName }}</label>
       </div>
@@ -14,13 +14,45 @@
             cols="75"
             autoResize
             style="width:100%">
-          {{ studentNotes }}
+          {{ this.ApplicationData.adminNotes }}
           </Textarea>
         </IftaLabel>
       </div>
       <div class="flex justify-end gap-2">
-        <Button id="notesDialogCancel" label="Cancel" severity="secondary" @click="AdminNotes = false"></Button>
-        <Button id="notesDialogSave" label="Save" @click="HandleSaveNotesClick; AdminNotes = false"></Button>
+        <Button id="notesDialogCancel" label="Cancel" severity="secondary" @click="NotesDialog = false"></Button>
+        <Button id="notesDialogSave" label="Save" @click="HandleSaveNotesClick; NotesDialog = false"></Button>
+      </div>
+    </Dialog>
+
+    <!--Email Dialog-->
+    <Dialog id="emailDialog" class="email-dialog" v-model:visible="EmailDialog" modal header="Email" :style="{ width: '40rem' }">
+      <IftaLabel variant="in">
+        <InputText id="emailTo" :placeholder="selectedApplications.map(element => element.first_name + ' ' + element.last_name).join(', ')" variant="filled" :class="styles['input']" readonly/>
+        <label for="emailTo">To:</label>
+      </IftaLabel><br>
+      <IftaLabel variant="in">
+        <InputText id="emailSubject" v-model="emailData.subject" variant="filled" :class="styles['input']" />
+        <label for="emailSubject">Subject:</label>
+      </IftaLabel><br>
+      <IftaLabel variant="in">
+        <InputText id="emailCC" v-model="emailData.cc" variant="filled" :class="styles['input']" />
+        <label for="emailCC">CC:</label>
+      </IftaLabel> <br>
+      <div class="flex items-center gap-4 mb-8">
+        <IftaLabel variant="in">
+          <Textarea 
+            id="emailDialogText"
+            rows="10" 
+            cols="80"
+            autoResize
+            style="width:100%">
+          {{ this.emailData.body }}
+          </Textarea>
+        </IftaLabel>
+      </div>
+      <div class="flex justify-end gap-2">
+        <Button id="emailDialogCancel" label="Cancel" severity="secondary" @click="EmailDialog = false"></Button>
+        <Button id="emailDialogSend" label="Send" @click="HandleSendEmailClick; EmailDialog = false"></Button>
       </div>
     </Dialog>
 
@@ -112,15 +144,6 @@
       <!-- Action Buttons -->
       <div class="col-10 col-offset-1" :class="styles['button-container']">
           <div>
-
-            <!--Button to disable selected applicants-->
-            <Button
-              @click="handleDisable"
-              label="Disable Application(s)" 
-              id="disable_application"
-              severity="danger"
-              :class="styles['form-header-button']"
-            />
 
             <!--Button to download selected applicants-->
             <Button
@@ -234,8 +257,10 @@ export default {
       isLoading: false,
       applications: [],
       selectedApplications: [],
-      AdminNotes: false,
+      NotesDialog: false,
       EditDialog: false,
+      EmailDialog: false,
+      emailData: { subject: "", cc: "", body: "" },
       ApplicationData: {
         first_name: "",
         last_name: "",
@@ -260,6 +285,9 @@ export default {
       await adminStore.fetchApplications(); // Fetch applications from the store
       this.applications = adminStore.applications; // Set the applications to the component
     },
+    HandleSendEmailClick(){
+
+    },
     HandleSaveNotesClick(event){
       //take the studentNotes and save it wherever it needs to go
     },
@@ -268,7 +296,8 @@ export default {
     },
     handleAdminNoteClick(data){
       this.ApplicationData = data;
-      this.AdminNotes = true;
+      this.ApplicationData.adminNotes = 'hello'
+      this.NotesDialog = true;
     },
     HandleEditClick(data){
       this.ApplicationData = data;
@@ -304,9 +333,6 @@ export default {
         const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
         return `${formattedDate} at ${formattedTime}`;
     },
-    handleDisable() { /* Handle disable action */ 
-      console.log("Attempted to save disable application, not implemented")
-    },
     handleDownloadSelected() { /* Handle download selected applications */ 
     
       const data = this.selectedApplications.map(app => ({
@@ -338,7 +364,7 @@ export default {
         document.body.removeChild(link);
     },
     handleEmailSelected() { /* Handle email selected applications */ 
-      console.log("Attempted to handle email selected, not implemented")
+      this.EmailDialog = true;
     },
   },
   mounted() {

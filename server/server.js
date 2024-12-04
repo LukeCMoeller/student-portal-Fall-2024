@@ -9,6 +9,7 @@ const session = require('./configs/session.js');
 const serverConfig = require('./configs/server');
 const knex = require('./configs/db');
 const discord = require('./models/discord.js');
+const passport = require('passport');
 
 
 //runs the discord bot
@@ -24,6 +25,8 @@ app.disable('etag');
 app.use(express.json());
 
 app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware
 const corsConfig = require('./middleware/corsConfig');
