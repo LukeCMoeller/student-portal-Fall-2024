@@ -35,7 +35,6 @@ services:
       TOKEN_SECRET: "secret_hex"
       SERVER_URL: "https://${CODESPACE_NAME}-3002.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
 
-
   postgres:
     image: postgres:12
     restart: unless-stopped
