@@ -33,11 +33,7 @@ services:
       CAS_DEV_USER: testcas
       CAS_REDIRECT_URL: /auth/login
       TOKEN_SECRET: "secret_hex"
-      DISCORD_CLIENT_ID: "1286512827053379756"
-      DISCORD_REDIRECT_URI: "https://automatic-halibut-x7xj9xw7v5jhrvw-5173.app.github.dev/discord-oauth-callback"
-      COOKIE_SECRET: "106c3d9b-aa55-41a2-a6f3-0e6ec1ddee82"
-      DISCORD_CLIENT_SECRET: DISCORD_CLIENT_SECRET
-      DISCORD_SECRET: DISCORD_SECRET
+      SERVER_URL: "https://${CODESPACE_NAME}-3002.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
 
   postgres:
     image: postgres:12

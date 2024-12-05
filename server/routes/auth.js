@@ -1,3 +1,4 @@
+
 /**
  * @swagger
  * tags:
@@ -83,6 +84,7 @@ router.get('/login', refreshToken, async function (req, res, next) {
   // Redirect to Homepage
   res.redirect('/')
 })
+
 
 /**
  * @swagger

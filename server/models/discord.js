@@ -21,7 +21,7 @@ class discord extends Model {
         console.error('Guild not found!');
         return;
       }
-      role = ourServerguild.roles.cache.get('1285995785141485568'); //the role id
+      role = ourServerguild.roles.cache.get('1308820949310902282'); //the role id
       if (!role) {
         console.error('Role not found!');
         return;

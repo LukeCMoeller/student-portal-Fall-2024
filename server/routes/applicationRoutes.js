@@ -21,7 +21,6 @@ router.get('/applications', async (req, res) => {
         'users.email',
         'users.eid', 
       );
-    console.log(applications);
     res.json(applications);
   } catch (err) {
     console.error('Error fetching applications:', err);
