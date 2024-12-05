@@ -7,7 +7,7 @@
             <h4 :class="shared['h4-style']">Update your user profile:</h4>
       </div>
       <!--Form-->
-      <div class="col-12 lg:col-8 lg:col-offset-2 xl:col-3 xl:col-offset-3" style="text-align: center; justify-content:center;  display:flex;">
+      <div class="col-12 md:col-8 md:col-offset-2 lg:col-8 lg:col-offset-2 xl:col-3 xl:col-offset-3" style="text-align: center; justify-content:center;  display:flex;">
             <div class="grid bg-white border-round-sm p-0 m-0 align-items-center justify-content-center" style="width:80%;">
                 <div class="col-12"/>
                 <div class="col-12 align-items-center justify-content-center" style="width:80%;">
@@ -49,28 +49,40 @@
             </div>
       </div> 
 
-      <div class="col-12 lg:col-offset-2 lg:col-8 xl:col-3 xl:col-offset-0">
+      <div class="col-12 md:col-8 md:col-offset-2 lg:col-offset-2 lg:col-8 xl:col-3 xl:col-offset-0">
         <div class="grid p-0 m-0 align-items-center justify-content-center">
           <!--Discord-->
-          <div class="col-12 border-round-sm" style="background-color: gray; border: 3px solid #757575; height:15rem; width:80%" >
+          <div class="col-12 border-round-sm" style="background-color: gray; border: 3px solid #757575; height:16rem; width:80%" >
                 <img :src="discordText" alt="discord text" style="margin: 15px; height: 40px; margin-left: auto; margin-right: auto; display: block;text-align: center;"/>
-                <br>
-                <h4 :class="styles['text']" style ="text-align: center; color:white">Click the button below to connect to the offical <br>K-State Discord</h4>
-              <div class="flex align-items-center justify-content-center">
-              <!-- Submit Button -->
-              <button type="button" :class="styles['btn-update']"><img :src="discordIcon" alt="discord Logo" width="40" Height="40" @click='HandleDiscordClick' /></button>
+                <h4 :class="styles['text']" v-if="discord === '' | discord === undefined" style ="text-align: center; color:white">Click the button below to connect to the offical <br>K-State Discord.</h4>
+                <h4 :class="styles['text']" v-else style ="text-align: center; color:white"><span style="color:#41d873">Verified: {{discord}}</span><br><br>Now join the discord:<a style="color:plum; font-weight: bold; text-decoration: underline;" href="https://discord.gg/EpMjM4JbXG">Click here</a><br>Click the button below to unlink your account.</h4>
+              <div class="flex align-items-center justify-content-center" v-if="discord === '' | discord === undefined">
+                <button type="button" :class="styles['btn-update']">
+                  <img :src="discordIcon" alt="discord Logo" width="40" Height="40" @click='HandleDiscordClick' />
+                </button>
+              </div>
+              <div class="flex align-items-center justify-content-center" v-else>
+                <button type="button" :class="styles['btn-verified']">
+                  <img :src="discordIcon" alt="discord Logo" width="40" Height="40" @click='HandleDiscordUnlink' />
+                </button>
               </div>
           </div>
 
           <!--Spacer-->
           <div class="col-12"/>
-
+          
           <!--GitHub-->
-            <div class="col-12 border-round-sm" style="background-color: gray; border: 3px solid #757575; height:15rem; width:80%">
+            <div class="col-12 border-round-sm" style="background-color: gray; border: 3px solid #757575; height:16rem; width:80%">
                   <img :src="githubText" alt="github text" style="margin: 15px; text-align: center; height: 50px; margin-left: auto; margin-right: auto; display: block;" />
-                  <h4 :class="styles['text']" style="text-align: center; color:white">Click the button below to link your GitHub account.</h4>
-                <div class="flex align-items-center justify-content-center">
+                  <h4 :class="styles['text']" v-if="github === '' | github === undefined" style="text-align: center; color:white">Click the button below to link <br>your GitHub account.</h4>
+                  <h4 :class="styles['text']" v-else style ="text-align: center; color:white"><span style="color:#41d873">Verified: {{github}}</span><br><br>Click the button below to unlink your account.</h4>
+                <div class="flex align-items-center justify-content-center" v-if="github === '' | github === undefined">
                     <button type="button" :class="styles['btn-update']" @click="HandleGitHubClick">
+                    <img :src="githubIcon" alt="github icon" width="40" Height="40" />
+                    </button>
+                </div>
+                <div class="flex align-items-center justify-content-center" v-else>
+                    <button type="button" :class="styles['btn-verified']" @click="HandleGitHubUnlink">
                     <img :src="githubIcon" alt="github icon" width="40" Height="40" />
                     </button>
                 </div>
@@ -132,21 +144,68 @@ export default {
       profileStore.hydrate()
     }
     // Setup Stores
-    const { user } = storeToRefs(profileStore)
     const toast = useToast()
     const tokenStore = useTokenStore();
+    const userId = tokenStore.id;
+    profileStore.getDiscordInfo(userId);
+    profileStore.getGitHubInfo(userId);
+    const { user, discord, github } = storeToRefs(profileStore)
     
     const HandleGitHubClick = () => {
-    const userId = tokenStore.id;
-    const gitAuthUrl = `https://animated-space-parakeet-p46rrp65p67crvv9-3002.app.github.dev/auth/github?state=${userId}`;
+    const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/github?state=${userId}`;
     window.location.href = gitAuthUrl;
     };
 
     const HandleDiscordClick = () => {
-    const userId = tokenStore.id;
-    const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&response_type=code&redirect_uri=https%3A%2F%2Fanimated-space-parakeet-p46rrp65p67crvv9-3002.app.github.dev%2Fauth%2Fdiscord-callback&scope=identify&state=${userId}`;
+    const discordAuthUrl = `${import.meta.env.VITE_SERVER_URL}/discord?state=${userId}`;
     window.location.href = discordAuthUrl;
     };
+
+    const HandleDiscordUnlink = async () => {
+    try {
+      const response = await profileStore.unlinkDiscord(userId);
+      profileStore.getDiscordInfo(userId)
+      if (response) {
+        toast.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Discord Unlinked!',
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      console.error('Error unlinking Discord:', error);
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to unlink Discord!',
+        life: 3000,
+      });
+    }
+  };
+
+  const HandleGitHubUnlink = async () => {
+    try {
+      const response = await profileStore.unlinkGitHub(userId);
+      profileStore.getGitHubInfo(userId)
+      if (response) {
+        toast.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'GitHub Unlinked!',
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      console.error('Error unlinking GitHub:', error);
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to unlink GitHub!',
+        life: 3000,
+      });
+    }
+  };
 
     Logger.debug(user)
 
@@ -174,7 +233,7 @@ export default {
     loading.value = false
     }
     
-    return { user, HandleDiscordClick, HandleGitHubClick, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon};
+    return { user, discord, github, HandleDiscordClick, HandleDiscordUnlink, HandleGitHubClick, HandleGitHubUnlink, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon};
   },
 };
 </script>

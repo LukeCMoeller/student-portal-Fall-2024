@@ -25,6 +25,7 @@
     "morgan": "^1.10.0",
     "nanoid": "^5.0.7",
     "node-cas-authentication": "git+ssh://git@github.com:alt-cs-lab/cas-authentication",
+    "node-fetch": "^2.7.0",
     "objection": "^3.1.5",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",

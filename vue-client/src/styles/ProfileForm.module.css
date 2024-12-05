@@ -12,6 +12,25 @@
     transition: background-color 0.3s ease;  
 }
 
+.btn-verified {
+    border-radius: 10px;
+    background-color: #41d873; 
+    color: white; 
+    margin:10px;
+    padding: 10px 20px 10px 20px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition: background-color 0.3s ease;  
+}
+
+.btn-verified:hover {
+    background-color: #e76868;  
+    cursor: pointer;
+}
+
 .btn-update:hover {
     background-color: #BF8CF7;  
     cursor: pointer;
