@@ -67,7 +67,7 @@ class User extends Model {
     // user not found - create user
     if (user.length === 0) {
       let admin = false
-      if (process.env.NODE_ENV !== 'production' && email === "admin@ksu.edu") {
+      if (process.env.NODE_ENV !== 'production') {
           admin = true
       }
       user = [

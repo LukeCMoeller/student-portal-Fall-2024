@@ -20,6 +20,17 @@ exports.up = function(knex) {
       table.string('updated_at', 255)
       table.string('updated_by', 255)
     })
+    .createTable('user_discord', function(table) {
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE').primary()
+      table.string('discord_id').notNullable();
+      table.string('username', 255).notNullable();
+    })
+    .createTable('user_github', function(table) {
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE').primary()
+      table.string('github_id').notNullable();
+      table.string('username', 255).notNullable();
+      table.string('profile_url', 255).notNullable();
+    })
     .createTable('programs', function(table) {
       table.increments('id')
       table.string('name').notNullable().unique()

@@ -1,4 +1,6 @@
 const Model = require('./base.js')
+//const crypto = require('crypto')
+
 class discord extends Model {
   static async runDiscordBot() {
     const { Client, GatewayIntentBits, Guild } = require('discord.js');
@@ -8,7 +10,10 @@ class discord extends Model {
     ] });
     let ourServerguild;
     let role;
-    client.login(process.env.DISCORD_SECRET)
+    const uniqueId = crypto.randomUUID();
+    //console.log("nexline");
+    //console.log(uniqueId);
+    client.login(process.env.DISCORD_SECRET);
     client.once('ready',async () => {
       console.log('Bot is online!');
       ourServerguild = client.guilds.cache.get('1285994775282978900'); // the server id
@@ -16,7 +21,7 @@ class discord extends Model {
         console.error('Guild not found!');
         return;
       }
-      role = ourServerguild.roles.cache.get('1285995785141485568'); //the role id
+      role = ourServerguild.roles.cache.get('1308820949310902282'); //the role id
       if (!role) {
         console.error('Role not found!');
         return;
