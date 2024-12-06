@@ -74,18 +74,6 @@
               <label class="font-semibold w-24" :class="styles['input']">Waiver: <span>{{ ApplicationData.waiver }}</span></label>
           </div>
 
-          <!--Advisor drop down-->
-          <div class="col-10 col-offset-1">
-              <IftaLabel variant="in">
-              <Select 
-              id="advisor" 
-              v-model="ApplicationData.advisor" 
-              :class="styles['input']"
-              />
-              <label for="status">Advisor:</label>
-              </IftaLabel>
-          </div>
-
           <!--Semester drop down-->
           <div class="col-10 col-offset-1">
               <IftaLabel variant="in">
@@ -175,7 +163,6 @@
                 <Column field="eid" header="EID" />
                 <Column field="email" header="Email" sortable />
                 <Column field="wid" header="WID" />
-                <Column field="advisor" header="Advisor" />
                 <Column field="semester" header="Semester" />
                 <Column field="waiver" header="Waiver" />
                 <Column field="status" header="Status" />
@@ -267,7 +254,6 @@ export default {
         eid: "",
         email: "",
         wid: "",
-        advisor: "",
         semester: "",
         waiver: "",
         status: "",
@@ -341,7 +327,6 @@ export default {
             "EID": app.eid,
             "Email": app.email,
             "WID": app.wid,
-            "Advisor": app.advisor,
             "Semester": app.semester,
             "Waiver": app.waiver ? "Yes" : "No",
             "Status": app.status,
@@ -364,7 +349,9 @@ export default {
         document.body.removeChild(link);
     },
     handleEmailSelected() { /* Handle email selected applications */ 
-      this.EmailDialog = true;
+      if(this.selectedApplications.length > 0){
+        this.EmailDialog = true;
+      }
     },
   },
   mounted() {

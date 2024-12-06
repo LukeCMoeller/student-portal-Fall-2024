@@ -12,7 +12,7 @@ const apiShouldReturnUserData = (user) => {
         .set('Authorization', `Bearer ${user.token}`)
         .expect(200)
         .end((err, res) => {
-          if (err) return done(err)
+          if (err) return promise(err)
           expect(res.body).property('user_id').eql(user.id)
           expect(res.body).property('version').eql(1.0)
           expect(res.body).property('is_admin').eql(user.is_admin ? 1 : 0)
