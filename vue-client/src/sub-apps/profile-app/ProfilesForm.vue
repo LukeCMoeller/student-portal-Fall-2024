@@ -142,17 +142,15 @@ export default {
     if (process.env.NODE_ENV !== 'test') {
       profileStore.hydrate()
     }
-    const tokenStore = useTokenStore()
 
     // Setup Stores
-    const { user } = storeToRefs(profileStore)
-    const { profile_updated, get_profile_updated } = storeToRefs(tokenStore)
-    const toast = useToast()
     const tokenStore = useTokenStore();
+    const { profile_updated, get_profile_updated } = storeToRefs(tokenStore)
+    const { user, discord, github } = storeToRefs(profileStore)
+    const toast = useToast()
     const userId = tokenStore.id;
     profileStore.getDiscordInfo(userId);
     profileStore.getGitHubInfo(userId);
-    const { user, discord, github } = storeToRefs(profileStore)
     
     const HandleGitHubClick = () => {
     const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/github?state=${userId}`;
