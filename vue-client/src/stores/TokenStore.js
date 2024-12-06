@@ -11,6 +11,10 @@ export const useTokenStore = defineStore('token', {
   state: () => {
     return {
       token: '',
+      email: '',
+      id: '',
+      is_admin: '',
+      profile_updated: '',
       ltik: useStorage('ltik', '') // store current user LTI key in browser storage
     }
   },
@@ -32,11 +36,16 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's email
      */
-    email() {
-      if (this.token) {
-        return jwtDecode(this.token)['email']
+    get_email() {
+      if (!this.email) {
+        if (this.token) {
+          this.email = jwtDecode(this.token)['email']
+          return this.email
+        } else {
+          return ''
+        }
       } else {
-        return ''
+        return this.email
       }
     },
     /**
@@ -44,11 +53,16 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's internal ID
      */
-    id() {
-      if (this.token) {
-        return jwtDecode(this.token)['user_id']
+    get_id() {
+      if (!this.id) {
+        if (this.token) {
+          this.id = jwtDecode(this.token)['user_id']
+          return this.id
+        } else {
+          return ''
+        }
       } else {
-        return ''
+        return this.id
       }
     },
     /**
@@ -56,11 +70,16 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns Boolean: true if the user is an admin, otherwise false
      */
-    is_admin() {
-      if (this.token) {
-        return jwtDecode(this.token)['is_admin']
+    get_admin() {
+      if (!this.is_admin) {
+        if (this.token) {
+          this.is_admin = jwtDecode(this.token)['is_admin']
+          return this.is_admin
+        } else {
+          return ''
+        }
       } else {
-        return false
+        return this.is_admin
       }
     },
     /**
@@ -68,17 +87,37 @@ export const useTokenStore = defineStore('token', {
      *
      * @returns String: the user's LTI token
      */
-    lti_token() {
+    get_lti_token() {
       if (this.ltik) {
-        return jwtDecode(this.ltik)
+        this.ltik = jwtDecode(this.ltik)
+        return this.ltik
       } else {
         return ''
+      }
+    },
+    /**
+     * Gets whether the user has updated their profile at least once.
+     * Should only be false on a new user.
+     *
+     * @returns Boolean: true is the user has updated their profile at least once, false otherwise
+     */
+    get_profile_updated() {
+      if (!this.profile_updated) {
+        if (this.token) {
+          this.profile_updated = jwtDecode(this.token)['profile_updated']
+          return this.profile_updated
+        } else {
+          return ''
+        }
+      } else {
+        return this.profile_updated
       }
     }
   },
   actions: {
     /**
      * Gets a token from the API using an existing cookie session
+     * Will always get a new token.
      */
     async getToken() {
       Logger.info('token:get')
@@ -102,6 +141,7 @@ export const useTokenStore = defineStore('token', {
 
     /**
      * Tries the existing token or refresh token to establish a session
+     * Will only get a new token if the current one is invalid
      */
     async tryToken() {
       Logger.info('token:try')

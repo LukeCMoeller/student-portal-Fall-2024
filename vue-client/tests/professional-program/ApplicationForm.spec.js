@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import ApplicationForm from '@/sub-apps/professional-program-app/ApplicationForm.vue'
 
 describe('ApplicationForm tests', () => {

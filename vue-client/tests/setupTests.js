@@ -5,8 +5,7 @@ import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import FocusTrap from 'primevue/focustrap';
-import { vi } from 'vitest'
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory } from 'vue-router';
 
 //Route imports
 import Error from '@/components/common/ErrorPage.vue'
@@ -19,8 +18,8 @@ import ProfileRoutes from '@/sub-apps/profile-app/ProfileRoutes'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-      { path: '/', component: Home },
-      { path: '/home', component: Home },
+      { path: '/', name: 'home', component: Home },
+      { path: '/home', name: 'home', component: Home },
       { path: '/professional-program', component:ProfessionalProgram,
          children: professionalRoutes
       },
@@ -31,10 +30,13 @@ const router = createRouter({
   ]
 })
 
-// Install PrimeVue globally in tests
+
+// Install PrimeVue, Toast, and the router globally in tests
 config.global.plugins = [PrimeVue, ConfirmationService, ToastService, router];
 
 config.global.directives = {
   tooltip: Tooltip,
   focustrap: FocusTrap,
 };
+
+module.exports = router

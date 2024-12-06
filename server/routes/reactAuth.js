@@ -1,3 +1,5 @@
+//The old auth API that was used in the React version of this app.
+
 // Nabbed from https://github.com/zombiepaladin/react-cas-example
 const process = require('process');
 const express = require('express');

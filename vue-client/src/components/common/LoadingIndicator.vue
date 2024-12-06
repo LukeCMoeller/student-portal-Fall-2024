@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import Load from '../../img/Loading.svg';
 const handleImageError = () => {
   alert('Failed to load the image!');

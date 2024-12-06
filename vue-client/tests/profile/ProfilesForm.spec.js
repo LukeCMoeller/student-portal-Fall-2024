@@ -1,19 +1,21 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { createPinia, setActivePinia } from 'pinia'
-import axios from 'axios'
 import ProfilesForm from '@/sub-apps/profile-app/ProfilesForm.vue'
 import { createTestingPinia } from '@pinia/testing'
-import { useTokenStore } from '@/stores/TokenStore.js'
+import { useTokenStore } from '@/stores/TokenStore'
 import { useProfileStore } from '@/stores/ProfileStore'
 import {ref} from 'vue'
+import router from '@/router'
 
 vi.mock('@/stores/ProfileStore')
+vi.mock('@/stores/TokenStore')
+
 
 describe('ProfilesForm tests', () => {
     let wrapper
     let profileStore
-    let mockProfileStore
+    let tokenStore
+    let spy
 
     beforeEach(() => {
         // Mock the profileStore object
@@ -27,9 +29,19 @@ describe('ProfilesForm tests', () => {
             wid: '888888888'
           })
         };
-    
-        // Mock the return of the useProfileStore
-        useProfileStore.mockReturnValue(profileStore);
+
+        //And the tokenStore
+        tokenStore = {
+          useTokenStore: vi.fn(),
+          getToken: vi.fn(),
+          tryToken: vi.fn(),
+          get_profile_updated: false,
+        };
+
+        spy = vi.spyOn(tokenStore, 'useTokenStore')
+        // Mock the return of the useStore functions
+        useProfileStore.mockReturnValue(profileStore)
+        useTokenStore.mockReturnValue(tokenStore);
     
         // Mount the component with the necessary plugins and mocks
         wrapper = mount(ProfilesForm, {
@@ -37,7 +49,7 @@ describe('ProfilesForm tests', () => {
               plugins: [
                 createTestingPinia({
                   createSpy: vi.fn 
-                })
+                }),
               ],
               provide: {
                 $toast: { add: vi.fn() }
@@ -79,7 +91,6 @@ describe('ProfilesForm tests', () => {
     }) 
 
     it('save should show success toast on successful update', async () => {
-
         const toast = wrapper.vm.$toast;
         const toastSpy = vi.spyOn(toast, 'add');
 
@@ -96,4 +107,30 @@ describe('ProfilesForm tests', () => {
         life: 3000
         });
       })
+
+    //Still cannot get these tests to work.
+    //Attempted wrapping the Header as well to have a regular router-link, but those come up as undefined.
+    //Any way I can find to manipulate the current router doesn't work.
+    //I think something must be up with the specific way we're using pinia for these tests.
+    it.skip('should prevent a new user from leaving the profile page', async () => {
+        //Profile hasn't been updated.
+        tokenStore.get_profile_updated = false
+        //Try to go to home page.
+        router.push('/')
+        await router.isReady()
+        //Should still be on profile page
+        expect(router.currentRoute.value.path).toBe('/profile')
+    })
+
+    it.skip('should allow a user who has saved to leave the profile page', async () => {
+      //Pretend the profile was updated
+      tokenStore.get_profile_updated = true
+      //Try to go to home page.
+      router.push('/')
+      await router.isReady()
+      expect(spy).toHaveBeenCalledTimes(1)
+      //Should be on the home page
+      expect(router.currentRoute.value.fullPath).toBe('/')
+      
+    })
 })

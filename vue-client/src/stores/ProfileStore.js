@@ -16,6 +16,7 @@ export const useProfileStore = defineStore('profile', {
   actions: {
     /**
      * Hydrate the store by querying the API for data
+     * Refreshes the data in the store
      */
     async hydrate() {
       Logger.info('profile:hydrate')
@@ -62,7 +63,8 @@ export const useProfileStore = defineStore('profile', {
     }
     },
     /**
-     * Update the current user's profile
+     * Pushes the updated data of the store to the server
+     * then updates the store's data
      */
     async update() {
       await api

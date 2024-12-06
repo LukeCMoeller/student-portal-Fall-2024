@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0 --port 5173",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "NODE_ENV=test,SERVER_PORT=4050 vitest"
   },
   "dependencies": {
     "@pinia/testing": "^0.1.7",

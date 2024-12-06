@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach } from 'vitest'
 import ProfessionalProgram from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
-import { createRouter, createWebHistory } from 'vue-router'
 
 describe('ProfessionalProgram tests', () => {
     let wrapper

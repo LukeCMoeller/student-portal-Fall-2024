@@ -1,6 +1,6 @@
 import request from 'supertest'
 import server from '../server.js'
-import { describe, it, beforeEach} from 'vitest'
+import { describe, it} from 'vitest'
 import 'dotenv/config'
 
 const getProfile = (user) => {

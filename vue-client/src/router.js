@@ -6,7 +6,6 @@ import professionalRoutes from './sub-apps/professional-program-app/routes'
 import ProfessionalProgram from './sub-apps/professional-program-app/ProfessionalProgram.vue'
 import ProfileRoutes from './sub-apps/profile-app/ProfileRoutes'
 import { useTokenStore } from './stores/TokenStore'
-import { useUsersStore } from './stores/UserStore'
 
 
 const routes = [
@@ -29,10 +28,12 @@ const router = createRouter({
 
 router.beforeEach(async function (to) {
   const tokenStore = useTokenStore()
-  const userStore = useUsersStore()
   if (!tokenStore.token) {
     await tokenStore.getToken()
-    //await userStore.loadCurrentUser()
+  } 
+  //Redirect users that haven't updated their profile at least once to the profile page.
+  if (tokenStore.get_profile_updated !== true && to.path !== '/profile') {
+    return {path: '/profile'}
   }
 })
 

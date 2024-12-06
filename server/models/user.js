@@ -77,7 +77,8 @@ class User extends Model {
           wid: getRandomInt(1000000000),
           first_name: email,
           last_name: email,
-          is_admin: admin
+          is_admin: admin,
+          profile_updated: false
         }),
       ]
       if(process.env.NODE_ENV !== 'production'){
@@ -123,7 +124,7 @@ class User extends Model {
     return refresh_token
   }
 
-  async is_admin() {
+  async get_admin() {
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
     //Roles for current user
     //console.log(roles)
@@ -139,16 +140,21 @@ class User extends Model {
 
   static async getToken(id) {
     let user = await User.query().findById(id)
-    // tokens are only for users with 'api' or 'admin' roles
+    // tokens are currently only for users with 'api' or 'admin' roles
+    // should change this to pass role information in the token, and attach middleware to the api routes that should be admin only
     const is_api = await user.is_api()
-    const is_admin = await user.is_admin()
+    const is_admin = await user.get_admin()
     if (is_api || is_admin) {
+    //Can pass role information in the token here,
+    //then use middleware like admin-required to check roles when accessing a route.
       const token = jwt.sign(
         {
           user_id: id,
           email: user.email,
           is_admin: is_admin,
+          is_api: is_api,
           //refresh_token: refresh_token,
+          profile_updated: user.profile_updated
         },
         process.env.TOKEN_SECRET,
         {

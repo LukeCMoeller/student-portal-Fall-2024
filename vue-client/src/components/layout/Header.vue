@@ -57,11 +57,9 @@
 import styles from '../../styles/Header.module.css';
 
 //Components
-import { defineComponent, ref, watch, computed } from 'vue';
+import { defineComponent, ref} from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
-import { storeToRefs } from 'pinia'
 import adminMixin from '@/mixins/adminMixin';
-import Logger from 'js-logger'
 
 //Primevue components
 import ToggleSwitch from 'primevue/toggleswitch';
@@ -82,12 +80,13 @@ export default defineComponent({
     }
   },
   setup() {
-
+    //Check for if the admin toggle is on
     const { IsAdmin, IsAdminMode } = adminMixin.setup();
 
     const popupTop = ref(0);
     const popupLeft = ref(0);
 
+    //Items pulled for the navbar
     const navItems = ref([
       { label: 'Home', link: '/home', subRoutes: [] },
       { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },

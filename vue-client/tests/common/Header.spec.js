@@ -13,15 +13,6 @@ import professionalRoutes from '@/sub-apps/professional-program-app/routes'
 import ProfessionalProgram from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
 import ProfileRoutes from '@/sub-apps/profile-app/ProfileRoutes'
 
-// Mock store
-const createMockStore = (state) => {
-  return createStore({
-    state,
-  });
-};
-//I think we need to instead use the TokenStore, but mock the returned value of 
-//the isAdmin() getter. Don't know where that needs to go, however
-
 //Mock Router
 const router = createRouter({
     history: createWebHistory(),
@@ -107,8 +98,6 @@ describe('Header tests', () => {
                     })]
                 }
             })
-
-            //Create the token store using the testing pinia (guaranteed admin)
             const homeLink = wrapper.findComponent('#nav0')
 
             await homeLink.trigger('click');

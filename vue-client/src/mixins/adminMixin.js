@@ -12,7 +12,7 @@ export default {
 
     // Store states
     const { IsAdminMode } = storeToRefs(adminStore);
-    const IsAdmin = computed(() => tokenStore.is_admin);
+    const IsAdmin = computed(() => tokenStore.get_admin);
 
     return {
       IsAdminMode,

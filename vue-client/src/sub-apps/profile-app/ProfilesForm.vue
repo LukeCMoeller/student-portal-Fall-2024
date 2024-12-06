@@ -107,7 +107,6 @@ import { ref } from 'vue';
 import { useProfileStore } from '@/stores/ProfileStore';
 import { useTokenStore } from '@/stores/TokenStore';
 import { storeToRefs } from 'pinia'
-import Logger from 'js-logger'
 
 //PrimeVue components
 import InputText from 'primevue/inputtext';
@@ -143,7 +142,11 @@ export default {
     if (process.env.NODE_ENV !== 'test') {
       profileStore.hydrate()
     }
+    const tokenStore = useTokenStore()
+
     // Setup Stores
+    const { user } = storeToRefs(profileStore)
+    const { profile_updated, get_profile_updated } = storeToRefs(tokenStore)
     const toast = useToast()
     const tokenStore = useTokenStore();
     const userId = tokenStore.id;
@@ -207,7 +210,7 @@ export default {
     }
   };
 
-    Logger.debug(user)
+    //Logger.debug(user)
 
     //Save Button Code
     const errors = ref({})
@@ -220,6 +223,7 @@ export default {
     message.value = ''
     try {
       await profileStore.update()
+      await tokenStore.getToken()
       toast.add({ severity: 'success', summary: 'Success', detail: 'Profile Updated!', life: 3000 })
     } catch (error) {
       if (error.response.data.data) {
@@ -233,7 +237,7 @@ export default {
     loading.value = false
     }
     
-    return { user, discord, github, HandleDiscordClick, HandleDiscordUnlink, HandleGitHubClick, HandleGitHubUnlink, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon};
+    return { user, discord, github, HandleDiscordClick, HandleDiscordUnlink, HandleGitHubClick, HandleGitHubUnlink, styles, shared, discordIcon, discordText, errors, message, loading, save, githubText, githubIcon, profile_updated, get_profile_updated};
   },
 };
 </script>

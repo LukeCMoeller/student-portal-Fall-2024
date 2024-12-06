@@ -18,6 +18,8 @@
  *                 type: string
  */
 
+//Base api file, sets up the rest of the apis and routes to them
+
 // Load Libraries
 const express = require('express')
 const router = express.Router()
