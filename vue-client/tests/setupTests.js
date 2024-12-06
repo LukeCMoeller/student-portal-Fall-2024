@@ -5,7 +5,7 @@ import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import FocusTrap from 'primevue/focustrap';
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory } from 'vue-router';
 
 //Route imports
 import Error from '@/components/common/ErrorPage.vue'
@@ -18,8 +18,8 @@ import ProfileRoutes from '@/sub-apps/profile-app/ProfileRoutes'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-      { path: '/', component: Home },
-      { path: '/home', component: Home },
+      { path: '/', name: 'home', component: Home },
+      { path: '/home', name: 'home', component: Home },
       { path: '/professional-program', component:ProfessionalProgram,
          children: professionalRoutes
       },
@@ -38,3 +38,5 @@ config.global.directives = {
   tooltip: Tooltip,
   focustrap: FocusTrap,
 };
+
+module.exports = router

@@ -39,7 +39,8 @@ export const useTokenStore = defineStore('token', {
     get_email() {
       if (!this.email) {
         if (this.token) {
-          return jwtDecode(this.token)['email']
+          this.email = jwtDecode(this.token)['email']
+          return this.email
         } else {
           return ''
         }
@@ -55,7 +56,8 @@ export const useTokenStore = defineStore('token', {
     get_id() {
       if (!this.id) {
         if (this.token) {
-          return jwtDecode(this.token)['user_id']
+          this.id = jwtDecode(this.token)['user_id']
+          return this.id
         } else {
           return ''
         }
@@ -71,7 +73,8 @@ export const useTokenStore = defineStore('token', {
     get_admin() {
       if (!this.is_admin) {
         if (this.token) {
-          return jwtDecode(this.token)['is_admin']
+          this.is_admin = jwtDecode(this.token)['is_admin']
+          return this.is_admin
         } else {
           return ''
         }
@@ -86,7 +89,8 @@ export const useTokenStore = defineStore('token', {
      */
     get_lti_token() {
       if (this.ltik) {
-        return jwtDecode(this.ltik)
+        this.ltik = jwtDecode(this.ltik)
+        return this.ltik
       } else {
         return ''
       }
@@ -100,7 +104,8 @@ export const useTokenStore = defineStore('token', {
     get_profile_updated() {
       if (!this.profile_updated) {
         if (this.token) {
-          return jwtDecode(this.token)['profile_updated']
+          this.profile_updated = jwtDecode(this.token)['profile_updated']
+          return this.profile_updated
         } else {
           return ''
         }

@@ -28,10 +28,8 @@ const router = createRouter({
 
 router.beforeEach(async function (to) {
   const tokenStore = useTokenStore()
-  //const userStore = useUsersStore()
   if (!tokenStore.token) {
     await tokenStore.getToken()
-    //await userStore.loadCurrentUser()
   } 
   //Redirect users that haven't updated their profile at least once to the profile page.
   if (tokenStore.get_profile_updated !== true && to.path !== '/profile') {
