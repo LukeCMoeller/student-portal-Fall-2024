@@ -42,7 +42,7 @@ body, html {
     margin: 0;
     padding: 0;
     background-color: #fff; 
-
+    color: black;
     background-image: url("img/MantoBG.svg");
      
     background-position: center;
