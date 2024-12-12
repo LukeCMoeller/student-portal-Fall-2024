@@ -9,7 +9,7 @@ export const useAdminStore = defineStore('admin', {
   state: () => {
     applications: []
     return {
-      IsAdminMode: false
+      IsAdminMode: true
     }
   },
   actions: {
