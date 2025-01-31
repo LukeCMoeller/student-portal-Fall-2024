@@ -25,27 +25,27 @@
     <nav :class="styles.navSection">
       <ul :class="styles.navList">
         <li 
-          :class="styles.navItemContainer" 
-          v-for="(item, index) in navItems" 
-          :key="index"
-          :id="'nav'+index" 
-          @mouseenter="showPopup($event, item)" 
-          @mouseleave="item.showPopup = false"
+        :class="styles.navItemContainer" 
+        v-for="(item, index) in navItems" 
+        :key="index" 
+        :id="'nav'+index"
+        data-popup-trigger
+        @mouseenter="showPopup($event, item)"
         >
-          <RouterLink :to="item.link" :class="styles.navItem" style="z-index: 5;">{{ item.label }}</RouterLink>
+        <RouterLink :to="item.link" :class="styles.navItem" style="z-index: 5;">{{ item.label }}</RouterLink>
 
-          <!-- Popup for subroutes -->
-          <div v-if="item.showPopup && item.subRoutes.length > 0" 
-               class="popup" 
-               :style="{ top: popupTop - 20 + 'px', left: popupLeft -2 + 'px' }">
-            <ul class="subNavList">
-              <li v-for="(route, subIndex) in item.subRoutes" :key="subIndex" style="margin-top:1.3rem;">
-                <RouterLink :id="'subnav' + subIndex" :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
+        <!-- Popup -->
+        <div 
+          v-if="item.showPopup && item.subRoutes.length > 0" 
+          class="popup" 
+          :style="{ top: popupTop - 20 + 'px', left: popupLeft - 2 + 'px' }">
+          <ul class="subNavList">
+            <li v-for="(route, subIndex) in item.subRoutes" :key="subIndex" style="margin-top:1.3rem;">
+              <RouterLink :id="'subnav' + subIndex" :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
+            </li>
+          </ul>
+        </div>
+        <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
         </li>
       </ul>
     </nav>
@@ -82,22 +82,44 @@ export default defineComponent({
   setup() {
     //Check for if the admin toggle is on
     const { IsAdmin, IsAdminMode } = adminMixin.setup();
-
     const popupTop = ref(0);
     const popupLeft = ref(0);
-
     //Items pulled for the navbar
-    const navItems = ref([
+    const navItems = ref([]);
+    if(IsAdmin){ //ERROR IS HERE FIX PLEASE
+      navItems = ref([
+      { label: 'Home', link: '/home', subRoutes: [] },
+      { label: 'Admin', link: '/admin', subRoutes:[]},
+      { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
+      { label: 'Profile', link: '/profile', subRoutes: [] },
+    ]);
+    }else{
+      navItems = ref([
       { label: 'Home', link: '/home', subRoutes: [] },
       { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
       { label: 'Profile', link: '/profile', subRoutes: [] },
     ]);
-
+    }
+    const clickOutEvent = (event) => {
+      const clickOut = !event.target.closest('.popup') && !event.target.closest('[data-popup-trigger]');
+      if (clickOut) {
+        navItems.value.forEach((item) => {
+          if (item.subRoutes.length > 0) {
+            item.showPopup = false;
+          }
+        });
+        document.removeEventListener('click', clickOutEvent);
+      }
+    };
     const showPopup = (event, item) => {
-      const rect = event.currentTarget.getBoundingClientRect();
-      popupTop.value = rect.bottom + window.scrollY; // Position relative to the page
-      popupLeft.value = rect.left; // Align with the left side of the item
-      item.showPopup = true;
+      if (item.subRoutes.length > 0) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        popupTop.value = rect.bottom + window.scrollY; // Position relative to the page
+        popupLeft.value = rect.left; // Align with the left side of the item
+        item.showPopup = true;
+
+        document.addEventListener('click', clickOutEvent);
+      }
     };
 
     return {

@@ -11,14 +11,8 @@
         <p>Department of Computer Science<br />
           2184 Engineering Hall
         </p>
-      </div>
-      <div class="col-12">
-        <p>1701D Platt St., Manhattan, KS 66506</p>
-      </div>
-      <div class="col-12">
+        <P>1701D Platt St., Manhattan, KS 66506</P>
         <p>785-532-6350 | 785-532-7353 fax | csoffice@k-state.edu</p>
-      </div>
-      <div class="col-12">
         <p>Monday – Friday<br />
           8 a.m. – noon<br />
           1 p.m. – 5 p.m.
