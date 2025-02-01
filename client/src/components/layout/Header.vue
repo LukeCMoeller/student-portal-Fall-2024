@@ -83,7 +83,7 @@ export default defineComponent({
     //Check for if the admin toggle is on
     const { IsAdmin, IsAdminMode } = adminMixin.setup();
     const popupTop = ref(0);
-    const popupLeft = ref(0);
+    const popupLeft = ref(0); 
     //Items pulled for the navbar
     const navItems = ref([]);
     if(IsAdmin){ //ERROR IS HERE FIX PLEASE
