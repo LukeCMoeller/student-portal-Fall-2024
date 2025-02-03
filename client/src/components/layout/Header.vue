@@ -34,7 +34,7 @@
         >
         <RouterLink :to="item.link" :class="styles.navItem" style="z-index: 5;">{{ item.label }}</RouterLink>
 
-        <!-- Popup -->
+        <!-- Popup for subroutes-->
         <div 
           v-if="item.showPopup && item.subRoutes.length > 0" 
           class="popup" 
@@ -57,7 +57,7 @@
 import styles from '../../styles/Header.module.css';
 
 //Components
-import { computed, defineComponent, ref} from 'vue';
+import {computed, defineComponent, ref} from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
 import adminMixin from '@/mixins/adminMixin';
 
@@ -85,22 +85,30 @@ export default defineComponent({
     const popupTop = ref(0);
     const popupLeft = ref(0); 
     //Items pulled for the navbar
+    /*
+    const navItems = ref([
+      { label: 'Home', link: '/home', subRoutes: [] },
+      { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
+      { label: 'Profile', link: '/profile', subRoutes: [] },
+    ]);
+    */
     const navItems = computed(() => {
       if (IsAdminMode.value) {
         return [
-          { label: 'home', link: '/home', subRoutes: [] },
-          { label: 'admin', link: '/admin', subRoutes: [] },
+          { label: 'Home', link: '/home', subRoutes: [] },
+          { label: 'Admin', link: '/admin', subRoutes: [] },
           { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
           { label: 'Profile', link: '/profile', subRoutes: [] },
         ];
       } else {
         return [
-          { label: 'home', link: '/home', subRoutes: [] },
+          { label: 'Home', link: '/home', subRoutes: [] },
           { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
           { label: 'Profile', link: '/profile', subRoutes: [] },
         ];
       }
     });
+  
     const clickOutEvent = (event) => {
       const clickOut = !event.target.closest('.popup') && !event.target.closest('[data-popup-trigger]');
       if (clickOut) {
