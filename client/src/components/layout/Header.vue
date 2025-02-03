@@ -25,27 +25,26 @@
     <nav :class="styles.navSection">
       <ul :class="styles.navList">
         <li 
-        :class="styles.navItemContainer" 
-        v-for="(item, index) in navItems" 
-        :key="index" 
-        :id="'nav'+index"
-        data-popup-trigger
-        @mouseenter="showPopup($event, item)"
+          :class="styles.navItemContainer" 
+          v-for="(item, index) in navItems" 
+          :key="index" 
+          :id="'nav'+index"
+          data-popup-trigger
+          @mouseenter="showPopup($event, index)"
         >
-        <RouterLink :to="item.link" :class="styles.navItem" style="z-index: 5;">{{ item.label }}</RouterLink>
+          <RouterLink :to="item.link" :class="styles.navItem" style="z-index: 5;">{{ item.label }}</RouterLink>
 
-        <!-- Popup for subroutes-->
-        <div 
-          v-if="item.showPopup && item.subRoutes.length > 0" 
-          class="popup" 
-          :style="{ top: popupTop - 20 + 'px', left: popupLeft - 2 + 'px' }">
-          <ul class="subNavList">
-            <li v-for="(route, subIndex) in item.subRoutes" :key="subIndex" style="margin-top:1.3rem;">
-              <RouterLink :id="'subnav' + subIndex" :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
-            </li>
-          </ul>
-        </div>
-        <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
+          <div 
+            v-if="popupStates[index] && item.subRoutes.length > 0" 
+            class="popup" 
+            :style="{ top: popupTop - 20 + 'px', left: popupLeft - 2 + 'px' }">
+            <ul class="subNavList">
+              <li v-for="(route, subIndex) in item.subRoutes" :key="subIndex" style="margin-top:1.3rem;">
+                <RouterLink :id="'subnav' + subIndex" :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
+              </li>
+            </ul>
+          </div>
+          <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
         </li>
       </ul>
     </nav>
@@ -85,52 +84,42 @@ export default defineComponent({
     const popupTop = ref(0);
     const popupLeft = ref(0); 
     //Items pulled for the navbar
-    /*
-    const navItems = ref([
+    // Popup visibility state
+  const popupStates = ref({});
+
+  // Define navItems based on IsAdminMode
+  const navItems = computed(() => {
+    const baseItems = [
       { label: 'Home', link: '/home', subRoutes: [] },
       { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
       { label: 'Profile', link: '/profile', subRoutes: [] },
-    ]);
-    */
-    const navItems = computed(() => {
-      if (IsAdminMode.value) {
-        return [
-          { label: 'Home', link: '/home', subRoutes: [] },
-          { label: 'Admin', link: '/admin', subRoutes: [] },
-          { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
-          { label: 'Profile', link: '/profile', subRoutes: [] },
-        ];
-      } else {
-        return [
-          { label: 'Home', link: '/home', subRoutes: [] },
-          { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
-          { label: 'Profile', link: '/profile', subRoutes: [] },
-        ];
-      }
-    });
-  
+    ];
+    if (IsAdminMode.value) {
+      baseItems.splice(3, 0, { label: 'Admin', link: '/admin', subRoutes: [] });
+    }
+    // Initialize popup
+    popupStates.value = baseItems.reduce((acc, _, index) => ({ ...acc, [index]: false }), {});
+    return baseItems;
+  });
     const clickOutEvent = (event) => {
       const clickOut = !event.target.closest('.popup') && !event.target.closest('[data-popup-trigger]');
       if (clickOut) {
-        navItems.value.forEach((item) => {
-          if (item.subRoutes.length > 0) {
-            item.showPopup = false;
-          }
+        Object.keys(popupStates.value).forEach((key) => {
+          popupStates.value[key] = false;
         });
         document.removeEventListener('click', clickOutEvent);
       }
     };
-    const showPopup = (event, item) => {
-      if (item.subRoutes.length > 0) {
-        const rect = event.currentTarget.getBoundingClientRect();
-        popupTop.value = rect.bottom + window.scrollY; // Position relative to the page
-        popupLeft.value = rect.left; // Align with the left side of the item
-        item.showPopup = true;
 
+    const showPopup = (event, itemIndex) => {
+      if (navItems.value[itemIndex].subRoutes.length > 0) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        popupTop.value = rect.bottom + window.scrollY;
+        popupLeft.value = rect.left;
+        popupStates.value[itemIndex] = true;
         document.addEventListener('click', clickOutEvent);
       }
     };
-
     return {
       logo,
       styles,
@@ -139,7 +128,8 @@ export default defineComponent({
       popupLeft,
       showPopup,
       IsAdmin,
-      IsAdminMode
+      IsAdminMode,
+      popupStates,
     };
   },
 });
