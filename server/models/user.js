@@ -77,7 +77,6 @@ class User extends Model {
           wid: getRandomInt(1000000000),
           first_name: email,
           last_name: email,
-          is_admin: admin,
           profile_updated: false
         }),
       ]
