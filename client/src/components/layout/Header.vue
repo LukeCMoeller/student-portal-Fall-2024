@@ -26,11 +26,11 @@
       <template #item="{ item, props }">
         <router-link v-if="item.route" :to="item.route" style="padding: 0; background-color: transparent;">
           <a v-bind="props.action">
-            <span style="color: white;">{{ item.label }}</span>
+            <span style="font-weight: bold; color: white;">{{ item.label }}</span>
           </a>
         </router-link>
         <a v-else v-bind="props.action">
-          <span style="color: white;">{{ item.label }}</span>
+          <span style=" color: white;">{{ item.label }}</span>
         </a>
       </template>
     </Menubar>
@@ -42,7 +42,7 @@
 import styles from '../../styles/Header.module.css';
 
 //Components
-import { defineComponent, ref} from 'vue';
+import { computed, defineComponent, ref} from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
 import adminMixin from '@/mixins/adminMixin';
 
@@ -75,13 +75,24 @@ export default defineComponent({
     const popupTop = ref(0);
     const popupLeft = ref(0);
 
-    //Items pulled for the navbar
-    const navItems = ref([
-      { label: 'Home', link: '/home', subRoutes: [] },
-      { label: 'Professional Program', link: '/professional-program', subRoutes: [{ label: 'Applications', link: '/professional-program/apply' }] },
-      { label: 'Profile', link: '/profile', subRoutes: [] },
-    ]);
-
+  
+    const items = computed(() => {
+      const baseItems = ref([
+        { label: 'Portal', route: '/home' },
+        {
+          label: 'Professional Program',
+          items: [
+            { label: 'Home', route: '/professional-program' },
+            { label: 'Applications', route: '/professional-program/apply' }
+          ]
+        },
+        { label: 'Profile', route: '/profile' },
+      ]);
+      return IsAdminMode.value 
+        ? [...baseItems.value, { label: 'Admin', route: '/admin' }]
+        : baseItems.value;
+    });
+    /* 
     const items = ref([
         {
             label: 'Portal',
@@ -96,7 +107,7 @@ export default defineComponent({
             route: '/profile'
         },
     ]);
-
+*/
     const showPopup = (event, item) => {
       const rect = event.currentTarget.getBoundingClientRect();
       popupTop.value = rect.bottom + window.scrollY; // Position relative to the page
@@ -107,7 +118,6 @@ export default defineComponent({
     return {
       logo,
       styles,
-      navItems,
       items,
       popupTop,
       popupLeft,
