@@ -21,34 +21,19 @@
       </a>
     </div>
 
-    <!--Navigation Links-->
-    <nav :class="styles.navSection">
-      <ul :class="styles.navList">
-        <li 
-          :class="styles.navItemContainer" 
-          v-for="(item, index) in navItems" 
-          :key="index"
-          :id="'nav'+index" 
-          @mouseenter="showPopup($event, item)" 
-          @mouseleave="item.showPopup = false"
-        >
-          <RouterLink :to="item.link" :class="styles.navItem" style="z-index: 5;">{{ item.label }}</RouterLink>
-
-          <!-- Popup for subroutes -->
-          <div v-if="item.showPopup && item.subRoutes.length > 0" 
-               class="popup" 
-               :style="{ top: popupTop - 20 + 'px', left: popupLeft -2 + 'px' }">
-            <ul class="subNavList">
-              <li v-for="(route, subIndex) in item.subRoutes" :key="subIndex" style="margin-top:1.3rem;">
-                <RouterLink :id="'subnav' + subIndex" :to="route.link" style="color:white;text-align: center;">{{ route.label }}</RouterLink>
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="index !== navItems.length - 1" :class="styles.dividerNav"></div>
-        </li>
-      </ul>
-    </nav>
+    <!--Navbar-->
+    <Menubar :model="items" style="margin: 0; padding: 0;">
+      <template #item="{ item, props }">
+        <router-link v-if="item.route" :to="item.route" style="padding: 0; background-color: transparent;">
+          <a v-bind="props.action">
+            <span style="color: white;">{{ item.label }}</span>
+          </a>
+        </router-link>
+        <a v-else v-bind="props.action">
+          <span style="color: white;">{{ item.label }}</span>
+        </a>
+      </template>
+    </Menubar>
   </header>
 </template>
 
@@ -63,6 +48,8 @@ import adminMixin from '@/mixins/adminMixin';
 
 //Primevue components
 import ToggleSwitch from 'primevue/toggleswitch';
+import Menubar from 'primevue/menubar';
+import InputText from 'primevue/inputtext';
 
 //Images and icons
 import logo from '../../img/ksuLogo.png';
@@ -71,6 +58,8 @@ export default defineComponent({
   name: 'Header',
   components: {
     ToggleSwitch,
+    Menubar,
+    InputText,
   },
   mixins: [adminMixin],
   methods: {
@@ -93,6 +82,21 @@ export default defineComponent({
       { label: 'Profile', link: '/profile', subRoutes: [] },
     ]);
 
+    const items = ref([
+        {
+            label: 'Portal',
+            route: '/home'
+        },
+        {
+          label: 'Professional Program',
+          items: [{label: 'Home', route: '/professional-program'}, {label: 'Applications', route: '/professional-program/apply'}]
+        },
+        {
+            label: 'Profile',
+            route: '/profile'
+        },
+    ]);
+
     const showPopup = (event, item) => {
       const rect = event.currentTarget.getBoundingClientRect();
       popupTop.value = rect.bottom + window.scrollY; // Position relative to the page
@@ -104,6 +108,7 @@ export default defineComponent({
       logo,
       styles,
       navItems,
+      items,
       popupTop,
       popupLeft,
       showPopup,
@@ -128,5 +133,33 @@ export default defineComponent({
   list-style-type: none;
   padding: 0; /* Remove default padding */
   margin: 0; /* Remove default margin */
+}
+.p-menubar {
+  background-color: #482277 !important;
+  width: 100% !important; 
+  border-color: #482277 !important; 
+  border-radius: 0 !important;
+  padding-left: 9vw !important;
+}
+.p-menubar-item-content:hover{
+  background-color: transparent !important;
+}
+.p-menubar-item-link:hover{
+  background-color: transparent !important;
+  text-decoration: underline white 3px;
+  text-underline-offset: 5px; 
+}
+.p-menubar-item-content{
+  background-color: transparent !important;
+}
+.p-menubar-submenu{
+  background-color: #482277 !important;
+  border-color: #482277 !important;
+  border-radius: 0 !important;
+}
+.p-menubar-root-list{
+  background-color: #482277 !important;
+  border-color: #482277 !important;
+  border-radius: 0 !important;
 }
 </style>
