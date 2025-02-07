@@ -161,5 +161,6 @@ export default defineComponent({
   background-color: #482277 !important;
   border-color: #482277 !important;
   border-radius: 0 !important;
+  margin-left:0 !important;
 }
 </style>

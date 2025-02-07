@@ -8,11 +8,11 @@ const cookieParser = require('cookie-parser');
 const session = require('./configs/session.js');
 const serverConfig = require('./configs/server');
 const knex = require('./configs/db');
-const discord = require('./models/discord.js');
 const passport = require('passport');
 const crypto = require('crypto')
 
-
+//Discord bot
+//const discord = require('./models/discord.js');
 //runs the discord bot
 //discord.runDiscordBot();
 
