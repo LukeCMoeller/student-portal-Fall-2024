@@ -1,5 +1,5 @@
 <template>
-  <div> 
+  <div :class="styles['admin-container']"> 
     <!--Admin note dialog-->
     <Dialog id="notesDialog" class="notes-dialog" v-model:visible="NotesDialog" modal header="Edit Notes" :style="{ width: '25rem' }">
       <div class="flex items-center gap-4">
@@ -121,7 +121,7 @@
 
     <LoadingIndicator v-if="isLoading" />
 
-    <div class="grid" v-else>
+    <div class="grid" style="width: 100%;" v-else>
 
       <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">

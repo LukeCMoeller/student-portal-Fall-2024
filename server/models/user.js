@@ -3,7 +3,6 @@ const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const logger = require('../configs/logger.js')
 const objection = require('objection')
-//const nanoid = require('nanoid')
 
 // Related Models
 const Role = require('./role.js')
@@ -66,10 +65,6 @@ class User extends Model {
     let user = await User.query().where('email', email).limit(1)
     // user not found - create user
     if (user.length === 0) {
-      let admin = false
-      if (process.env.NODE_ENV !== 'production') {
-          admin = true
-      }
       user = [
         await User.query().insert({
           email: email,
@@ -80,15 +75,12 @@ class User extends Model {
           profile_updated: false
         }),
       ]
-      if(process.env.NODE_ENV !== 'production'){
-        console.log("NOT IN PRODUCTION, SETTING USER ROLE TO API")
-        const defaultRoleId = 1;  // Assuming the default role has id 1
+      const defaultRoleId = 1;  // Assuming the default role has id 1
 
-        // Insert into the user_roles table
-        await User.relatedQuery('roles') 
-          .for(user[0].id) 
-          .relate(defaultRoleId);
-      }
+      // Insert into the user_roles table
+      await User.relatedQuery('roles') 
+        .for(user[0].id) 
+        .relate(defaultRoleId);
       logger.info('User ' + email + ' created')
     }
     return user[0]

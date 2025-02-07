@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="grid nested-grid">
+    <div class="grid nested-grid" style="width:100%">
       <!--Header-->
       <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
             <h1 :class="shared['h1-style']">Your Profile</h1>

@@ -1,7 +1,7 @@
 <template>
   <div :class="shared['flex-centered']">
     <div :class="styles['home-container']" class="w-12 xl:w-6 md:w-9">
-      <div class="grid">
+      <div class="grid" style="width:100%;">
         <!--Header-->
         <div class="col-8 col-offset-2 xl:col-12 xl:col-offset-0">
           <div :class="shared['app-header']">

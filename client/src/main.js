@@ -4,11 +4,13 @@ import {createPinia} from 'pinia'
 import Aura from '@primevue/themes/aura';
 import { definePreset } from '@primevue/themes';
 import PrimeVue from 'primevue/config'
+import Ripple from 'primevue/ripple';
 import App from './App.vue'
 import router from './router'
 import Logger from 'js-logger'
 import setupInterceptors from './services/interceptors'
 import ToastService from 'primevue/toastservice'
+import 'primeicons/primeicons.css';
 
 const kPreset = definePreset(Aura, {
     semantic: {
@@ -44,6 +46,7 @@ createApp(App)
         }
     }
  })
+.directive('ripple', Ripple)
 .use(router)
 .use(createPinia())
 .use(ToastService)
