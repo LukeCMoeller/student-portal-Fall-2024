@@ -212,7 +212,7 @@ class User extends Model {
   async $beforeInsert() {
     //this.slug = nanoid()
     let user = await User.query().where('email', this.email).limit(1)
-    // user not found - create user
+    // Email is already in use
     if (user.length !== 0) {
       throw new objection.ValidationError({
         message: 'email should be unique',
