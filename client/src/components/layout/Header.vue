@@ -23,17 +23,28 @@
 
     <!--Navbar-->
     <Menubar :model="items" style="margin: 0; padding: 0;">
-      <template #item="{ item, props }">
-        <router-link v-if="item.route" :to="item.route" style="padding: 0; background-color: transparent;">
-          <a v-bind="props.action">
-            <span style="font-weight: bold; color: white;">{{ item.label }}</span>
-          </a>
-        </router-link>
-        <a v-else v-bind="props.action">
-          <span style=" color: white;">{{ item.label }}</span>
-        </a>
-      </template>
-    </Menubar>
+  <template #item="{ item, props }">
+    <router-link v-if="item.route" :to="item.route" style="padding: 0; background-color: transparent;">
+      <a v-bind="props.action">
+        <span 
+          :style="{ color: 'white', fontWeight: item.root ? 'bold' : 'normal' }"
+        >
+          {{ item.label }}
+        </span>
+      </a>
+    </router-link>
+    <a v-else v-bind="props.action">
+      <span 
+        :style="{ color: 'white', fontWeight: item.root ? 'bold' : 'normal' }"
+      >
+        {{ item.label }}
+      </span>
+    </a>
+  </template>
+</Menubar>
+
+
+
   </header>
 </template>
 
@@ -72,56 +83,28 @@ export default defineComponent({
     //Check for if the admin toggle is on
     const { IsAdmin, IsAdminMode } = adminMixin.setup();
 
-    const popupTop = ref(0);
-    const popupLeft = ref(0);
-
   
     const items = computed(() => {
       const baseItems = ref([
-        { label: 'Portal', route: '/home' },
+        { label: 'Portal', route: '/home', root: true },
         {
-          label: 'Professional Program',
+          label: 'Professional Program', root: true,
           items: [
             { label: 'Home', route: '/professional-program' },
             { label: 'Applications', route: '/professional-program/apply' }
           ]
         },
-        { label: 'Profile', route: '/profile' },
+        { label: 'Profile', route: '/profile', root: true },
       ]);
       return IsAdminMode.value 
-        ? [...baseItems.value, { label: 'Admin', route: '/admin' }]
+        ? [...baseItems.value, { label: 'Admin', route: '/admin', root: true }]
         : baseItems.value;
     });
-    /* 
-    const items = ref([
-        {
-            label: 'Portal',
-            route: '/home'
-        },
-        {
-          label: 'Professional Program',
-          items: [{label: 'Home', route: '/professional-program'}, {label: 'Applications', route: '/professional-program/apply'}]
-        },
-        {
-            label: 'Profile',
-            route: '/profile'
-        },
-    ]);
-*/
-    const showPopup = (event, item) => {
-      const rect = event.currentTarget.getBoundingClientRect();
-      popupTop.value = rect.bottom + window.scrollY; // Position relative to the page
-      popupLeft.value = rect.left; // Align with the left side of the item
-      item.showPopup = true;
-    };
 
     return {
       logo,
       styles,
       items,
-      popupTop,
-      popupLeft,
-      showPopup,
       IsAdmin,
       IsAdminMode
     };
@@ -130,20 +113,7 @@ export default defineComponent({
 </script>
 
 <style>
-.popup {
-  position: absolute; /* Keep this as absolute */
-  text-align: center;
-  color: white;
-  background-color: #482277;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 1.5rem 1rem 1.5rem;
-  z-index: 0;
-}
-.subNavList {
-  list-style-type: none;
-  padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
-}
+
 .p-menubar {
   background-color: #482277 !important;
   width: 100% !important; 

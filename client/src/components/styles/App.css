@@ -41,7 +41,7 @@ body, html {
     padding: 0;
     background-color: #fff; 
     color: black;
-    background-image: url("../img/MantoBG.svg");
+    background-image: url("../assets/MantoBG.svg");
      
     background-position: center;
     background-size: cover; 
