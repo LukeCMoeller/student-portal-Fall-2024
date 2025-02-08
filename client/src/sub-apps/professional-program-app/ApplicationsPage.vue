@@ -10,7 +10,7 @@
 //CSS
 import ApplicationForm from './ApplicationForm.vue';
 import AdminForm from './AdminForm.vue';
-import adminMixin from '@/mixins/adminMixin';
+import adminMixin from '@/stores/adminMixin';
 
 export default {
   name: 'ApplicationsPage',

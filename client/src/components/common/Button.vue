@@ -1,6 +1,6 @@
 <script>
 //CSS
-import "../../styles/Button.scss";
+import "../../components/styles/Button.scss";
 
 export default {
   props: {

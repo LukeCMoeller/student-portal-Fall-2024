@@ -202,8 +202,8 @@ import Dialog from 'primevue/dialog';
 import LoadingIndicator from '@/components/common/LoadingIndicator.vue';
 
 //CSS
-import styles from '../../styles/AdminForm.module.css'; 
-import shared from '../../styles/Shared.module.css';
+import styles from '@/components/styles/AdminForm.module.css'; 
+import shared from '@/components/styles/Shared.module.css';
 
 export default {
     components: {

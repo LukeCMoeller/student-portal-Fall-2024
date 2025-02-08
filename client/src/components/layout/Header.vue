@@ -39,12 +39,12 @@
 
 <script>
 //CSS
-import styles from '../../styles/Header.module.css';
+import styles from '../styles/Header.module.css';
 
 //Components
 import { computed, defineComponent, ref} from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
-import adminMixin from '@/mixins/adminMixin';
+import adminMixin from '@/stores/adminMixin';
 
 //Primevue components
 import ToggleSwitch from 'primevue/toggleswitch';
@@ -52,7 +52,7 @@ import Menubar from 'primevue/menubar';
 import InputText from 'primevue/inputtext';
 
 //Images and icons
-import logo from '../../img/ksuLogo.png';
+import logo from '../assets/ksuLogo.png';
 
 export default defineComponent({
   name: 'Header',

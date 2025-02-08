@@ -1,5 +1,5 @@
 <script setup>
-import Load from '../../img/Loading.svg';
+import Load from '@/components/assets/Loading.svg';
 const handleImageError = () => {
   alert('Failed to load the image!');
 };

@@ -30,11 +30,11 @@
 
 <script>
 //CSS
-import styles from '../../styles/Footer.module.css'; 
+import styles from '../styles/Footer.module.css'; 
 import '/node_modules/primeflex/primeflex.css'
 
 //Images and icons
-import footerImage from '../../img/Footer2.jpg'; 
+import footerImage from '../assets/Footer2.jpg'; 
 
 export default {
   name: 'Footer',

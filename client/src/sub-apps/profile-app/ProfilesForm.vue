@@ -114,14 +114,14 @@ import IftaLabel from 'primevue/iftalabel';
 import { useToast } from 'primevue/usetoast'
 
 //CSS
-import styles from '../../styles/ProfileForm.module.css';
-import shared from '../../styles/Shared.module.css';
+import styles from '@/components/styles/ProfileForm.module.css';
+import shared from '@/components/styles/Shared.module.css';
 
 //Images and icons
-import discordIcon from '../../img/Discord.svg'
-import discordText from '../../img/DiscordText.png'
-import githubText from '../../img/GitHubText.png'
-import githubIcon from '../../img/GitHub-Logo.png'
+import discordIcon from '@/components/assets/Discord.svg'
+import discordText from '@/components/assets/DiscordText.png'
+import githubText from '@/components/assets/GitHubText.png'
+import githubIcon from '@/components/assets/GitHub-Logo.png'
 
 export default {
   name: 'ProfilesForm',

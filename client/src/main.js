@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './components/styles/main.css'
 import { createApp } from 'vue'
 import {createPinia} from 'pinia'
 import Aura from '@primevue/themes/aura';

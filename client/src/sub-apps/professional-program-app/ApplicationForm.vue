@@ -116,8 +116,8 @@
   import Column from 'primevue/column';
 
   //CSS
-  import styles from '../../styles/ApplicationForm.module.css'; 
-  import shared from '../../styles/Shared.module.css';
+  import styles from '../../components/styles/ApplicationForm.module.css'; 
+  import shared from '../../components/styles/Shared.module.css';
 
   
   export default {

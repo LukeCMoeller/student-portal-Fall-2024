@@ -21,11 +21,11 @@
 
 <script>
 //Primevue components
-import Button from '../../components/common/Button.vue';
+import Button from '@/components/common/Button.vue';
 
 //CSS
-import styles from '../../styles/HomePage.module.css';
-import shared from '../../styles/Shared.module.css';
+import styles from '@/components/styles/HomePage.module.css';
+import shared from '@/components/styles/Shared.module.css';
 
 export default {
   name: 'Admin',

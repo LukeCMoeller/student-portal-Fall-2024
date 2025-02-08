@@ -1,4 +1,4 @@
-const knexConfig = require('./configs/db');
+const knexConfig = require('../configs/db');
 const knex = require('knex')(knexConfig);
 const fs = require('fs').promises
 const {parse} = require('csv-parse/sync')

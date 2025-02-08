@@ -3,7 +3,7 @@
 import { useRoute } from 'vue-router';
 
 //CSS
-import '../../styles/ErrorPage.css';
+import '../../components/styles/ErrorPage.css';
  
 const route = useRoute();
 const message = route.params.message || 'A Happy Little Accident (The page you are viewing does not exist 😞)';

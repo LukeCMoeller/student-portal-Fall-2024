@@ -55,11 +55,11 @@
 <script>
 //CSS
 import Button from '../../components/common/Button.vue';
-import styles from '../../styles/HomePage.module.css';
-import shared from '../../styles/Shared.module.css';
+import styles from '../../components/styles/HomePage.module.css';
+import shared from '../../components/styles/Shared.module.css';
 
 //Components
-import adminMixin from '@/mixins/adminMixin';
+import adminMixin from '@/stores/adminMixin';
 
 export default {
   name: 'HomePage',
