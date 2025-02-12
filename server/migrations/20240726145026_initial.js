@@ -79,7 +79,7 @@ exports.up = function(knex) {
       table.string('instructor').notNullable();
       table.integer('credit_hours');
     })
-    .createTable('user_courses', function(table) {
+    .createTable('course_students', function(table) {
       table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
       table.primary(['course_id','user_id']);
@@ -89,6 +89,11 @@ exports.up = function(knex) {
       table.string('dropped_date');
       table.string('last_attendence');
       table.string('midterm_grade');
+    })
+    .createTable('course_instructors', function(table) {
+      table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
+      table.primary(['course_id','user_id']);
     });
 };
 
