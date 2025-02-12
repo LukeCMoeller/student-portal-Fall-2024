@@ -86,6 +86,31 @@ exports.seed = async function(knex) {
     { user_id: userMap['admin'], role_id: roleMap['admin'] },
   ]);
 
+  await knex('professional_program_applications').insert([
+    {
+      user_id: userMap['jariddle'],
+      semester: 'Fall 2024',
+      status: 'Pending',
+      notes: 'Waiting for review',
+      waiver: false,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
+      created_by: 'admin',
+      updated_by: 'admin'
+    },
+    {
+      user_id: userMap['ejones'],
+      semester: 'Spring 2025',
+      status: 'Pending',
+      notes: 'Waiting for review',
+      waiver: true,
+      created_at: knex.fn.now(),
+      updated_at: knex.fn.now(),
+      created_by: 'admin',
+      updated_by: 'admin'
+    }
+  ]);
+
   await knex('courses').insert([
     { class_number: 101, term: 202501, subject: 'CS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', instructor: 'Dr. Brown', credit_hours: 3 },
     { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC', instructor: 'Dr. Green', credit_hours: 4 }
