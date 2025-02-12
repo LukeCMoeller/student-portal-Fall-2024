@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const authenticateToken = require('../middleware/token.js')
 const adminOnly = require('../middleware/admin-required.js')
 
 //Route to get the list of applications
-router.get('/applications', adminOnly, async (req, res) => {
+router.get('/applications', authenticateToken, adminOnly, async (req, res) => {
   const knex = req.app.get('knex')
   try {
     const applications = await knex('professional_program_applications')
@@ -11,7 +12,6 @@ router.get('/applications', adminOnly, async (req, res) => {
       .select(
         'professional_program_applications.id',
         'professional_program_applications.user_id',
-        'users.advisor',
         'professional_program_applications.semester',
         'professional_program_applications.status',
         'professional_program_applications.notes',
@@ -21,7 +21,8 @@ router.get('/applications', adminOnly, async (req, res) => {
         'users.first_name',
         'users.last_name',
         'users.email',
-        'users.eid', 
+        'users.eid',
+        'users.wid' 
       );
     res.json(applications);
   } catch (err) {
