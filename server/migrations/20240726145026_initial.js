@@ -69,7 +69,7 @@ exports.up = function(knex) {
     })
     .createTable('courses', function(table){
       table.increments('id');
-      table.integer('class_number').notNullable();
+      table.integer('class_number').notNullable().unique();
       table.integer('term').notNullable();
       table.string('subject').notNullable();
       table.string('catalog').notNullable();
@@ -103,7 +103,8 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
-    .dropTable('user_courses')
+    .dropTable('course_instructors')
+    .dropTable('course_students')
     .dropTable('courses')
     .dropTable('professional_program_applications')
     .dropTable('user_roles')
