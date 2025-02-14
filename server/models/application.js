@@ -16,18 +16,27 @@ class Application extends Model {
         return 'id'
       }
 
-    //Method to insert applications, will need to figure out what information gets passed here to then send to the database
-    static async findOrCreate(user_id) {
+    //Method to insert or find applications
+    //Even though they'd do similar things, might want to split this into two different methods, because different use cases
+    static async findOrCreate(user_id, semester, status, notes, waiver) {
         let application = await Application.query().where('user_id', user_id).limit(1)
 
         if(application.length === 0) {
             //Application not found, need to create a new one to submit
             application = [
                 await Application.query().insert({
-                    //This is where we put in all of the fields
+                    semester: semester,
+                    status: status, //Might always be pending or something like that, if this is immediately after submission
+                    notes: notes,
+                    waiver: waiver
                     //We will need to do a separate related query afterwards for the user information
                 })
             ]
+            //This should connect the application to the user that submitted it
+            //Might have to find the user in this method somehow, rather than passing in the ID
+            await Application.relatedQuery('user')
+                .for(application[0].id)
+                .relate(user_id)
             //Related query will go out here
         }
         //After finding or creating, return the application
