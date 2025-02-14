@@ -7,13 +7,12 @@ import nconf from 'nconf';
  */
 
 nconf.env().argv().file('config.json');
-   
-const config = {
-  DISCORD_TOKEN: process.env.DISCORD_SECRET,
-  DISCORD_CLIENT_ID: 1286512827053379756,
-  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
-  DISCORD_REDIRECT_URI: '${process.env.GITHUB_CODESPACE_URL}/discord-oauth-callback', //might need to be updated in developer portal
-  COOKIE_SECRET: process.env.COOKIE_SECRET
-};
 
+const config = {
+  DISCORD_TOKEN: 'process.env.DISCORD_SECRET',
+  DISCORD_CLIENT_ID: 'process.env.DISCORD_CLIENT_ID',
+  DISCORD_CLIENT_SECRET: 'process.env.DISCORD_CLIENT_SECRET',
+  DISCORD_REDIRECT_URI: '${process.env.GITHUB_CODESPACE_URL}/discord-oauth-callback', //might need to be updated in developer portal
+  COOKIE_SECRET: 'process.env.COOKIE_SECRET',
+};
 export default config;

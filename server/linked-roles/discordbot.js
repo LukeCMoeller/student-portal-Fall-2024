@@ -1,4 +1,4 @@
-const Model = require('./base.js')
+const Model = require('../models/base.js')
 //const crypto = require('crypto')
 
 class discord extends Model {
