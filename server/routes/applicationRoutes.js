@@ -1,10 +1,23 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Applications
+ *   description: API to move information around with the applications. Mix of user and admin level
+ *   base-file-route: api/v1/applications/
+ */
+
 const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../middleware/token.js')
 const adminOnly = require('../middleware/admin-required.js')
 
+/*
+ * API routes for handling professional program applications
+ * Base api route: "api/applications/"
+ */
+
 //Route to get the list of applications
-router.get('/applications', authenticateToken, adminOnly, async (req, res) => {
+router.get('/', authenticateToken, adminOnly, async (req, res) => {
   const knex = req.app.get('knex')
   try {
     const applications = await knex('professional_program_applications')

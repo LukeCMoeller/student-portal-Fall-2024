@@ -292,7 +292,7 @@ export default {
         return;
       }
       try{
-          const response = watch(fetch(`http://localhost:3002/api/courses?id=${wid}`));
+          const response = watch(fetch(`http://localhost:3002/api/v1/courses?id=${wid}`));
           const data = watch(response.json());
           setCourses(data.courses);  
       } catch (error){

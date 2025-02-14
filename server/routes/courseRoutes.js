@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+
+
 router.get('/courses', async (req, res) => {  
     const knex = req.app.get('knex')
     const id = req.query.id; 

@@ -34,6 +34,8 @@ const usersRouter = require('./userRoutes.js')
 const profileRouter = require('./profileRoutes.js')
 const discordRouter = require('./discordRoutes.js')
 const githubRouter = require('./githubRoutes.js')
+const applicationsRouter = require('./applicationRoutes.js')
+const authRouter = require('./auth.js')
 // Load Token Middleware
 router.use(token)
 
@@ -47,6 +49,8 @@ router.use('/users', usersRouter)
 router.use('/profile', profileRouter)
 router.use('/discord', discordRouter)
 router.use('/github', githubRouter)
+router.use('/applications', applicationsRouter)
+router.use('/auth', authRouter)
 
 //Other routes from the program this api was lifted from, shouldn't be necessary but keeping around just in case.
 //router.use('/roles', roleRouter)

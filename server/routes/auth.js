@@ -3,7 +3,8 @@
  * @swagger
  * tags:
  *   name: Auth
- *   description: Authentication API
+ *   description: API to handle login and authentication
+ *   base-file-route: api/v1/auth/
  * components:
  *   securitySchemes:
  *     bearerAuth:

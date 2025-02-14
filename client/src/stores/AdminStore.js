@@ -31,7 +31,7 @@ export const useAdminStore = defineStore('admin', {
 
       try {
         // Make API request with the token in the Authorization header
-        const response = await api.get('/api/applications', {
+        const response = await api.get('/api/v1/applications', {
           headers: {
             Authorization: `Bearer ${token}` // Send token in Authorization header
           }

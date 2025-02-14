@@ -2,7 +2,8 @@
  * @swagger
  * tags:
  *   name: GitHub
- *   description: GitHub API
+ *   description: API to connect a user's GitHub account. User-level
+ *   base-file-route: /api/v1/github/
  */
 
 // Load Libraries
