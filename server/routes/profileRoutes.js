@@ -13,9 +13,6 @@ const router = express.Router()
 // Load Models
 const User = require('../models/user.js')
 
-//Load Middleware
-const token = require('../middleware/token.js')
-
 /**
  * @swagger
  * /api/v1/profile:
@@ -32,7 +29,7 @@ const token = require('../middleware/token.js')
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/', token, async function (req, res, next) {
+router.get('/', async function (req, res, next) {
   let user = await User.query()
     .findById(req.user_id)
     .select('id', 'email', 'first_name', 'last_name', 'wid')
@@ -62,7 +59,7 @@ router.get('/', token, async function (req, res, next) {
  *       422:
  *         $ref: '#/components/responses/UpdateError'
  */
-router.post('/', token, async function (req, res, next) {
+router.post('/', async function (req, res, next) {
   try {
     await User.query().findById(req.user_id).patch({
       first_name: req.body.user.first_name,

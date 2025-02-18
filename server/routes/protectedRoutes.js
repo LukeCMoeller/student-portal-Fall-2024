@@ -1,8 +1,8 @@
 /**
  * @swagger
  * tags:
- *   name: API
- *   description: API
+ *   name: protected
+ *   description: Route containing sub routes that require users to be logged in
  * components:
  *   responses:
  *     UpdateError:
@@ -17,29 +17,30 @@
  *               message:
  *                 type: string
  */
-
-//Base api file, sets up the rest of the apis and routes to them
-
 // Load Libraries
 const express = require('express')
 const router = express.Router()
 
 // Load Middleware
-const { dbAudit } = require('../middleware/db-audit.js')
+const token = require('../middleware/token.js')
 const requestLogger = require('../middleware/request-logger.js')
 
-// Load Routes
-const protectedRoutes = require('./protectedRoutes.js')
-const authRoutes = require('./authRoutes.js')
+// Load Routers
+const usersRouter = require('./userRoutes.js')
+const profileRouter = require('./profileRoutes.js')
+const discordRouter = require('./discordRoutes.js')
+const githubRouter = require('./githubRoutes.js')
+const applicationsRouter = require('./applicationRoutes.js')
 
-// Load DB Audit Middleware
-router.use(dbAudit)
+router.use(token)
 
 router.use(requestLogger)
 
-//Routing
-router.use('/protected', protectedRoutes) //This route is for any sub route that requires authentication
-router.use('/auth', authRoutes) //This route is for authenticating users
+router.use('/users', usersRouter)
+router.use('/profile', profileRouter)
+router.use('/discord', discordRouter)
+router.use('/github', githubRouter)
+router.use('/applications', applicationsRouter)
 
 /**
  * @swagger
@@ -71,12 +72,5 @@ router.use('/auth', authRoutes) //This route is for authenticating users
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', function (req, res, next) {
-  res.json({
-    version: 1.0,
-    user_id: req.user_id,
-    is_admin: req.is_admin ? 1 : 0,
-  })
-})
 
 module.exports = router

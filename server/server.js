@@ -32,36 +32,15 @@ app.use(passport.session());
 // Middleware
 const corsConfig = require('./middleware/corsConfig');
 app.use(corsConfig);
-console.log()
+
 // Cookie Parsing
 const app_secret = crypto.randomBytes(16).toString('hex')
 app.use(cookieParser(app_secret));
 
 // Routes
 const apiRoutes = require('./routes/api.js');
-/* Duplicated imports from api.js, moving it all to there (assuming this doesn't break)
-const courseRoutes = require('./routes/courseRoutes');
-const applicationRoutes = require('./routes/applicationRoutes');
-const dataRoutes = require('./routes/dataRoutes');
-const authRoutes = require('./routes/auth'); // Renamed for clarity
-const adminRoutes = require('./routes/adminRoutes');
-const discordRoutes = require('./routes/discordRoutes');
-const githubRoutes = require('./routes/githubRoutes');
-*/
 
-app.use('/api/v1', (req, res, next) => {next()}, apiRoutes);
-
-/* Shouldn't need any of this, keeping it here in case it breaks everything
-// Use routes
-
-//app.use('/api', courseRoutes); Deprecated
-app.use('/api', applicationRoutes);
-//app.use('/api', dataRoutes); Deprecated and a massive security risk
-app.use('/auth', authRoutes);
-app.use('/api', adminRoutes); //I think deprecated, but not sure
-app.use('/discord', discordRoutes);
-app.use('/github', githubRoutes);
-*/
+app.use('/api/v1', apiRoutes);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {

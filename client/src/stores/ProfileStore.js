@@ -20,13 +20,13 @@ export const useProfileStore = defineStore('profile', {
      */
     async hydrate() {
       Logger.info('profile:hydrate')
-      await api.get('/api/v1/profile').then((response) => {
+      await api.get('/api/v1/protected/profile').then((response) => {
         this.user = response.data
       })
     },
     async unlinkDiscord(userId){
       try {
-        return await api.delete(`/api/v1/discord/`, {
+        return await api.delete(`/api/v1/protected/discord/`, {
             params: { userId },
         })
         } catch (error) {
@@ -35,7 +35,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async unlinkGitHub(userId){
       try {
-        return await api.delete(`/api/v1/github/`, {
+        return await api.delete(`/api/v1/protected/github/`, {
             params: { userId },
         })
         } catch (error) {
@@ -44,7 +44,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async getDiscordInfo(userId) {
       try {
-        const response = await api.get(`/api/v1/discord/username`, {
+        const response = await api.get(`/api/v1/protected/discord/username`, {
             params: { userId },
         });
         this.discord = response.data.username;
@@ -54,7 +54,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async getGitHubInfo(userId) {
       try {
-        const response = await api.get(`/api/v1/github/username`, {
+        const response = await api.get(`/api/v1/protected/github/username`, {
             params: { userId },
         });
         this.github = response.data.username;
@@ -68,7 +68,7 @@ export const useProfileStore = defineStore('profile', {
      */
     async update() {
       await api
-        .post('/api/v1/profile/', {
+        .post('/api/v1/protected/profile/', {
           user: this.user
         })
         .then(async () => {
