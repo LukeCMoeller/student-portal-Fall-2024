@@ -10,7 +10,7 @@ const setupInterceptors = () => {
   api.interceptors.request.use(
     (config) => {
       // If we are not trying to get a token, we must send the token with any request
-      if (config.url !== '/auth/token') {
+      if (config.url !== '/api/v1/auth/token') {
         const tokenStore = useTokenStore()
         if (tokenStore.token) {
           config.headers['Authorization'] = 'Bearer ' + tokenStore.token
@@ -34,7 +34,7 @@ const setupInterceptors = () => {
       const original_config = err.config
 
       // If we are not trying to get a token, but we get an error
-      if (original_config.url !== '/auth/token' && err.response) {
+      if (original_config.url !== '/api/v1/auth/token' && err.response) {
         // If we have an expired token, we should get a 401 error
         if (err.response.status === 401) {
           // Prevent infinite loops by tracking number of retries

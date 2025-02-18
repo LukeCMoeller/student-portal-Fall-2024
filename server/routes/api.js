@@ -36,13 +36,10 @@ const discordRouter = require('./discordRoutes.js')
 const githubRouter = require('./githubRoutes.js')
 const applicationsRouter = require('./applicationRoutes.js')
 const authRouter = require('./auth.js')
-// Load Token Middleware
-router.use(token)
 
 // Load DB Audit Middleware
 router.use(dbAudit)
 
-// Configure Logging (after token)
 router.use(requestLogger)
 
 router.use('/users', usersRouter)

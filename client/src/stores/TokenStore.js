@@ -122,7 +122,7 @@ export const useTokenStore = defineStore('token', {
     async getToken() {
       Logger.info('token:get')
       await api
-        .get('/auth/token', { withCredentials: true })
+        .get('/api/v1/auth/token', { withCredentials: true })
         .then((response) => {
           this.token = response.data.token
         })
@@ -131,7 +131,7 @@ export const useTokenStore = defineStore('token', {
           if (err.response && err.response.status === 401) {
             this.token = ''
             Logger.info('token:get login failed - redirecting to CAS')
-            window.location.href = '/auth/login'
+            window.location.href = '/api/v1/auth/login'
           } else {
             Logger.error('token:get error' + err)
             this.token = ''
@@ -146,7 +146,7 @@ export const useTokenStore = defineStore('token', {
     async tryToken() {
       Logger.info('token:try')
       await api
-        .get('/auth/token', { withCredentials: true })
+        .get('/api/v1/auth/token', { withCredentials: true })
         .then((response) => {
           this.token = response.data.token
         })
@@ -217,7 +217,7 @@ export const useTokenStore = defineStore('token', {
     async logout() {
       this.token = ''
       this.ltik = ''
-      window.location.href = '/auth/logout'
+      window.location.href = '/api/v1/auth/logout'
     }
   }
 })
