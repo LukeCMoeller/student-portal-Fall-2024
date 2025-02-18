@@ -8,7 +8,6 @@
 
 const express = require('express');
 const router = express.Router();
-const authenticateToken = require('../middleware/token.js')
 const adminOnly = require('../middleware/admin-required.js')
 
 /*
@@ -17,7 +16,7 @@ const adminOnly = require('../middleware/admin-required.js')
  */
 
 //Route to get the list of applications
-router.get('/', authenticateToken, adminOnly, async (req, res) => {
+router.get('/', adminOnly, async (req, res) => {
   const knex = req.app.get('knex')
   try {
     const applications = await knex('professional_program_applications')
