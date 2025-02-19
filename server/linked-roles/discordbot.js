@@ -97,9 +97,11 @@ class discord extends Model {
     }
     if(TestingDatabaseAll){ //runs the test for all students
       handleAllStudentRoled();
+      TestingDatabaseAll = false;
     }
     if(TestingDatabaseSingle){//runs the test for a single student
       handleSelectStudentRoled('some users discord id');//need a discord id here)
+      TestingDatabaseSingle = false;
     }
 
     client.on('guildMemberAdd', async (member) => { 
