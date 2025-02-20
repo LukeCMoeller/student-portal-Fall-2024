@@ -17,12 +17,12 @@ Welcome to the Professional Applications System, a capstone project developed by
 
 **Running the Project** 
 1. Client Side
-    * Install Client packages: 
+    * Install Client packages: ```cd client && npm install```
     * Starting Client: ```npm run dev``` 
 2. Server Side
     * Install Server packages: ```cd server && npm install```
     * Update [.env](server/.env) file
-    * Start the Server: ```npm start```
+    * Start the Server: ```npm run dev```
 3. Database
     * Install Knex: ```npm install knex -g```
     * Run Database: ```cd sever && knex migrate:up --knexfile configs/db.js```
@@ -30,8 +30,8 @@ Welcome to the Professional Applications System, a capstone project developed by
 ## Description
  This applicaiton will keep track of an individual student’s pre-professional and professional program GPA and the status of the student’s professional program application. It will have information about the student’s advisor, how far along they are in their degree program, and allow the student to fill out the professional program application automatically. After project completion, it will be maintained by CIS faculty and staff. 
 
- The Client side is built using React JS, in the backend the application is using Express and using Postgresql database. [Link to Database Tables](server/dbtables.txt)
-
+ The Client side is built using Vue.js, in the backend the application is using Express and PostgreSQL as it's database. [Link to Database Tables](docs/diagrams/Database_Schema.pdf)
+ 
 # Features
 ## System Features
   - Intergrated KSU Single Sign-On/Central Authencation System to ensure seamless intergration and enhanced security.  
