@@ -4,7 +4,8 @@
  */
 exports.seed = async function(knex) {
   // Clear existing entries
-  await knex('user_courses').del();
+  await knex('course_students').del();
+  await knex('course_instructors').del();
   await knex('professional_program_applications').del();
   await knex('user_roles').del();
   await knex('roles').del();
