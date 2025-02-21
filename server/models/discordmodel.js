@@ -16,13 +16,26 @@ class User extends Model {
       return 'id'
     }
     
-    async get_users_with_discord() {//incomplete query
-        const discord_users = await this.$query()
-        return discord_users
-    }
-    async get_student_courses(name){//incomplete query
-        const all_courses = await this.$quary()
-        return all_courses
+    async get_users_with_discord() { //based off application routes querys
+      try {
+        return await knex('user_discord')
+          .join('users', 'user_discord.user_id', '=', 'users.id')
+          .select('user_discord.discord_id');
+      } catch (err) {
+        console.error('Error fetching users with Discord:', err);
+      }
+  }
+    async get_student_courses(discord_id){//more complete query
+      try {
+        return await this.knex('course_students')
+          .join('users', 'course_students.user_id', '=', 'users.id')
+          .join('user_discord', 'users.id', '=', 'user_discord.user_id')
+          .join('courses', 'course_students.course_id', '=', 'courses.id')
+          .where('user_discord.discord_id', discord_id);
+      } catch (err) {
+        console.error('Error fetching courses for Discord ID:', err);
+        throw err;
+      }
     }
     
 }  

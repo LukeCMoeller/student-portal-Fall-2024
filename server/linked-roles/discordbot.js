@@ -10,14 +10,15 @@ class discord extends Model {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
     ] });
-    let all_students = discordModel.get_users_with_discord();// get all students discord ids
-    let TestingDatabaseAll = false;
-    let TestingDatabaseSingle = false;
     let ourServerguild;
+
+    let all_students = discordModel.get_users_with_discord();// get all students discord ids
+    let TestingDatabaseAll = false; //trigger this to run the async function once
+    let TestingDatabaseSingle = false; //trigger this to run the async function once
     let roles = [
       '1340083275179491328', // CIS 100 student
       '1340083455555276821'  // CIS 200 student
-      //the rest of the roles here in the future
+      //the rest of the roles here to be added
     ];
 
     client.login(process.env.DISCORD_SECRET);
@@ -50,7 +51,6 @@ class discord extends Model {
         const member = await ourServerguild.members.fetch(all_students[x]).catch(() => null); //get the actual user from our discord
         if (!member) { //simple check they they are acaully in the server and didnt leave or something
           console.error('Student not found');
-          //maybe have code here to edit database to remove the student? no clue
         }else{
           try{
             const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id)); //get a refrence to the members roles
@@ -61,7 +61,6 @@ class discord extends Model {
             for(let y = 0; y < student_roles.length; y++){//iterate through all user roles
               const role = ourServerguild.roles.cache.get(student_roles[y]);//get the role from discord
               await member.roles.add(role); //add the role
-
             }
             console.log(`Roles added from member: ${member.user.tag}`);
           }catch (error){
@@ -105,6 +104,7 @@ class discord extends Model {
     }
 
     client.on('guildMemberAdd', async (member) => { 
+      //check for previous discord account and remove from server
       if (!member) {
         console.error('Member not found!');
         return;
