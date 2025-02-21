@@ -22,7 +22,7 @@ Welcome to the Professional Applications System, a capstone project developed by
 2. Server Side
     * Install Server packages: ```cd server && npm install```
     * Update [.env](server/.env) file
-    * Start the Server: ```npm start```
+    * Start the Server: ```npm run dev```
 3. Database
     * Install Knex: ```npm install knex -g```
     * Run Database: ```cd sever && knex migrate:up --knexfile configs/db.js```

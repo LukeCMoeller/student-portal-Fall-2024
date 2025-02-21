@@ -26,7 +26,8 @@ export const useProfileStore = defineStore('profile', {
     },
     async unlinkDiscord(userId){
       try {
-        return await api.delete(`/api/v1/protected/discord/`, {
+        return await api.delete(`/
+          api/v1/protected/discord/`, {
             params: { userId },
         })
         } catch (error) {
