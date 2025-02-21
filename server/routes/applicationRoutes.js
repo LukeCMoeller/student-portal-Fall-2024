@@ -9,6 +9,7 @@
 const express = require('express');
 const router = express.Router();
 const adminOnly = require('../middleware/admin-required.js')
+const Application = require('../models/application.js')
 
 /*
  * API routes for handling professional program applications
@@ -42,5 +43,16 @@ router.get('/', adminOnly, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+//Route for a user to submit their application
+router.post('/submit', async (req, res) => {
+  try {
+    Application.create(req.body.user_id, req.body.semester, req.body.status, req.body.notes, req.body.waiver)
+  } catch (err) {
+    console.error('Error creating application:', err);
+    res.status(500).send('Server error');
+  }
+  
+})
 
 module.exports = router;
