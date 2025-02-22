@@ -12,21 +12,25 @@ const router = express.Router()
 const db = require('../configs/db.js')
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
-
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.HUBGIT_CLIENT_ID,
-      clientSecret: process.env.HUBGIT_CLIENT_SECRET,
-      callbackURL: `${process.env.SERVER_URL}/github/callback`   //process.env.GITHUB_CALLBACK_URL,
-    },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
-    }
-  )
-);
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
+try {
+  passport.use(
+    new GitHubStrategy(
+      {
+        clientID: process.env.HUBGIT_CLIENT_ID,
+        clientSecret: process.env.HUBGIT_CLIENT_SECRET,
+        callbackURL: `${process.env.SERVER_URL}/github/callback`, // or process.env.GITHUB_CALLBACK_URL
+      },
+      (accessToken, refreshToken, profile, done) => {
+        return done(null, profile);
+      }
+    )
+  );
+  
+  passport.serializeUser((user, done) => done(null, user));
+  passport.deserializeUser((obj, done) => done(null, obj));
+} catch (error) {
+  console.error('Error setting up GitHub strategy, you must setup a GitHub dev application for users to connect their GitHub accounts to their profile. See documentation.');
+}
 
 router.get('/', (req, res, next) => {
     const userId = req.query.state;
