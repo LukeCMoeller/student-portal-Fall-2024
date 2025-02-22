@@ -171,7 +171,7 @@
             "Advisor1", "Advisor2"
         ];
 
-        const SubmitApplication() {
+        const SubmitApplication = () => {
             
         }
 
