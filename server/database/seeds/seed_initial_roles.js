@@ -112,9 +112,60 @@ exports.seed = async function(knex) {
   ]);
 
   await knex('courses').insert([
-    { class_number: 101, term: 202501, subject: 'CS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', instructor: 'Dr. Brown', credit_hours: 3 },
-    { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC', instructor: 'Dr. Green', credit_hours: 4 }
+    { class_number: 101, term: 202501, subject: 'CS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', credit_hours: 3 },
+    { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC',  credit_hours: 4 }
   ]);
+
+  const fs = require('fs');
+  const csv = require('csv-parser');
+  const courseResults = [];
+  const userResults = [];
+  const uniqueCourses = [];
+  const seen = new Set();
+
+  await new Promise((resolve, reject) => {
+    fs.createReadStream('../database/data/courses.csv')
+      .pipe(csv({skipLines: 1}))
+      .on('data', (row) => {
+
+        //Skip invalid rows
+        if (!row['Class Nbr'] || !row['Subject'] || !row['Catalog'] || !row['KSU Class Descr'] || !row['Component'] || !row['Term']) {
+          return;
+        }
+        courseResults.push({
+          class_number: parseInt(row['Class Nbr'], 10),
+          term: parseInt(row['Term'].trim(), 10),
+          subject: row['Subject'].trim(),
+          catalog: row['Catalog'].trim(),
+          name: row['KSU Class Descr'].trim(),
+          section: 'A',
+          component: row['Component'].trim(),
+          credit_hours: -1,
+        });
+      })
+      .on('end', async () => {
+        //Logic for adding unique courses to the courses table
+        courseResults.forEach(row => {
+          if (!seen.has(row.class_number)) {
+            uniqueCourses.push(row);
+            seen.add(row.class_number);
+          }
+        });
+        //Inserting into the courses table in batches
+        const batchSize = 1000;
+        for (let i = 0; i < uniqueCourses.length; i += batchSize) {
+          const batch = uniqueCourses.slice(i, i + batchSize);
+          try {
+            await knex('courses').insert(batch);
+            console.log(`Inserted ${batch.length} rows successfully`);
+          } catch (error) {
+            console.error('Error inserting batch:', error);
+          }
+        }
+      })
+      .on('error', (error) => reject(error));
+  });
+  
 
   //Add students and instructors to courses
   const courses = await knex('courses').select('id', 'class_number');
