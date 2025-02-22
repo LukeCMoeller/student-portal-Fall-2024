@@ -2,7 +2,8 @@
  * @swagger
  * tags:
  *   name: Users
- *   description: Users API
+ *   description: Admin level API to get information about all users
+ *   base-file-route: /api/v1/users/
  */
 
 // Load Libraries

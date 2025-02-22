@@ -3,7 +3,8 @@
  * @swagger
  * tags:
  *   name: Auth
- *   description: Authentication API
+ *   description: API to handle login and authentication
+ *   base-file-route: api/v1/auth/
  * components:
  *   securitySchemes:
  *     bearerAuth:
@@ -18,7 +19,6 @@
 // Load Libraries
 const express = require('express')
 const router = express.Router()
-//const jwt = require('jsonwebtoken')
 
 // Load Configurations
 const cas = require('../configs/cas.js')

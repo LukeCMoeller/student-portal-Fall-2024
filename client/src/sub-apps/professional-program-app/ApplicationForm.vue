@@ -171,6 +171,10 @@
             "Advisor1", "Advisor2"
         ];
 
+        const SubmitApplication = () => {
+            
+        }
+
         return {styles, shared, studentData, courses, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
     }
 }

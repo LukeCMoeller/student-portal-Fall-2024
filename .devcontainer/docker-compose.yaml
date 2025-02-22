@@ -30,7 +30,7 @@ services:
       CAS_SERVICE_URL: "https://${CODESPACE_NAME}-5173.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
       CAS_DEV_MODE: false
       CAS_DEV_USER: testcas
-      CAS_REDIRECT_URL: /auth/login
+      CAS_REDIRECT_URL: /api/v1/auth/login
       TOKEN_SECRET: "secret_hex"
       SERVER_URL: "https://${CODESPACE_NAME}-3002.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
 

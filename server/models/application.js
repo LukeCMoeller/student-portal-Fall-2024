@@ -1,6 +1,4 @@
 const Model = require('./base.js')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
 const logger = require('../configs/logger.js')
 const objection = require('objection')
 
@@ -16,21 +14,47 @@ class Application extends Model {
         return 'id'
       }
 
-    //Method to insert applications, will need to figure out what information gets passed here to then send to the database
-    static async findOrCreate(user_id) {
+    //Method to find application
+    static async find(user_id) {
         let application = await Application.query().where('user_id', user_id).limit(1)
 
         if(application.length === 0) {
-            //Application not found, need to create a new one to submit
-            application = [
-                await Application.query().insert({
-                    //This is where we put in all of the fields
-                    //We will need to do a separate related query afterwards for the user information
-                })
-            ]
-            //Related query will go out here
+            return null
         }
-        //After finding or creating, return the application
+        //If found, return application
         return application[0]
     }
+
+    static async create(user_id, semester, status, notes, waiver) {
+        application = [
+            await Application.query().insert({
+                semester: semester,
+                status: status, //Might always be pending or something like that, if this is immediately after submission
+                notes: notes,
+                waiver: waiver
+                //We will need to do a separate related query afterwards for the user information
+            })
+        ]
+        //This should connect the application to the user that submitted it
+        //Might have to find the user in this method somehow, rather than passing in the ID
+        await Application.relatedQuery('user')
+            .for(application[0].id)
+            .relate(user_id)
+
+        return application[0]
+    }
+
+    static get relationMappings() {
+        return {
+          roles: {
+            relation: Model.BelongsToOneRelation,
+            modelClass: User,
+            join: {
+              from: 'users.id',
+              to: 'professional_program_applications.user_id',
+            },
+            filter: (builder) => builder.select('id'),
+          },
+        }
+      }
 }

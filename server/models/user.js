@@ -55,12 +55,8 @@ class User extends Model {
     return 'id'
   }
 
-  // Methods can be defined for model classes just as you would for
-  // any JavaScript class. If you want to include the result of these
-  // methods in the output json, see `virtualAttributes`.
-  //fullName() {
-  //  return this.firstName + ' ' + this.lastName;
-  //}
+
+  //Method used to find or create a user, which is then passed into the web token
   static async findOrCreate(email) {
     let user = await User.query().where('email', email).limit(1)
     // user not found - create user

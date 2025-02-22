@@ -2,14 +2,13 @@
  * @swagger
  * tags:
  *   name: GitHub
- *   description: GitHub API
+ *   description: API to connect a user's GitHub account. User-level
+ *   base-file-route: /api/v1/github/
  */
 
 // Load Libraries
 const express = require('express')
 const router = express.Router()
-const axios = require('axios');
-const qs = require('qs');
 const db = require('../configs/db.js')
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;

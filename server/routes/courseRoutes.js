@@ -1,4 +1,5 @@
-const express = require('express');
+//Load Libraries
+express = require('express');
 const router = express.Router();
 
 router.get('/courses', async (req, res) => {  
