@@ -14,7 +14,7 @@ const crypto = require('crypto')
 
 
 //runs the discord bot
-//discord.runDiscordBot();
+discord.runDiscordBot();
 
 const app = express();
 const PORT = serverConfig.port || 3001;

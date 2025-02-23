@@ -1,6 +1,6 @@
 const Model = require('./base.js')
 const objection = require('objection')
-
+const knex = require('../configs/db.js');
 
 class User extends Model {
     // Table name is the only required property.
@@ -24,14 +24,19 @@ class User extends Model {
       } catch (err) {
         console.error('Error fetching users with Discord:', err);
       }
-  }
+  }//id rn is 
     async get_student_courses(discord_id){//more complete query
       try {
-        return await this.knex('course_students')
+        const stuff = await knex('course_students')
           .join('users', 'course_students.user_id', '=', 'users.id')
           .join('user_discord', 'users.id', '=', 'user_discord.user_id')
           .join('courses', 'course_students.course_id', '=', 'courses.id')
-          .where('user_discord.discord_id', discord_id);
+          //number here is testing number for discord account
+          .where('user_discord.discord_id', '592454625270038547')//replace number with discord id
+          .where('courses.subject', 'like', '%CIS%') 
+          .select('courses.subject', 'courses.catalog');
+          console.log(stuff);
+         
       } catch (err) {
         console.error('Error fetching courses for Discord ID:', err);
         throw err;
@@ -39,3 +44,4 @@ class User extends Model {
     }
     
 }  
+module.exports = User;

@@ -90,6 +90,20 @@ exports.seed = async function(knex) {
       updated_at: '2024-11-01 10:00:00',
       updated_by: 'system'
     },
+    {
+      wid: 106,
+      eid: 'E106',
+      first_name: 'Lucas',
+      last_name: 'Testing',
+      email: 'lcmoeller@ksu.edu',
+      refresh_token: null,
+      is_admin: false,
+      advisor: false,
+      warning: false,
+      profile_updated: true,
+      updated_at: '2024-11-01 12:00:00',
+      updated_by: 'system'
+    }
   ]);
 
   await knex('user_courses').insert([
@@ -137,6 +151,7 @@ exports.seed = async function(knex) {
       grade: 'C',
       ignore_in_gpa: false,
     },
+    
   ]);
 
   await knex('professional_program_applications').insert([
