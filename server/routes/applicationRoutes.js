@@ -3,7 +3,7 @@
  * tags:
  *   name: Applications
  *   description: API to move information around with the applications. Mix of user and admin level
- *   base-file-route: api/v1/applications/
+ *   base-file-route: api/v1/protected/applications/
  */
 
 const express = require('express');
@@ -44,10 +44,19 @@ router.get('/', adminOnly, async (req, res) => {
   }
 });
 
+router.get('/self', async (req, res) => {
+  let applications = await Application.query().where('user_id', req.user_id).limit(1)
+  if(applications.length === 0) {
+    res.status(404).send('Application not found.')
+  } else {
+    res.json(applications[0])
+  }
+})
+
 //Route for a user to submit their application
 router.post('/submit', async (req, res) => {
   try {
-    Application.create(req.body.user_id, req.body.semester, req.body.status, req.body.notes, req.body.waiver)
+    Application.create(req.body.user_id, req.body.application)
   } catch (err) {
     console.error('Error creating application:', err);
     res.status(500).send('Server error');

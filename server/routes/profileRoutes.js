@@ -3,7 +3,7 @@
  * tags:
  *   name: Profile
  *   description: API to get info about the currently logged in user. User-level
- *   base-file-route: api/v1/profile/
+ *   base-file-route: api/v1/protected/profile/
  */
 
 // Load Libraries
