@@ -26,6 +26,16 @@ Welcome to the Professional Applications System, a capstone project developed by
 3. Database
     * Install Knex: ```npm install knex -g```
     * Run Database: ```cd sever && knex migrate:up --knexfile configs/db.js```
+    
+**GitHub Integration** 
+1. You will need access to the GitHub Dev Application.
+2. Adjust all callbacks to refer to your current URL.
+3. More details to come.
+
+**Discord Integration**
+1. You will need access to the Discord Dev Application.
+2. Adjust all callbacks to refer to your current URL.
+3. More details to come.
 
 ## Description
  This applicaiton will keep track of an individual student’s pre-professional and professional program GPA and the status of the student’s professional program application. It will have information about the student’s advisor, how far along they are in their degree program, and allow the student to fill out the professional program application automatically. After project completion, it will be maintained by CIS faculty and staff. 
