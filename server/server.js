@@ -16,6 +16,20 @@ const crypto = require('crypto')
 //runs the discord bot
 //discord.runDiscordBot();
 
+//TEST FOR DISCORD MODEL REMOVE THIS -------------------------------------------------------------
+const Discord = require('./models/discordModel.js');
+
+async function test() {
+    const user_id = 13; 
+    const discordModel = new Discord();
+    const courses = await discordModel.get_student_courses(user_id);
+    console.log("Courses:", courses);
+}
+
+test();
+
+//---------------------------------------------------------------------------------------------------
+
 const app = express();
 const PORT = serverConfig.port || 3001;
 
