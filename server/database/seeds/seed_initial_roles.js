@@ -3,15 +3,14 @@
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  // Clear existing entries
   await knex('course_instructors').del();
   await knex('course_students').del();
   await knex('courses').del();
   await knex('professional_program_applications').del();
   await knex('user_roles').del();
   await knex('roles').del();
-  await knex('user_program').del();
-  await knex('programs').del();
+  await knex('user_discord').del();
+  await knex('user_github').del();
   await knex('users').del();
 
   // Insert roles
@@ -111,8 +110,12 @@ exports.seed = async function(knex) {
     }
   ]);
 
+  await knex('user_discord').insert([
+    { user_id: userMap['jariddle'], discord_id: 111, username: "Specter"},
+  ]);
+
   await knex('courses').insert([
-    { class_number: 101, term: 202501, subject: 'CS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', credit_hours: 3 },
+    { class_number: 101, term: 202501, subject: 'CIS', catalog: 'CIS 115', name: 'Intro to CS', section: 'A', component: 'CIS', credit_hours: 3 },
     { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC',  credit_hours: 4 }
   ]);
 
