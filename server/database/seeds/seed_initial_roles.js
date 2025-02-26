@@ -123,6 +123,9 @@ exports.seed = async function(knex) {
       updated_by: 'admin'
     }
   ]);
+  await knex('user_discord').insert([
+    { user_id: userMap['lcmoeller'], discord_id: '592454625270038547', username: '.pannmann' }
+  ]);
 
   await knex('courses').insert([
     { class_number: 101, term: 202501, subject: 'CS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', credit_hours: 3 },
