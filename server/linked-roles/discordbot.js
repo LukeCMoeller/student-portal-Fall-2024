@@ -1,6 +1,5 @@
 const Model = require('../models/base.js')
 const User = require('../models/discordmodel.js')
-//const crypto = require('crypto')
 
 
 class discord extends Model {
@@ -30,23 +29,31 @@ class discord extends Model {
       '1101101101101101101' // CIS 015 and 018 student FAKE
     ];
     let all_students;
-    client.login(process.env.DISCORD_SECRET);
+    client.login(process.env.DISCORD_SECRET).catch(console.error);
     client.once('ready',async () => {
       console.log('Bot is online!');
       ourServerguild = await client.guilds.cache.get('1285994775282978900'); // the server id
-      console.log('ourServerguild:', ourServerguild);
       if (!ourServerguild) {
         console.error('Guild not found!');
         return;
       }
-      for(let i = 0; i < roles.length; i++){
-        roles[i] = ourServerguild.roles.cache.get(roles[i]);
-        if(!roles[i]){
-          console.error('Role not found!');
-          return;
+      roles = roles.map(roleID => {
+        const role = ourServerguild.roles.cache.get(roleID);
+        if (!role) {
         }
-      }
+        return role;
+      }).filter(role => role); 
       all_students = await discordModelTest.get_users_with_discord();// get all students discord ids
+      if(TestingDatabaseAll){ //runs the test for all students
+        handleAllStudentRoled();
+        TestingDatabaseAll = false;
+      }
+      
+      if(TestingDatabaseSingle){//runs the test for a single student
+        let mydiscord = 592454625270038547;
+        handleSelectStudentRoled(mydiscord);//need a discord id here)
+        TestingDatabaseSingle = false;
+      }
     });
 
     //turns the class numbers into the roles for discord
@@ -55,10 +62,10 @@ class discord extends Model {
 
       let new_List = [];
       if(convert.includes(115)){
-        new_List.add(roles[0]); //add 115 discord role
+        new_List.push(roles[0]); //add 115 discord role
       }
       if(convert.includes(200)){
-        new_List.add(roles[1]); //add 200 discord role
+        new_List.push(roles[1]); //add 200 discord role
       }
       //add more couses here
       return new_List;
@@ -70,7 +77,7 @@ class discord extends Model {
       //for note all_students[x] it just a plane discord ID. nothing else to it
       for(let x = 0; x < all_students.length; x++){ // for each student in the we grabbed with a valid discord id
 
-        let student_courses = discordModelTest.get_student_courses(all_students[x]); //get all the courses from that student. 
+        let student_courses = await discordModelTest.get_student_courses(all_students[x]); //get all the courses from that student. 
         student_roles = matchClassesToRoles(student_courses); //converst all the courses to the designated discord roles
 
         const member = await ourServerguild.members.fetch(all_students[x]).catch(() => null); //get the actual user from our discord
@@ -97,28 +104,28 @@ class discord extends Model {
     };
 
     async function handleSelectStudentRoled(studentDiscordID){ //almost the same as handleAllStudentRoled
-
-     let student_courses = discordModelTest.get_student_courses(studentDiscordID); //get all the courses from that student. 
+     let student_courses = await discordModelTest.get_student_courses(studentDiscordID); //get all the courses from that student. 
+     console.log(student_courses);
      let student_roles = matchClassesToRoles(student_courses); //same as in processRolesForAllStudnets
      const member = await ourServerguild.members.fetch(studentDiscordID).catch(() => null); //get the actual user from our discord
         if (!member) {
           console.error('Student not found');
         }else{
-          try{
-            const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id)); //get a refrence to the members roles
-            if (rolesToRemove.size > 0) {//remove all roles from the list of previous roles but keep everything else
-              await member.roles.remove(rolesToRemove);
-            }
-  
-            for(let y = 0; y < student_roles.length; y++){//iterate through all user roles
-              const role = ourServerguild.roles.cache.get(student_roles[y]);//get the role from discord
-              await member.roles.add(role); //add the role
-            }
-            console.log(`Roles added from member: ${member.user.tag}`);
-          }catch (error){
-            console.error('Error adding role:', error);
+        try{
+          const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id)); //get a refrence to the members roles
+          if (rolesToRemove.size > 0) {//remove all roles from the list of previous roles but keep everything else
+            await member.roles.remove(rolesToRemove);
           }
+
+          for(let y = 0; y < student_roles.length; y++){//iterate through all user roles
+            const role = ourServerguild.roles.cache.get(student_roles[y]);//get the role from discord
+            await member.roles.add(role); //add the role
+          }
+          console.log(`Roles added from member: ${member.user.tag}`);
+        }catch (error){
+          console.error('Error adding role:', error);
         }
+      }
     }
 
     client.on('guildMemberAdd', async (member) => { 
@@ -138,16 +145,9 @@ class discord extends Model {
         console.error('Error adding role:', error);
       }
     });
+      
 
-    if(TestingDatabaseAll){ //runs the test for all students
-      handleAllStudentRoled();
-      TestingDatabaseAll = false;
-    }
-    
-    if(TestingDatabaseSingle){//runs the test for a single student
-      handleSelectStudentRoled('some users discord id');//need a discord id here)
-      TestingDatabaseSingle = false;
-    }
   }
+
 }
 module.exports = discord

@@ -10,8 +10,6 @@ const serverConfig = require('./configs/server');
 const knex = require('./configs/db');
 const discord = require('./linked-roles/discordbot.js');
 const passport = require('passport');
-const crypto = require('crypto')
-
 
 //runs the discord bot
 discord.runDiscordBot();
@@ -33,9 +31,6 @@ app.use(passport.session());
 const corsConfig = require('./middleware/corsConfig');
 app.use(corsConfig);
 console.log()
-// Cookie Parsing
-const app_secret = crypto.randomBytes(16).toString('hex')
-app.use(cookieParser(app_secret));
 
 // Routes
 const apiRoutes = require('./routes/api.js');

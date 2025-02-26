@@ -151,6 +151,17 @@ exports.seed = async function(knex) {
       grade: 'C',
       ignore_in_gpa: false,
     },
+    {
+      user_id: 6, // Luke Moeller
+      class_number: 105,
+      term: 202401,
+      subject: 'CIS',
+      catalog: '115',
+      name: 'Intro to Programming',
+      component: 'LEC', 
+      grade: 'F',
+      ignore_in_gpa: false,
+    }
     
   ]);
 
@@ -199,5 +210,6 @@ exports.seed = async function(knex) {
     { user_id: 2, role_id: 1 },
     { user_id: 3, role_id: 1 },
     { user_id: 4, role_id: 2 },
+    { user_id: 6, role_id: 1 }
   ]);
 };
