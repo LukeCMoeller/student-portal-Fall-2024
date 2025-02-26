@@ -116,6 +116,7 @@ exports.seed = async function(knex) {
     { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC',  credit_hours: 4 }
   ]);
 
+  /* Add courses from CSV file
   const fs = require('fs');
   const csv = require('csv-parser');
   const courseResults = [];
@@ -165,7 +166,7 @@ exports.seed = async function(knex) {
       })
       .on('error', (error) => reject(error));
   });
-  
+  */
 
   //Add students and instructors to courses
   const courses = await knex('courses').select('id', 'class_number');
