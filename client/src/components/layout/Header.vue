@@ -55,7 +55,7 @@ import styles from '../styles/Header.module.css';
 //Components
 import { computed, defineComponent, ref} from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
-import adminMixin from '@/stores/adminMixin';
+import rolesMixin from '@/stores/RoleMixin';
 
 //Primevue components
 import ToggleSwitch from 'primevue/toggleswitch';
@@ -72,7 +72,7 @@ export default defineComponent({
     Menubar,
     InputText,
   },
-  mixins: [adminMixin],
+  mixins: [rolesMixin],
   methods: {
     logout(event) {
       const tokenStore = useTokenStore();
@@ -81,7 +81,7 @@ export default defineComponent({
   },
   setup() {
     //Check for if the admin toggle is on
-    const { IsAdmin, IsAdminMode } = adminMixin.setup();
+    const { IsAdmin, IsAdminMode } = rolesMixin.setup();
 
   
     const items = computed(() => {

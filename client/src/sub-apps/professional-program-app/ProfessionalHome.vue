@@ -59,7 +59,7 @@ import styles from '../../components/styles/HomePage.module.css';
 import shared from '../../components/styles/Shared.module.css';
 
 //Components
-import adminMixin from '@/stores/adminMixin';
+import adminMixin from '@/stores/RoleMixin';
 
 export default {
   name: 'HomePage',
