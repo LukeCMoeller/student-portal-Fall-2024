@@ -44,6 +44,10 @@ class Application extends Model {
         return application[0]
     }
 
+    static async getApplicationCourses(user_id, ) {
+
+    }
+
     static get relationMappings() {
         return {
           roles: {

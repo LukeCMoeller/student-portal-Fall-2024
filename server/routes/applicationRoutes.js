@@ -9,7 +9,8 @@
 const express = require('express');
 const router = express.Router();
 const adminOnly = require('../middleware/admin-required.js')
-const Application = require('../models/application.js')
+const Application = require('../models/application.js');
+const { knex } = require('../models/base.js');
 
 /*
  * API routes for handling professional program applications
