@@ -44,7 +44,7 @@ class discord extends Model {
         return role;
       }).filter(role => role); 
       all_students = await discordModelTest.get_users_with_discord();// get all students discord ids
-      /*
+      
       if(TestingDatabaseAll){ //runs the test for all students
         handleAllStudentRoled();
         TestingDatabaseAll = false;
@@ -55,7 +55,7 @@ class discord extends Model {
         handleSelectStudentRoled(mydiscord);//need a discord id here)
         TestingDatabaseSingle = false;
       }
-        */
+        
     });
 
     //turns the class numbers into the roles for discord
@@ -107,6 +107,7 @@ class discord extends Model {
 
     async function handleSelectStudentRoled(studentDiscordID){ //almost the same as handleAllStudentRoled
      let student_courses = await discordModelTest.get_student_courses(studentDiscordID); //get all the courses from that student. 
+     console.log("more testing below");
      console.log(student_courses);
      let student_roles = matchClassesToRoles(student_courses); //same as in processRolesForAllStudnets
      const member = await ourServerguild.members.fetch(studentDiscordID).catch(() => null); //get the actual user from our discord

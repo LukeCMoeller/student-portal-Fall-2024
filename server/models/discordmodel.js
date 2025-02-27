@@ -31,8 +31,8 @@ class User extends Model {
           .join('users', 'course_students.user_id', '=', 'users.id')
           .join('user_discord', 'users.id', '=', 'user_discord.user_id')
           .join('courses', 'course_students.course_id', '=', 'courses.id')
-          //.where('user_discord.discord_id', discord_id)
-          //.where('courses.subject', 'like', '%CIS%')
+          //.where('user_discord.discord_id', String(discord_id)) //THIS DOSNT WORK
+          .where('courses.subject', 'like', '%CIS%')
           .select('courses.catalog'); //only need this
           console.log("testing below"); //log isnt hitting
           console.log(stuff);
