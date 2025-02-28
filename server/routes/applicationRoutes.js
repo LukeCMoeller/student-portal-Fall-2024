@@ -11,6 +11,7 @@ const router = express.Router();
 const adminOnly = require('../middleware/admin-required.js')
 const Application = require('../models/application.js');
 const { knex } = require('../models/base.js');
+const User = require('../models/user.js');
 
 /*
  * API routes for handling professional program applications
@@ -47,10 +48,12 @@ router.get('/', adminOnly, async (req, res) => {
 
 router.get('/self', async (req, res) => {
   let applications = await Application.query().where('user_id', req.user_id).limit(1)
+  let courses = await User.getApplicationCourses(req.user_id)
   if(applications.length === 0) {
-    res.status(404).send('Application not found.')
+    //No submitted application found, but still need to return the course information
+    res.status(400).json(courses)
   } else {
-    res.json(applications[0])
+    res.json(applications[0], courses)
   }
 })
 
