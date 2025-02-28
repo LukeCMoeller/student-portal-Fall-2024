@@ -186,7 +186,7 @@
 <script>
 //Components
 import { unparse } from 'papaparse';
-import { useAdminStore } from '@/stores/AdminStore';
+import { useReviewerStore } from '@/stores/ReviewerStore';
 
 //Primevue components
 import InputText from 'primevue/inputtext';
@@ -261,9 +261,9 @@ export default {
   },
   methods: {
     async loadApplications() {
-      const adminStore = useAdminStore();
-      await adminStore.fetchApplications(); // Fetch applications from the store
-      this.applications = adminStore.applications; // Set the applications to the component
+      const reviewStore = useReviewerStore();
+      await reviewStore.fetchApplications(); // Fetch applications from the store
+      this.applications = reviewStore.applications; // Set the applications to the component
     },
     HandleSendEmailClick(){
 

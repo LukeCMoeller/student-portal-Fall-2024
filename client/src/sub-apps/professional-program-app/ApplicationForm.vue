@@ -56,8 +56,12 @@
                         <div :class="styles['table']"> 
                             <DataTable :value="courses" stripedRows id="appTable">
                                 <Column field="class_descr" header="Course" />
-                                <Column field="course_id" header="Course ID" />
                                 <Column field="status" header="Status" />
+                                <Column header="Waiver">
+                                    <template #body="{ data }">
+                                        <Checkbox v-model="data.waiver" binary/>
+                                    </template>
+                                </Column>
                                 <Column field="grade" header="Grade" />
                             </DataTable>
                     </div>
@@ -88,7 +92,7 @@
                     <!--Submit button-->
                     <div class="col-12">
                         <div :class="shared['flex-centered']" >
-                        <Button id="submitBtn" type="button" :class="styles['btn-submit']">
+                        <Button id="submitBtn" type="button" :class="styles['btn-submit']" @click="SubmitApplication">
                             Submit
                         </Button>
                     </div>
@@ -114,6 +118,7 @@
   import Textarea from 'primevue/textarea';
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
+  import Checkbox from 'primevue/checkbox';
 
   //CSS
   import styles from '../../components/styles/ApplicationForm.module.css'; 
@@ -129,22 +134,27 @@
       Button,
       Alert,
       IftaLabel,
+      Checkbox,
       DataTable,
       Column
     },
     setup() {
       //Could easily get the profileStore in here and pull information from the logged in user
-      const studentData = ref({wid: 1234, name: "Test Student"});
-      const courses = shallowRef([
-        {class_descr: "Required", course_id: "CIS642", status: "Passed", grade: "A"},
-        {class_descr: "Required", course_id: "CIS505", status: "Passed", grade: "B"},
-        {class_descr: "Not Required", course_id: "CIS625", status: "Failed", grade: "D"},
+      const studentData = ref({wid: 0, name: ""});
+      const courses = ref([
+        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: "N/A"},
       ]);
       const loading = shallowRef(false);
       const statusMessage = shallowRef('');
       const alertStatus = shallowRef('info');
       const showAlert = shallowRef(false);
-      const selectedAdvisor = shallowRef('');
+      const selectedAdvisor = ref("");
       const courseUpdates = shallowRef({});
       const submitting = shallowRef(false);
       const additionalInfo = shallowRef('');
@@ -152,10 +162,7 @@
   
         const statusOptions = [
         { value: "Complete", label: "Complete" },
-        { value: "In-Progress", label: "In Progress" },
-        { value: "transferred", label: "Transferred" },
-        { value: "retaking", label: "Retaking" },
-        { value: "waiver-requested", label: "Waiver Requested" },
+        { value: "In-Progress", label: "In Progress" }
       ];
   
         const gradeOptions = [
@@ -168,14 +175,18 @@
         ];
     
         const advisorOptions = [
-            "Advisor1", "Advisor2"
+            "David Invergo", "Sheryl Cornell"
         ];
 
         const SubmitApplication = () => {
-            
-        }
+            if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
+                alert('Please select an advisor.')
+                return;
+            }
+            alert(`Form submitted!\nAdvisor: ${selectedAdvisor.value}`);
+        };
 
-        return {styles, shared, studentData, courses, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
+        return {styles, shared, studentData, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
     }
 }
 

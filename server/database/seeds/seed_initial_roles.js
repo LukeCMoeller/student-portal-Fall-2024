@@ -3,15 +3,14 @@
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  // Clear existing entries
   await knex('course_instructors').del();
   await knex('course_students').del();
   await knex('courses').del();
   await knex('professional_program_applications').del();
   await knex('user_roles').del();
   await knex('roles').del();
-  await knex('user_program').del();
-  await knex('programs').del();
+  await knex('user_discord').del();
+  await knex('user_github').del();
   await knex('users').del();
 
   // Insert roles
@@ -126,6 +125,10 @@ exports.seed = async function(knex) {
   await knex('user_discord').insert([
     { user_id: userMap['lcmoeller'], discord_id: '592454625270038547', username: '.pannmann' },
     { user_id: userMap['jariddle'], discord_id: '1313234532412952578', username: 'jariddle2024' }
+  ]);
+
+  await knex('user_discord').insert([
+    { user_id: userMap['jariddle'], discord_id: 111, username: "Specter"},
   ]);
 
   await knex('courses').insert([
