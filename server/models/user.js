@@ -202,6 +202,12 @@ class User extends Model {
         },
         filter: (builder) => builder.select('id'),
       },
+      courses: {
+        join: {
+          from: 'users.id',
+          to: 'student_courses.id'
+        }
+      }
     }
   }
 

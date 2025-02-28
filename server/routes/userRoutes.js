@@ -3,7 +3,7 @@
  * tags:
  *   name: Users
  *   description: Admin level API to get information about all users
- *   base-file-route: /api/v1/users/
+ *   base-file-route: /api/v1/protected/users/
  */
 
 // Load Libraries

@@ -25,13 +25,13 @@ class Application extends Model {
         return application[0]
     }
 
-    static async create(user_id, semester, status, notes, waiver) {
+    static async create(user_id, application) {
         application = [
             await Application.query().insert({
-                semester: semester,
-                status: status, //Might always be pending or something like that, if this is immediately after submission
-                notes: notes,
-                waiver: waiver
+                semester: application.semester,
+                status: application.status, //Might always be pending or something like that, if this is immediately after submission
+                notes: application.notes,
+                waiver: application.waiver
                 //We will need to do a separate related query afterwards for the user information
             })
         ]
@@ -42,6 +42,10 @@ class Application extends Model {
             .relate(user_id)
 
         return application[0]
+    }
+
+    static async getApplicationCourses(user_id, ) {
+
     }
 
     static get relationMappings() {

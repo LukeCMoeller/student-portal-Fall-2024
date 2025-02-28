@@ -3,7 +3,7 @@
  * tags:
  *   name: Discord
  *   description: API to connect with a user's Discord account. User-level
- *   base-file-route: /api/v1/discord
+ *   base-file-route: /api/v1/protected/discord
  */
 
 // Load Libraries
