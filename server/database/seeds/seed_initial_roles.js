@@ -124,13 +124,16 @@ exports.seed = async function(knex) {
     }
   ]);
   await knex('user_discord').insert([
-    { user_id: userMap['lcmoeller'], discord_id: '592454625270038547', username: '.pannmann' }
+    { user_id: userMap['lcmoeller'], discord_id: '592454625270038547', username: '.pannmann' },
+    { user_id: userMap['jariddle'], discord_id: '1313234532412952578', username: 'jariddle2024' }
   ]);
 
   await knex('courses').insert([
     { class_number: 101, term: 202501, subject: 'CS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', credit_hours: 3 },
     { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC',  credit_hours: 4 },
-    { class_number: 115, term: 202501, subject: 'CIS', catalog: '115', name: 'Intro to Programming', section: 'B', component: 'LEC',  credit_hours: 4 }
+    { class_number: 115, term: 202501, subject: 'CIS', catalog: '115', name: 'Intro to Programming', section: 'B', component: 'LEC',  credit_hours: 4 },
+    { class_number: 200, term: 202501, subject: 'CIS', catalog: '200', name: 'Programming fundementals', section: 'A', component: 'LEC',  credit_hours: 4 },
+    { class_number: 300, term: 202501, subject: 'CIS', catalog: '300', name: 'Data and Program Structures', section: 'A', component: 'LEC',  credit_hours: 3 }
   ]);
 
   /* Add courses from CSV file
@@ -192,7 +195,10 @@ exports.seed = async function(knex) {
   await knex('course_students').insert([
     { course_id: courseMap[101], user_id: userMap['jariddle'], grade: 'C', ignore_in_gpa: false, dropped: false },
     { course_id: courseMap[102], user_id: userMap['ejones'], grade: 'B+', ignore_in_gpa: false, dropped: false },
-    { course_id: courseMap[115], user_id: userMap['lcmoeller'], grade: 'F', ignore_in_gpa: false, dropped: false }
+    { course_id: courseMap[115], user_id: userMap['lcmoeller'], grade: 'F', ignore_in_gpa: false, dropped: false },
+    {course_id: courseMap[115], user_id: userMap['jariddle'], grade: 'A', ignore_in_gpa: false, dropped: false },
+    {course_id: courseMap[200], user_id: userMap['jariddle'], grade: 'A-', ignore_in_gpa: false, dropped: false },
+    {course_id: courseMap[300], user_id: userMap['ejones'], grade: 'A', ignore_in_gpa: false, dropped: false }
   ]);
 
   await knex('course_instructors').insert([
