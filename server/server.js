@@ -11,10 +11,9 @@ const knex = require('./configs/db');
 const passport = require('passport');
 const crypto = require('crypto')
 
-//Discord bot
-//const discord = require('./models/discord.js');
+const discord = require('./linked-roles/discordbot.js');
 //runs the discord bot
-//discord.runDiscordBot();
+discord.runDiscordBot();
 
 const app = express();
 const PORT = serverConfig.port || 3001;
