@@ -1,0 +1,4 @@
+https://www.youtube.com/watch?v=5TjXmsJtWZc 
+https://github.com/stuyy/jest-unit-tests-demo 
+the video goes over the whole thing. the repository is what was in the video. the sum.js and
+other sthign are simple to make sure jest is working. if im not wrong it should be working rn. 
