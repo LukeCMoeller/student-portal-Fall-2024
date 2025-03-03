@@ -124,6 +124,10 @@
   import styles from '../../components/styles/ApplicationForm.module.css'; 
   import shared from '../../components/styles/Shared.module.css';
 
+  //Stores
+  import {useApplicationStore} from '@/stores/ApplicationStore.js'
+  import {useProfileStore} from '@/stores/ProfileStore.js'
+  import {storeToRefs} from 'pinia'
   
   export default {
     name: 'ApplicationForm',
@@ -139,16 +143,27 @@
       Column
     },
     setup() {
-      //Could easily get the profileStore in here and pull information from the logged in user
-      const studentData = ref({wid: 0, name: ""});
+      //Store setup
+      const applicationStore = useApplicationStore()
+      const profileStore = useProfileStore()
+      if (process.env.NODE_ENV !== 'test') {
+        applicationStore.hydrate()
+        profileStore.hydrate()
+      }
+
+      const {application, course_grades} = storeToRefs(applicationStore)
+      const {user} = storeToRefs(profileStore)
+
+      const studentData = ref({wid: user.wid, name: user.first_name + " " + user.last_name});
       const courses = ref([
-        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.cis115},
+        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.cis116},
+        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.cis200},
+        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.cis300},
+        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.cis301},
+        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.ece241},
+        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.math200},
+        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.math221},
       ]);
       const loading = shallowRef(false);
       const statusMessage = shallowRef('');
@@ -162,7 +177,8 @@
   
         const statusOptions = [
         { value: "Complete", label: "Complete" },
-        { value: "In-Progress", label: "In Progress" }
+        { value: "In-Progress", label: "In Progress" },
+        { value: "Unsubmitted", label: "Unsubmitted" }
       ];
   
         const gradeOptions = [
@@ -186,7 +202,7 @@
             alert(`Form submitted!\nAdvisor: ${selectedAdvisor.value}`);
         };
 
-        return {styles, shared, studentData, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
+        return {styles, shared, studentData, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application, course_grades}
     }
 }
 

@@ -1,9 +1,9 @@
 // Imports
 import { defineStore } from 'pinia'
 import Logger from 'js-logger'
-import { error } from 'console'
 
 // Services
+import api from '@/services/tokenApi'
 
 export const useApplicationStore = defineStore('application', {
   state: () => {
@@ -40,8 +40,8 @@ export const useApplicationStore = defineStore('application', {
         //404 error means the application wasn't found
         if(err.response && err.response.status === 404) {
           //Grab the information from the courses, which were sent in the error's json.
-          this.application.status = 'N/A'
-          this.courses = err.response.json().courses
+          this.application.status = 'Unsubmitted'
+          this.courses = err.response.data.courses
         }
         //Anything else means something wildly unexpected happened
         else {
