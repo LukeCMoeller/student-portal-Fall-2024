@@ -28,8 +28,6 @@ const requestLogger = require('../middleware/request-logger.js')
 // Load Routers
 const usersRouter = require('./userRoutes.js')
 const profileRouter = require('./profileRoutes.js')
-const discordRouter = require('./discordRoutes.js')
-const githubRouter = require('./githubRoutes.js')
 const applicationsRouter = require('./applicationRoutes.js')
 
 //This verifies that the user has logged in before they can access any sub route
@@ -39,8 +37,6 @@ router.use(requestLogger)
 
 router.use('/users', usersRouter)
 router.use('/profile', profileRouter)
-router.use('/discord', discordRouter)
-router.use('/github', githubRouter)
 router.use('/applications', applicationsRouter)
 
 module.exports = router

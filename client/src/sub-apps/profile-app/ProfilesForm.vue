@@ -153,12 +153,12 @@ export default {
     profileStore.getGitHubInfo(userId);
     
     const HandleGitHubClick = () => {
-    const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/github?state=${userId}`;
+    const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/api/v1/github?state=${userId}`;
     window.location.href = gitAuthUrl;
     };
 
     const HandleDiscordClick = () => {
-    const discordAuthUrl = `${import.meta.env.VITE_SERVER_URL}/discord?state=${userId}`;
+    const discordAuthUrl = `${import.meta.env.VITE_SERVER_URL}/api/v1/discord?state=${userId}`;
     window.location.href = discordAuthUrl;
     };
 

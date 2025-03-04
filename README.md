@@ -28,19 +28,30 @@ Welcome to the Professional Applications System, a capstone project developed by
     * Run Database: ```cd sever && knex migrate:up --knexfile configs/db.js```
     
 **GitHub Integration** 
-1. You will need access to the GitHub Dev Application.
-2. Adjust all callbacks to refer to your current URL.
-3. More details to come.
+1. You will need access to the official CS GitHub Developer Account.
+2. Navigate to https://github.com/settings/developers and select the Student Portal application.
+3. Navigate to the General tab.
+4. Adjust all Redirects to reflect your current codespace url.
+  ```https://{YOUR CODESPACE NAME}-5173.app.github.dev```
+  ```https://{YOUR CODESPACE NAME}-3002.app.github.dev/github/callback```
+5. Update application
+
 
 **Discord Integration**
-1. You will need access to the Discord Dev Application.
-2. Adjust all callbacks to refer to your current URL.
-3. More details to come.
+1. You will need access to the official CS Discord Developer Account.
+2. Navigate to https://discord.com/developers/applications and select the Student Portal application.
+3. Navigate to the OAuth2 tab.
+4. Adjust all Redirects to reflect your current codespace url.
+  ```https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/callback```
+  ```https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/role-callback```
+5. Save changes
 
 ## Description
- This applicaiton will keep track of an individual student’s pre-professional and professional program GPA and the status of the student’s professional program application. It will have information about the student’s advisor, how far along they are in their degree program, and allow the student to fill out the professional program application automatically. After project completion, it will be maintained by CIS faculty and staff. 
+ This application is designed to replace the current professional program application while retaining its core functionality and introducing new features. It helps students track their pre-professional and professional program GPA, monitor the status of their professional program application, and access information about their advisor and degree progress. Additionally, it streamlines the application process by allowing students to auto-fill their professional program applications.
 
- The Client side is built using Vue.js, in the backend the application is using Express and PostgreSQL as it's database. [Link to Database Tables](docs/diagrams/Database_Schema.pdf)
+ New features include a student profile where students can connect their Discord and GitHub accounts, as well as a modular design that allows for the addition of new components and sub-applications as needed. Once completed, the project will be maintained by K-State CIS faculty and staff.
+
+ The client was built with Vue.js and the server utilizes Express and PostgreSQL. [Link to Database Tables](docs/diagrams/Database_Schema.pdf)
  
 # Features
 ## System Features
