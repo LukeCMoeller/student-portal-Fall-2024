@@ -26,24 +26,61 @@ Welcome to the Professional Applications System, a capstone project developed by
 3. Database
     * Install Knex: ```npm install knex -g```
     * Run Database: ```cd sever && knex migrate:up --knexfile configs/db.js```
+
+### **Running the Project**  
+
+#### **Client Side**  
+- Install dependencies:  
+  ```sh
+  cd client && npm install
+  ```
+- Start the development server:  
+  ```sh
+  npm run dev
+  ```
+
+#### **Server Side**  
+- Install dependencies:  
+  ```sh
+  cd server && npm install
+  ```
+- Ensure the environment variables are set in the [docker-compose](.devcontainer/docker-compose.yaml) file.
+- Start the server:  
+  ```sh
+  npm run dev
+  ```
+
+#### **Database**  
+- Run database migrations and seed data:  
+  ```sh
+  cd server && knex migrate:latest --knexfile configs/knexfile.js && knex seed:run --knexfile configs/knexfile.js
+  ```
     
-**GitHub Integration** 
+## **GitHub Integration** 
 1. You will need access to the official CS GitHub Developer Account.
 2. Navigate to https://github.com/settings/developers and select the Student Portal application.
 3. Navigate to the General tab.
 4. Adjust all Redirects to reflect your current codespace url.
-  ```https://{YOUR CODESPACE NAME}-5173.app.github.dev```
-  ```https://{YOUR CODESPACE NAME}-3002.app.github.dev/github/callback```
+  ```sh
+  https://{YOUR CODESPACE NAME}-5173.app.github.dev
+  ```
+  ```sh
+  https://{YOUR CODESPACE NAME}-3002.app.github.dev/github/callback
+  ```
 5. Update application
 
 
-**Discord Integration**
+## **Discord Integration**
 1. You will need access to the official CS Discord Developer Account.
 2. Navigate to https://discord.com/developers/applications and select the Student Portal application.
 3. Navigate to the OAuth2 tab.
 4. Adjust all Redirects to reflect your current codespace url.
-  ```https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/callback```
-  ```https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/role-callback```
+  ```sh
+  https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/callback
+  ```
+  ```sh
+  https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/role-callback
+  ```
 5. Save changes
 
 ## Description
