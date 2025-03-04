@@ -1,5 +1,5 @@
 # CS Professional Applications System
-Welcome to the Professional Applications System, a capstone project developed by [Jake Houghton](https://github.com/J-Houghton), [Josh Munda](https://github.com/josh-munda), [Nathan York](https://github.com/nafemage), and [Zach Berard](https://github.com/zmberard).  
+Welcome to the Professional Applications System, a capstone project currently developed by Josh Riddle, Ethan Jones and Luke Moeller. Previously contributed to by [Jake Houghton](https://github.com/J-Houghton), [Josh Munda](https://github.com/josh-munda), [Nathan York](https://github.com/nafemage), and [Zach Berard](https://github.com/zmberard).  
 
 ## Table of Contents
 
@@ -100,8 +100,10 @@ Welcome to the Professional Applications System, a capstone project developed by
 
 ## Student Features 
   - Auto Populating student data to mininze input
-  - Added Name update feature.  
   - Animated background and loading page to enhance UX 
+  - Profile customization
+  - Discord Integration
+  - GitHub Integration
 
 ## Contributing
 
