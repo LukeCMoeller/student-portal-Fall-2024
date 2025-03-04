@@ -1,5 +1,5 @@
 # CS Professional Applications System
-Welcome to the Professional Applications System, a capstone project currently being developed by Josh Riddle, Ethan Jones and Luke Moeller.  
+Welcome to the Professional Applications System, a capstone project currently being developed by [Josh Riddle](https://github.com/jriddle11), [Ethan Jones](https://github.com/Kalithar) and [Luke Moeller](https://github.com/LukeCMoeller).  
   
 **Previous contributors:**  
 [Jake Houghton](https://github.com/J-Houghton)  
