@@ -4,6 +4,8 @@ Welcome to the Professional Applications System, a capstone project developed by
 ## Table of Contents
 
 * [Getting Started](#getting-started)
+* [GitHub Integration](#github-integration)
+* [Discord Integration](#discord-integration)
 * [Description](#description)
 * [Features](#features)
 * [Contributing](#contributing)
@@ -11,21 +13,9 @@ Welcome to the Professional Applications System, a capstone project developed by
 
 ## Getting Started
 
-**Prerequisites** 
+### **Prerequisites** 
 * Software required
     * Node.js (version 16/18 or higher)
-
-**Running the Project** 
-1. Client Side
-    * Install Client packages: ```cd client && npm install```
-    * Starting Client: ```npm run dev``` 
-2. Server Side
-    * Install Server packages: ```cd server && npm install```
-    * Update [.env](server/.env) file
-    * Start the Server: ```npm run dev```
-3. Database
-    * Install Knex: ```npm install knex -g```
-    * Run Database: ```cd sever && knex migrate:up --knexfile configs/db.js```
 
 ### **Running the Project**  
 
@@ -56,11 +46,11 @@ Welcome to the Professional Applications System, a capstone project developed by
   cd server && knex migrate:latest --knexfile configs/knexfile.js && knex seed:run --knexfile configs/knexfile.js
   ```
     
-## **GitHub Integration** 
+## GitHub Integration 
 1. You will need access to the official CS GitHub Developer Account.
 2. Navigate to https://github.com/settings/developers and select the Student Portal application.
 3. Navigate to the General tab.
-4. Adjust all Redirects to reflect your current codespace url.
+4. Adjust all redirects to reflect your current codespace url.
   ```sh
   https://{YOUR CODESPACE NAME}-5173.app.github.dev
   ```
@@ -70,11 +60,11 @@ Welcome to the Professional Applications System, a capstone project developed by
 5. Update application
 
 
-## **Discord Integration**
+## Discord Integration
 1. You will need access to the official CS Discord Developer Account.
 2. Navigate to https://discord.com/developers/applications and select the Student Portal application.
 3. Navigate to the OAuth2 tab.
-4. Adjust all Redirects to reflect your current codespace url.
+4. Adjust all redirects to reflect your current codespace url.
   ```sh
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/callback
   ```
