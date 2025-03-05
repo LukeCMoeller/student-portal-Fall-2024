@@ -56,6 +56,7 @@ Welcome to the Professional Applications System, a capstone project currently be
 - Login as test Admin:  
 Username: admin  
 Password: password  
+  
 - Login as test student:  
 Username: student  
 Password: password  
