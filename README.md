@@ -51,7 +51,15 @@ Welcome to the Professional Applications System, a capstone project currently be
   ```sh
   cd server && knex migrate:latest --knexfile configs/knexfile.js && knex seed:run --knexfile configs/knexfile.js
   ```
-    
+
+#### **Login**
+- Login as test Admin:  
++ Username: admin  
++ Password: password  
+- Login as test student:  
++ Username: student  
++ Password: password  
+
 ## GitHub Integration 
 1. You will need access to the official CS GitHub Developer Account.
 2. Navigate to https://github.com/settings/developers and select the Student Portal application.
