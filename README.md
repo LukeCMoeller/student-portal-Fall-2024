@@ -54,12 +54,12 @@ Welcome to the Professional Applications System, a capstone project currently be
 
 #### **Login**
 - Login as test Admin:  
-Username: admin  
-Password: password  
+Username: ```sh admin```  
+Password: ```sh password```  
   
 - Login as test student:  
-Username: student  
-Password: password  
+Username: ```sh student```
+Password: ```sh password```  
 
 ## GitHub Integration 
 1. You will need access to the official CS GitHub Developer Account.
