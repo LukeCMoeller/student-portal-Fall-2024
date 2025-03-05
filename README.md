@@ -60,6 +60,7 @@ Password: **password**
 - Login as test student:  
 Username: **student**  
 Password: **password**  
+Save your profile information  
 
 ## GitHub Integration 
 1. You will need access to the official CS GitHub Developer Account.
