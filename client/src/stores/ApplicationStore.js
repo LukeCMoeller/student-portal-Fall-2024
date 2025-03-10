@@ -33,26 +33,22 @@ export const useApplicationStore = defineStore('application', {
     async hydrate() {
       Logger.info('application: hydrate')
       try {
-        await api.get('/api/v1/protected/application/self').then((response) => {
-          this.application = response.json().application
-          this.courses = response.json().courses
+        await api.get('/api/v1/protected/applications/self').then((response) => {
+          if(response.data.application === undefined) {
+            this.application.status = 'Unsubmitted'
+            this.course_grades = response.data.course_grades
+          } else {
+            this.application = response.data.application
+            this.courses = response.data.course_grades
+          }
       })} catch (err) {
-        //404 error means the application wasn't found
-        if(err.response && err.response.status === 404) {
-          //Grab the information from the courses, which were sent in the error's json.
-          this.application.status = 'Unsubmitted'
-          this.courses = err.response.data.courses
-        }
-        //Anything else means something wildly unexpected happened
-        else {
           Logger.error('Unknown error fetching professional program application: ', err)
-        }
       }
     },
     //Submits the application information. Server handles determining if this is an insert or update.
     async submit() {
       Logger.info('application: submit')
-      await api.post('/api/v1/protected/application/submit', {
+      await api.post('/api/v1/protected/applications/submit', {
         application: this.application,
         user_id: this.user_id
       })

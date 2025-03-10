@@ -44,7 +44,7 @@ class Application extends Model {
         return application[0]
     }
 
-    static async getApplicationCourses(user_id, ) {
+    static async getApplicationCourses(user_id) {
 
     }
 
@@ -62,3 +62,5 @@ class Application extends Model {
         }
       }
 }
+
+module.exports = Application

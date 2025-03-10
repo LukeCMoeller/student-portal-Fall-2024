@@ -47,16 +47,17 @@ router.get('/', adminOnly, async (req, res) => {
 });
 
 router.get('/self', async (req, res) => {
-  let applications = await Application.query().where('user_id', req.user_id).limit(1)
+  //let applications = await Application.query().where('user_id', req.user_id).limit(1)
+  let applications = []
   //let courses = await User.getApplicationCourses(req.user_id)
   if(applications.length === 0) {
     //No submitted application found, but still need to return the course information
     //res.status(400).json(courses)
     //Need to just return some dummy data for now
-    res.status(400).json({cis115:'A', cis116:'B', cis200:'C', cis300:'D', cis301:'A', ece241:'F', math200:'B', math221:'D'})
+    res.json({application: undefined, course_grades: {cis115:'A', cis116:'B', cis200:'C', cis300:'D', cis301:'A', ece241:'F', math200:'B', math221:'D'}})
   } else {
     //res.json(applications[0], courses)
-    res.json(applications[0], {cis115:'A', cis116:'B', cis200:'C', cis300:'D', cis301:'A', ece241:'F', math200:'B', math221:'D'})
+    res.json({application: applications[0], course_grades: {cis115:'A', cis116:'B', cis200:'C', cis300:'D', cis301:'A', ece241:'F', math200:'B', math221:'D'}})
   }
 })
 

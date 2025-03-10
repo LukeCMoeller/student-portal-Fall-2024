@@ -154,16 +154,16 @@
       const {application, course_grades} = storeToRefs(applicationStore)
       const {user} = storeToRefs(profileStore)
 
-      const studentData = ref({wid: user.wid, name: user.first_name + " " + user.last_name});
+      const studentData = ref({wid: user.value.wid, name: user.value.first_name + " " + user.value.last_name});
       const courses = ref([
-        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.cis115},
-        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.cis116},
-        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.cis200},
-        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.cis300},
-        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.cis301},
-        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.ece241},
-        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.math200},
-        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.math221},
+        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.value.cis115},
+        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.value.cis116},
+        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.value.cis200},
+        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.value.cis300},
+        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.value.cis301},
+        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.value.ece241},
+        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.value.math200},
+        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.value.math221},
       ]);
       const loading = shallowRef(false);
       const statusMessage = shallowRef('');
@@ -195,6 +195,7 @@
         ];
 
         const SubmitApplication = () => {
+            console.log(user.value)
             if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
                 alert('Please select an advisor.')
                 return;
