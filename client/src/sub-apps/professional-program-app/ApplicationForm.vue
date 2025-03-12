@@ -195,7 +195,6 @@
         ];
 
         const SubmitApplication = () => {
-            console.log(user.value)
             if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
                 alert('Please select an advisor.')
                 return;
