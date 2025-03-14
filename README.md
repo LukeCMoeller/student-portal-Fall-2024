@@ -25,16 +25,6 @@ Welcome to the Professional Applications System, a capstone project currently be
 
 ### **Running the Project**  
 
-#### **Client Side**  
-- Install dependencies:  
-  ```sh
-  cd client && npm install
-  ```
-- Start the development server:  
-  ```sh
-  npm run dev
-  ```
-
 #### **Server Side**  
 - Install dependencies:  
   ```sh
@@ -50,6 +40,16 @@ Welcome to the Professional Applications System, a capstone project currently be
 - Run database migrations and seed data:  
   ```sh
   cd server && knex migrate:latest --knexfile configs/knexfile.js && knex seed:run --knexfile configs/knexfile.js
+  ```
+
+#### **Client Side**  
+- Install dependencies:  
+  ```sh
+  cd client && npm install
+  ```
+- Start the development server:  
+  ```sh
+  npm run dev
   ```
 
 #### **Login**
