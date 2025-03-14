@@ -16,7 +16,7 @@
                     <!--Name field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" />
+                        <InputText id="studentName" v-model="full_name" variant="filled" :class="styles['input']" />
                         <label for="studentName">Name:</label>
                         </IftaLabel>
                     </div>
@@ -24,7 +24,7 @@
                     <!--WID field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" />
+                        <InputText id="wid" v-model="user.wid" variant="filled" :class="styles['input']" />
                         <label for="wid">WID:</label>
                         </IftaLabel>
                     </div>
@@ -119,6 +119,7 @@
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
   import Checkbox from 'primevue/checkbox';
+  import { useToast } from 'primevue/usetoast'
 
   //CSS
   import styles from '../../components/styles/ApplicationForm.module.css'; 
@@ -128,6 +129,9 @@
   import {useApplicationStore} from '@/stores/ApplicationStore.js'
   import {useProfileStore} from '@/stores/ProfileStore.js'
   import {storeToRefs} from 'pinia'
+
+  //External Modules
+  
   
   export default {
     name: 'ApplicationForm',
@@ -150,11 +154,9 @@
         applicationStore.hydrate()
         profileStore.hydrate()
       }
-
       const {application, course_grades} = storeToRefs(applicationStore)
-      const {user} = storeToRefs(profileStore)
+      const {user, full_name} = storeToRefs(profileStore)
 
-      const studentData = ref({wid: user.value.wid, name: user.value.first_name + " " + user.value.last_name});
       const courses = ref([
         {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.value.cis115},
         {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.value.cis116},
@@ -165,6 +167,8 @@
         {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.value.math200},
         {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.value.math221},
       ]);
+
+      const toast = useToast()
       const loading = shallowRef(false);
       const statusMessage = shallowRef('');
       const alertStatus = shallowRef('info');
@@ -194,15 +198,36 @@
             "David Invergo", "Sheryl Cornell"
         ];
 
-        const SubmitApplication = () => {
+        const errors = ref({})
+        const message = ref('')
+
+        const SubmitApplication = async () => {
+            //Convert these alerts to Toast, probably, be consistent with that
             if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
                 alert('Please select an advisor.')
                 return;
+            } else {
+                loading.value = true
+                errors.value = {}
+                message.value = ''
+                try {
+                    await applicationStore.submit()
+                    toast.add({ severity: 'success', summary: 'Success', detail: 'Application Submitted', life: 3000 })
+                } catch (error) {
+                if (error.response.data.data) {
+                    errors.value = error.response.data.data
+                    message.value = 'The server rejected this submission. Please correct errors listed below'
+                } else {
+                    message.value =
+                    'The server rejected this submission due to an SQL Error. Refresh and try again'
+                    }
+                }
+                loading.value = false
             }
             alert(`Form submitted!\nAdvisor: ${selectedAdvisor.value}`);
         };
 
-        return {styles, shared, studentData, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application, course_grades}
+        return {styles, shared, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application, course_grades, full_name}
     }
 }
 

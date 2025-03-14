@@ -2,6 +2,9 @@ const Model = require('./base.js')
 const logger = require('../configs/logger.js')
 const objection = require('objection')
 
+//Related Roles
+const User = require('./user.js')
+
 //Model class for submitted professional program applications (PPAs)
 class Application extends Model {
     //The table in the migration this Model refers to
