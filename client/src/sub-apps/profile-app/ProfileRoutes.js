@@ -1,8 +1,7 @@
-import ProfilesForm from "./ProfilesForm.vue";
+import ProfilePage from "./ProfilePage.vue";
 
 const routes = [
-  { path: '', component: ProfilesForm },
-  { path: 'test', component: ProfilesForm }
+  { path: '', component: ProfilePage }
 ];
 
 export default routes;

@@ -6,7 +6,7 @@ import professionalRoutes from './sub-apps/professional-program-app/routes'
 import ProfessionalProgram from './sub-apps/professional-program-app/ProfessionalProgram.vue'
 import ProfileRoutes from './sub-apps/profile-app/ProfileRoutes'
 import { useTokenStore } from './stores/TokenStore'
-import Admin from './sub-apps/admin-app/AdminForm2.vue'
+import Admin from './sub-apps/admin-app/AdminPage.vue'
 
 const routes = [
   { path: '/', component: Home },

@@ -8,9 +8,8 @@
 
 const express = require('express');
 const router = express.Router();
-const adminOnly = require('../middleware/admin-required.js')
+const reviewerOnly = require('../middleware/reviewer-required.js')
 const Application = require('../models/application.js');
-const { knex } = require('../models/base.js');
 
 /*
  * API routes for handling professional program applications
@@ -18,7 +17,7 @@ const { knex } = require('../models/base.js');
  */
 
 //Route to get the list of applications
-router.get('/', adminOnly, async (req, res) => {
+router.get('/', reviewerOnly, async (req, res) => {
   const knex = req.app.get('knex')
   try {
     const applications = await knex('professional_program_applications')

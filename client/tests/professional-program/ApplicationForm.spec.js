@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach } from 'vitest'
-import ApplicationForm from '@/sub-apps/professional-program-app/ApplicationForm.vue'
+import ApplicationForm from '@/sub-apps/professional-program-app/ApplicationPage.vue'
 
 describe('ApplicationForm tests', () => {
     let wrapper

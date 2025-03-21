@@ -1,12 +1,12 @@
 <template>
 <div :class="shared['flex-centered']">
-    <div :class="styles['home-container']" class="w-12 xl:w-6 md:w-9">
-    <div class="grid">
-      <div class="col-12 col-offset-2 xl:col-12 xl:col-offset-0">
+    <div :class="shared['content-container']">
+    <div class="grid" style="width:100%;">
+      <div class="col-8 col-offset-2 xl:col-8 xl:col-offset-2"> 
         <!--Header-->
         <div :class="shared['app-header']">
-          <h1 :class="shared['h1-style']">Future admin page</h1>
-          <h4 :class="shared['h4-style']">Will contain admin accessibility</h4>
+          <h1 :class="shared['h1-style']">Admin Control Panel</h1>
+          <h4 :class="shared['h4-style']">Welcome aboard captain</h4>
         </div>
         <RouterLink :to="{ name: 'home' }" :class="shared['no-decoration']">
               <div :class="shared['flex-centered']">

@@ -11,7 +11,6 @@ export const useReviewerStore = defineStore('admin', {
   state: () => {
     return {
       applications: [],
-      IsAdminMode: true
     }
   },
   actions: {

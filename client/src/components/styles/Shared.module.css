@@ -1,3 +1,8 @@
+.content-container{
+  min-height: 80vh;
+  width: 100%;
+}
+
 .app-header {
     display: flex;
     flex-direction: column;
@@ -15,7 +20,9 @@
     margin: 0; 
     line-height: 1.2; 
     padding: 10px 0;  
-    border: 3px solid #757575;
+    /*border: 3px solid #757575;*/
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
   }
   
   .h4-style {
@@ -26,7 +33,9 @@
     margin: 0; 
     line-height: 1.2; 
     padding: 10px 0;  
-    border: 3px solid #757575;
+    /*border: 3px solid #757575;*/
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     border-top: transparent;
   }
 

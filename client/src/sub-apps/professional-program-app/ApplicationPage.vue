@@ -1,7 +1,8 @@
 <template>
-    <div>
-      <div class="grid nested-grid">
-        <div class="col-10 col-offset-1 xl:col-6 xl:col-offset-3">
+    <div :class="shared['flex-centered']">
+        <div :class="shared['content-container']">
+      <div class="grid nested-grid" style="width:100%;">
+        <div class="col-8 col-offset-2 xl:col-8 xl:col-offset-2">
             <!--Header-->
             <div :class="shared['app-header']">
                 <h1 :class="shared['h1-style']">Professional Program Application</h1>
@@ -16,7 +17,7 @@
                     <!--Name field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" />
+                        <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" readonly/>
                         <label for="studentName">Name:</label>
                         </IftaLabel>
                     </div>
@@ -24,7 +25,7 @@
                     <!--WID field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" />
+                        <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" readonly/>
                         <label for="wid">WID:</label>
                         </IftaLabel>
                     </div>
@@ -100,6 +101,13 @@
             </div>
             </form>
         </div>
+        <div class="col-12 p-0 m-0">
+            <!--Footer-->
+            <div :class="styles['footer']">
+                <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
+            </div>
+        </div>
+    </div>
     </div>
     </div>
   </template>
@@ -140,7 +148,7 @@
     },
     setup() {
       //Could easily get the profileStore in here and pull information from the logged in user
-      const studentData = ref({wid: 0, name: ""});
+      const studentData = ref({wid: '', name: ""});
       const courses = ref([
         {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: "N/A"},
         {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: "N/A"},
