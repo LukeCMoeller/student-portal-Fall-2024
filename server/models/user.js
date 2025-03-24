@@ -249,7 +249,7 @@ class User extends Model {
           to: 'courses.id'
         }
       },
-      course_students: {
+      course_instructors: {
         relation: Model.ManyToManyRelation,
         join: {
           from: 'users.id',

@@ -9,7 +9,7 @@ const User = require('./user.js')
 class Application extends Model {
     //The table in the migration this Model refers to
     static get tableName() {
-        return 'professional-program-application'
+        return 'professional_program_applications'
     }
 
     //Default, defined for clarity
@@ -53,7 +53,7 @@ class Application extends Model {
 
     static get relationMappings() {
         return {
-          roles: {
+          user: {
             relation: Model.BelongsToOneRelation,
             modelClass: User,
             join: {

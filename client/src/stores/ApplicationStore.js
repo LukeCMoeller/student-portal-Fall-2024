@@ -12,9 +12,9 @@ export const useApplicationStore = defineStore('application', {
           semester: '',
           status: '',
           notes: '',
-          waiver: ''
+          waiver: false
         },
-        user_id: '',
+        user_id: 2,
         //Grades for the list of courses required by the professional program.
         course_grades: {
           math_220: '',

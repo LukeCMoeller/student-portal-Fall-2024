@@ -176,7 +176,7 @@
       const selectedAdvisor = ref("");
       const courseUpdates = shallowRef({});
       const submitting = shallowRef(false);
-      const additionalInfo = shallowRef('');
+      const additionalInfo = application.notes !== "" ? application.notes : shallowRef('');
       const hardcodedGPA = "3.5";
   
         const statusOptions = [
@@ -224,7 +224,6 @@
                 }
                 loading.value = false
             }
-            alert(`Form submitted!\nAdvisor: ${selectedAdvisor.value}`);
         };
 
         return {styles, shared, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application, course_grades, full_name}
