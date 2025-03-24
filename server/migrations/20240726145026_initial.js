@@ -110,5 +110,7 @@ exports.down = function(knex) {
     .dropTable('roles')
     .dropTable('user_program')
     .dropTable('programs')
+    .dropTable('user_discord')
+    .dropTable('user_github')
     .dropTable('users');
 };
