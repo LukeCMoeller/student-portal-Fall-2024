@@ -54,7 +54,7 @@
                     <!--Course table-->
                     <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
-                            <DataTable :value="courses" stripedRows id="appTable">
+                            <DataTable :value="application_table" stripedRows id="appTable">
                                 <Column field="class_descr" header="Course" />
                                 <Column field="status" header="Status" />
                                 <Column header="Waiver">
@@ -154,19 +154,20 @@
         applicationStore.hydrate()
         profileStore.hydrate()
       }
-      const {application, course_grades} = storeToRefs(applicationStore)
+      const {application_table} = storeToRefs(applicationStore)
       const {user, full_name} = storeToRefs(profileStore)
-
+      /*
       const courses = ref([
-        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.value.cis115},
-        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.value.cis116},
-        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.value.cis200},
-        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.value.cis300},
-        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.value.cis301},
-        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.value.ece241},
-        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.value.math200},
-        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.value.math221},
+        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.value.cis_115},
+        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.value.cis_116},
+        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.value.cis_200},
+        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.value.cis_300},
+        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.value.cis_301},
+        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.value.ece_241},
+        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.value.math_220},
+        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.value.math_221},
       ]);
+      */
 
       const toast = useToast()
       const loading = shallowRef(false);
@@ -176,7 +177,8 @@
       const selectedAdvisor = ref("");
       const courseUpdates = shallowRef({});
       const submitting = shallowRef(false);
-      const additionalInfo = application.notes !== "" ? application.notes : shallowRef('');
+      //const additionalInfo = application.notes !== "" ? application.notes : shallowRef('');
+      const additionalInfo = "";
       const hardcodedGPA = "3.5";
   
         const statusOptions = [
@@ -203,7 +205,8 @@
 
         const SubmitApplication = async () => {
             //Convert these alerts to Toast, probably, be consistent with that
-            if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
+            console.log(course_grades)
+            /*if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
                 alert('Please select an advisor.')
                 return;
             } else {
@@ -223,10 +226,10 @@
                     }
                 }
                 loading.value = false
-            }
+            }*/
         };
 
-        return {styles, shared, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application, course_grades, full_name}
+        return {styles, shared, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application_table, full_name}
     }
 }
 

@@ -53,10 +53,10 @@ router.get('/self', async (req, res) => {
   if(applications.length === 0) {
     //No submitted application found, but still need to return the course information
     //Need to just return some dummy data for now
-    res.json({application: undefined, course_grades: {cis115:'A', cis116:'B', cis200:'C', cis300:'D', cis301:'A', ece241:'F', math200:'B', math221:'D'}})
+    res.json({application: undefined, course_grades: {cis_115:'A', cis_116:'B', cis_200:'C', cis_300:'D', cis_301:'A', ece_241:'F', math_220:'B', math_221:'D'}})
   } else {
     //res.json(applications[0], courses)
-    res.json({application: applications[0], course_grades: {cis115:'A', cis116:'B', cis200:'C', cis300:'D', cis301:'A', ece241:'F', math200:'B', math221:'D'}})
+    res.json({application: applications[0], course_grades: {cis_115:'A', cis_116:'B', cis_200:'C', cis_300:'D', cis_301:'A', ece_241:'F', math_220:'B', math_221:'D'}})
   }
 })
 
