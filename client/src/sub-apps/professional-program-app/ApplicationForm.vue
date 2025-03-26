@@ -205,7 +205,7 @@
 
         const SubmitApplication = async () => {
             //Convert these alerts to Toast, probably, be consistent with that
-            console.log(course_grades)
+            console.log(application_table)
             /*if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
                 alert('Please select an advisor.')
                 return;

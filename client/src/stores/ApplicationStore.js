@@ -34,27 +34,7 @@ export const useApplicationStore = defineStore('application', {
         ece_241: "",
         math_220: "",
         math_221: ""
-      },
-      /*
-        application: {
-          semester: '',
-          status: '',
-          notes: '',
-          waiver: false
-        },
-        user_id: 2,
-        //Grades for the list of courses required by the professional program.
-        course_grades: {
-          math_220: '',
-          math_221: '',
-          cis_115: '',
-          cis_116: '',
-          cis_200: '',
-          cis_300: '',
-          cis_301: '',
-          ece_241: ''
-        }
-          */
+      }
     }
   },
   getters: {
@@ -78,7 +58,7 @@ export const useApplicationStore = defineStore('application', {
         await api.get('/api/v1/protected/applications/self').then((response) => {
           if(response.data.application === undefined) {
             //this.application.status = 'Unsubmitted'
-            this.course_grades = response.data.course_grades
+            this.grade = response.data.course_grades
           } else {
             //this.application = response.data.application
             this.grade = response.data.course_grades
