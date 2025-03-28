@@ -98,7 +98,13 @@ exports.up = function(knex) {
       table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
       table.primary(['course_id','user_id']);
-    });
+    })
+    .createTable('application_courses', function(table) {
+      table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
+      table.integer('application_id').unsigned().references('id').inTable('professional_program_applications').onDelete('CASCADE');
+      table.string('course_status').defaultTo("Not Started");
+      table.boolean('waiver').defaultTo(false);
+    });    
 };
 
 /**
@@ -107,6 +113,7 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
+    .dropTable('application_courses')
     .dropTable('course_instructors')
     .dropTable('course_students')
     .dropTable('courses')
@@ -116,5 +123,7 @@ exports.down = function(knex) {
     .dropTable('user_program')
     .dropTable('programs')
     .dropTable('academic_status')
+    .dropTable('user_discord')
+    .dropTable('user_github')
     .dropTable('users');
 };

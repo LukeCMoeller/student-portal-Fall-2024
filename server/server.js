@@ -12,8 +12,6 @@ const passport = require('passport');
 const crypto = require('crypto')
 
 const discord = require('./linked-roles/discordbot.js');
-//runs the discord bot
-discord.runDiscordBot();
 
 const app = express();
 const PORT = serverConfig.port || 3001;
