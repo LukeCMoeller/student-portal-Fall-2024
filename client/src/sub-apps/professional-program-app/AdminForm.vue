@@ -1,5 +1,6 @@
 <template>
-  <div :class="styles['admin-container']"> 
+  <div :class="shared['flex-centered']">
+  <div :class="shared['content-container']"> 
     <!--Admin note dialog-->
     <Dialog id="notesDialog" class="notes-dialog" v-model:visible="NotesDialog" modal header="Edit Notes" :style="{ width: '25rem' }">
       <div class="flex items-center gap-4">
@@ -124,9 +125,11 @@
     <div class="grid" style="width: 100%;" v-else>
 
       <!--Header-->
-      <div class="col-8 col-offset-2 xl:col-6 xl:col-offset-3" :class="shared['app-header']">
+      <div class="col-8 col-offset-2 xl:col-8 xl:col-offset-2">
+        <div :class="shared['app-header']">
           <h1 :class="shared['h1-style']">Review Applications</h1>
           <h4 :class="shared['h4-style']">Total Applications: {{ applications?.length || 0  }}</h4>
+        </div>
       </div>
 
       <!-- Action Buttons -->
@@ -181,6 +184,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

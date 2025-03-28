@@ -12,10 +12,15 @@ exports.up = function(knex) {
       table.string('last_name');
       table.string('email').unique().notNullable();
       table.string('refresh_token', 255);
-      table.boolean('warning').defaultTo(false);
       table.boolean('profile_updated').defaultTo(false);
       table.timestamp('updated_at').nullable();
       table.string('updated_by').nullable();
+    })
+    .createTable('academic_status', function(table) {
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE').primary();
+      table.decimal('gpa', 3, 2).nullable();
+      table.boolean('warning').notNullable().defaultTo(false);
+      table.boolean('probation').notNullable().defaultTo(false);
     })
     .createTable('user_discord', function(table) {
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE').primary();
@@ -108,6 +113,7 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
+    .dropTable('application_courses')
     .dropTable('course_instructors')
     .dropTable('course_students')
     .dropTable('courses')
@@ -116,6 +122,7 @@ exports.down = function(knex) {
     .dropTable('roles')
     .dropTable('user_program')
     .dropTable('programs')
+    .dropTable('academic_status')
     .dropTable('user_discord')
     .dropTable('user_github')
     .dropTable('users');

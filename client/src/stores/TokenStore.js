@@ -11,9 +11,9 @@ export const useTokenStore = defineStore('token', {
   state: () => {
     return {
       token: '',
+      roles: '',
       email: '',
       id: '',
-      is_admin: '',
       profile_updated: '',
       ltik: useStorage('ltik', '') // store current user LTI key in browser storage
     }
@@ -71,15 +71,32 @@ export const useTokenStore = defineStore('token', {
      * @returns Boolean: true if the user is an admin, otherwise false
      */
     get_admin() {
-      if (!this.is_admin) {
+      if (!this.roles) {
         if (this.token) {
-          this.is_admin = jwtDecode(this.token)['is_admin']
-          return this.is_admin
+          this.roles = jwtDecode(this.token)['roles']
+          return this.roles.includes('admin')
         } else {
           return ''
         }
       } else {
-        return this.is_admin
+        return this.roles.includes('admin')
+      }
+    },
+    /**
+     * Gets the user's reviewer status
+     *
+     * @returns Boolean: true if the user is a reviewer, otherwise false
+     */
+    get_reviewer() {
+      if (!this.roles) {
+        if (this.token) {
+          this.roles = jwtDecode(this.token)['roles']
+          return this.roles.includes('reviewer')
+        } else {
+          return ''
+        }
+      } else {
+        return this.roles.includes('reviewer')
       }
     },
     /**

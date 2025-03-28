@@ -26,17 +26,19 @@ const token = require('../middleware/token.js')
 const requestLogger = require('../middleware/request-logger.js')
 
 // Load Routers
-const usersRouter = require('./userRoutes.js')
-const profileRouter = require('./profileRoutes.js')
-const applicationsRouter = require('./applicationRoutes.js')
+const usersRoutes = require('./userRoutes.js')
+const profileRoutes = require('./profileRoutes.js')
+const applicationsRoutes = require('./applicationRoutes.js')
+const academicsRoutes = require('./academicsRoutes.js')
 
 //This verifies that the user has logged in before they can access any sub route
 router.use(token)
 
 router.use(requestLogger)
 
-router.use('/users', usersRouter)
-router.use('/profile', profileRouter)
-router.use('/applications', applicationsRouter)
+router.use('/users', usersRoutes)
+router.use('/profile', profileRoutes)
+router.use('/applications', applicationsRoutes)
+router.use('/academics', academicsRoutes)
 
 module.exports = router

@@ -11,12 +11,14 @@ exports.seed = async function(knex) {
   await knex('roles').del();
   await knex('user_discord').del();
   await knex('user_github').del();
+  await knex('academic_status').del();
   await knex('users').del();
 
   // Insert roles
   await knex('roles').insert([
     { id: 1, name: 'api' },
-    { id: 2, name: 'admin' }
+    { id: 2, name: 'admin' },
+    { id: 3, name: 'reviewer'},
   ]);
 
   // Insert users
@@ -28,7 +30,6 @@ exports.seed = async function(knex) {
       last_name: 'Riddle',
       email: 'jariddle@ksu.edu',
       refresh_token: null,
-      warning: false,
       profile_updated: true,
       updated_at: '2024-11-01 10:00:00',
       updated_by: 'system'
@@ -40,7 +41,6 @@ exports.seed = async function(knex) {
       last_name: 'Jones',
       email: 'ejones77@ksu.edu',
       refresh_token: null,
-      warning: false,
       profile_updated: true,
       updated_at: '2024-11-01 11:00:00',
       updated_by: 'system'
@@ -52,7 +52,6 @@ exports.seed = async function(knex) {
       last_name: 'Johnson',
       email: 'alicejohnson@ksu.edu',
       refresh_token: null,
-      warning: false,
       profile_updated: true,
       updated_at: '2024-11-01 12:00:00',
       updated_by: 'system'
@@ -64,7 +63,6 @@ exports.seed = async function(knex) {
       last_name: 'admin',
       email: 'admin@ksu.edu',
       refresh_token: null,
-      warning: false,
       profile_updated: true,
       updated_at: '2024-11-01 10:00:00',
       updated_by: 'system'
@@ -76,9 +74,30 @@ exports.seed = async function(knex) {
       last_name: 'moeller',
       email: 'lcmoeller@ksu.edu',
       refresh_token: null,
-      warning: false,
       profile_updated: true,
       updated_at: '2025-2-26 10:00:00',
+      updated_by: 'system'
+    },
+    {
+      wid: 106,
+      eid: 'reviewer',
+      first_name: 'reviewer',
+      last_name: 'reviewer',
+      email: 'reviewer@ksu.edu',
+      refresh_token: null,
+      profile_updated: true,
+      updated_at: '2024-11-01 10:00:00',
+      updated_by: 'system'
+    },
+    {
+      wid: 107,
+      eid: 'struggle',
+      first_name: 'struggle',
+      last_name: 'struggle',
+      email: 'struggle@ksu.edu',
+      refresh_token: null,
+      profile_updated: true,
+      updated_at: '2024-11-01 10:00:00',
       updated_by: 'system'
     },
   ]);
@@ -92,10 +111,16 @@ exports.seed = async function(knex) {
 
   await knex('user_roles').insert([
     { user_id: userMap['jariddle'], role_id: roleMap['api'] },
+    { user_id: userMap['reviewer'], role_id: roleMap['reviewer'] },
     { user_id: userMap['ejones'], role_id: roleMap['api'] },
     { user_id: userMap['ajohnson'], role_id: roleMap['api'] },
     { user_id: userMap['admin'], role_id: roleMap['admin'] },
     { user_id: userMap['lcmoeller'], role_id: roleMap['api'] },
+  ]);
+
+  await knex('academic_status').insert([
+    { user_id: userMap['struggle'], gpa: 1.62, warning: true, probation: true},
+    { user_id: userMap['jariddle'], gpa: 3.42},
   ]);
 
   await knex('professional_program_applications').insert([
@@ -134,58 +159,6 @@ exports.seed = async function(knex) {
     { class_number: 200, term: 202501, subject: 'CIS', catalog: '200', name: 'Programming fundementals', section: 'A', component: 'LEC',  credit_hours: 4 },
     { class_number: 300, term: 202501, subject: 'CIS', catalog: '300', name: 'Data and Program Structures', section: 'A', component: 'LEC',  credit_hours: 3 }
   ]);
-
-  /* Add courses from CSV file
-  const fs = require('fs');
-  const csv = require('csv-parser');
-  const courseResults = [];
-  const userResults = [];
-  const uniqueCourses = [];
-  const seen = new Set();
-
-  await new Promise((resolve, reject) => {
-    fs.createReadStream('../database/data/courses.csv')
-      .pipe(csv({skipLines: 1}))
-      .on('data', (row) => {
-
-        //Skip invalid rows
-        if (!row['Class Nbr'] || !row['Subject'] || !row['Catalog'] || !row['KSU Class Descr'] || !row['Component'] || !row['Term']) {
-          return;
-        }
-        courseResults.push({
-          class_number: parseInt(row['Class Nbr'], 10),
-          term: parseInt(row['Term'].trim(), 10),
-          subject: row['Subject'].trim(),
-          catalog: row['Catalog'].trim(),
-          name: row['KSU Class Descr'].trim(),
-          section: 'A',
-          component: row['Component'].trim(),
-          credit_hours: -1,
-        });
-      })
-      .on('end', async () => {
-        //Logic for adding unique courses to the courses table
-        courseResults.forEach(row => {
-          if (!seen.has(row.class_number)) {
-            uniqueCourses.push(row);
-            seen.add(row.class_number);
-          }
-        });
-        //Inserting into the courses table in batches
-        const batchSize = 1000;
-        for (let i = 0; i < uniqueCourses.length; i += batchSize) {
-          const batch = uniqueCourses.slice(i, i + batchSize);
-          try {
-            await knex('courses').insert(batch);
-            console.log(`Inserted ${batch.length} rows successfully`);
-          } catch (error) {
-            console.error('Error inserting batch:', error);
-          }
-        }
-      })
-      .on('error', (error) => reject(error));
-  });
-  */
 
   //Add students and instructors to courses
   const courses = await knex('courses').select('id', 'class_number');

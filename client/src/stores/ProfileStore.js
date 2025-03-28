@@ -9,6 +9,7 @@ export const useProfileStore = defineStore('profile', {
   state: () => {
     return {
       user: {}, // user object
+      academics: '',
       discord: '',
       github: ''
     }
@@ -27,6 +28,9 @@ export const useProfileStore = defineStore('profile', {
       Logger.info('profile:hydrate')
       await api.get('/api/v1/protected/profile').then((response) => {
         this.user = response.data
+      })
+      await api.get('/api/v1/protected/academics').then((response) => {
+        this.academics = response.data
       })
     },
     async unlinkDiscord(userId){

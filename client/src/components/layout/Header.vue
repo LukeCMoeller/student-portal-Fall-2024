@@ -2,9 +2,6 @@
   <header :class="styles['headerContainer']">
     <!--Header bar-->
     <div :class="styles.headerTop" style="background-color: gainsboro; display: grid; justify-content: end; grid-auto-flow: column; padding-top: .1rem;">
-      <p v-if="IsAdmin" style="padding-right: 1rem;">Admin Mode:</p>
-        <!--Admin toggle-->
-        <ToggleSwitch v-if="IsAdmin" v-model="IsAdminMode" style="margin-right:5vw" />
         <!--Logout-->
         <RouterLink :to="''" @click="logout" :class="styles['logout']">Logout</RouterLink>
     </div>
@@ -26,17 +23,13 @@
   <template #item="{ item, props }">
     <router-link v-if="item.route" :to="item.route" style="padding: 0; background-color: transparent;">
       <a v-bind="props.action">
-        <span 
-          :style="{ color: 'white', fontWeight: item.root ? 'bold' : 'normal' }"
-        >
+        <span :style="{ color: 'white', fontWeight: item.root ? 'bold' : 'normal' }">
           {{ item.label }}
         </span>
       </a>
     </router-link>
     <a v-else v-bind="props.action">
-      <span 
-        :style="{ color: 'white', fontWeight: item.root ? 'bold' : 'normal' }"
-      >
+      <span :style="{ color: 'white', fontWeight: item.root ? 'bold' : 'normal' }">
         {{ item.label }}
       </span>
     </a>
@@ -81,24 +74,23 @@ export default defineComponent({
   },
   setup() {
     //Check for if the admin toggle is on
-    const { IsAdmin, IsAdminMode } = rolesMixin.setup();
+    const { IsAdmin, IsReviewer } = rolesMixin.setup();
 
   
     const items = computed(() => {
-      const baseItems = ref([
+      return [
         { label: 'Portal', route: '/home', root: true },
         {
           label: 'Professional Program', root: true,
           items: [
             { label: 'Home', route: '/professional-program' },
-            { label: 'Applications', route: '/professional-program/apply' }
-          ]
+            { label: 'Apply', route: '/professional-program/apply' },
+            IsReviewer.value ? { label: 'Review', route: '/professional-program/review' } : null
+          ].filter(Boolean)
         },
         { label: 'Profile', route: '/profile', root: true },
-      ]);
-      return IsAdminMode.value 
-        ? [...baseItems.value, { label: 'Admin', route: '/admin', root: true }]
-        : baseItems.value;
+        IsAdmin.value ? { label: 'Admin', route: '/admin', root: true } : null
+      ].filter(Boolean);
     });
 
     return {
@@ -106,7 +98,6 @@ export default defineComponent({
       styles,
       items,
       IsAdmin,
-      IsAdminMode
     };
   },
 });
@@ -120,6 +111,7 @@ export default defineComponent({
   border-color: #482277 !important; 
   border-radius: 0 !important;
   padding-left: 9vw !important;
+  position: relative !important;
 }
 .p-menubar-item-content:hover{
   background-color: transparent !important;
@@ -142,5 +134,6 @@ export default defineComponent({
   border-color: #482277 !important;
   border-radius: 0 !important;
   margin-left:0 !important;
+  padding-left: 0 !important;
 }
 </style>

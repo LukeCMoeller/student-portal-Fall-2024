@@ -14,6 +14,17 @@
 .custom-message > p{ 
   margin-left: 15px;
 }
+
+.footer {
+  margin-top: 20px;
+  padding-right: 0;
+  margin-right: 0;
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  color: #fff;
+  background-color: #BF8CF7;  
+}
  
 .btn-submit {
   background-color: #512888;  

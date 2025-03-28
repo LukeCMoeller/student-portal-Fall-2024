@@ -3,6 +3,7 @@ const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const logger = require('../configs/logger.js')
 const objection = require('objection')
+const knex = require('../configs/db.js');
 
 // Related Models
 const Role = require('./role.js')
@@ -111,35 +112,50 @@ class User extends Model {
     return refresh_token
   }
 
+  static async get_academics(user_id) {
+    try {
+      const status = await knex('users') 
+        .join('academic_status', 'users.id', '=', 'academic_status.user_id')
+        .where('users.id', user_id) 
+        .select('user_id', 'gpa', 'warning', 'probation'); 
+        return status;
+    } catch (err) {
+      console.error('Error when fetching academic status:', err);
+      throw err;
+    }
+  }
+
   async get_admin() {
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
     //Roles for current user
-    //console.log(roles)
     return roles.some((r) => r.name === 'admin')
   }
 
   async is_api() {
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
     //Roles for current user
-    //console.log(roles)
     return roles.some((r) => r.name === 'api')
+  }
+
+  async get_roles(){
+    const roles = await this.$relatedQuery('roles').for(this.id).select('name')
+    //Roles for current user
+    return roles.map(role => role.name)
   }
 
   static async getToken(id) {
     let user = await User.query().findById(id)
     // tokens are currently only for users with 'api' or 'admin' roles
     // should change this to pass role information in the token, and attach middleware to the api routes that should be admin only
-    const is_api = await user.is_api()
-    const is_admin = await user.get_admin()
-    if (is_api || is_admin) {
+    const roles = await user.get_roles()
+    if (roles) {
     //Can pass role information in the token here,
     //then use middleware like admin-required to check roles when accessing a route.
       const token = jwt.sign(
         {
           user_id: id,
           email: user.email,
-          is_admin: is_admin,
-          is_api: is_api,
+          roles: roles,
           //refresh_token: refresh_token,
           profile_updated: user.profile_updated
         },

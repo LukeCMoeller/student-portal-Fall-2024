@@ -1,7 +1,8 @@
 <template>
-    <div>
-      <div class="grid nested-grid">
-        <div class="col-10 col-offset-1 xl:col-6 xl:col-offset-3">
+    <div :class="shared['flex-centered']">
+        <div :class="shared['content-container']">
+      <div class="grid nested-grid" style="width:100%;">
+        <div class="col-8 col-offset-2 xl:col-8 xl:col-offset-2">
             <!--Header-->
             <div :class="shared['app-header']">
                 <h1 :class="shared['h1-style']">Professional Program Application</h1>
@@ -16,7 +17,7 @@
                     <!--Name field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="studentName" v-model="full_name" variant="filled" :class="styles['input']" />
+                        <InputText id="studentName" v-model="full_name" variant="filled" :class="styles['input']" readonly/>
                         <label for="studentName">Name:</label>
                         </IftaLabel>
                     </div>
@@ -24,7 +25,7 @@
                     <!--WID field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="wid" v-model="user.wid" variant="filled" :class="styles['input']" />
+                        <InputText id="wid" v-model="user.wid" variant="filled" :class="styles['input']" readonly/>
                         <label for="wid">WID:</label>
                         </IftaLabel>
                     </div>
@@ -101,6 +102,13 @@
             </form>
         </div>
     </div>
+    <div class="col-12 p-0 m-0">
+        <!--Footer-->
+        <div :class="styles['footer']">
+            <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
+        </div>
+        </div>
+    </div>
     </div>
   </template>
   
@@ -156,18 +164,6 @@
       }
       const {application_table} = storeToRefs(applicationStore)
       const {user, full_name} = storeToRefs(profileStore)
-      /*
-      const courses = ref([
-        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.value.cis_115},
-        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.value.cis_116},
-        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.value.cis_200},
-        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.value.cis_300},
-        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.value.cis_301},
-        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.value.ece_241},
-        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.value.math_220},
-        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.value.math_221},
-      ]);
-      */
 
       const toast = useToast()
       const loading = shallowRef(false);

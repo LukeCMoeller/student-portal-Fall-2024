@@ -41,11 +41,9 @@ async function authenticateToken(req, res, next) {
         return res.status(404).send('User not found');
       }
     
-      // Check if the user has the 'admin' role
-      const isAdmin = await user.get_admin();
-    
-      // Set the `is_admin` flag based on the user's roles
-      req.is_admin = isAdmin;
+      // Supplies the users roles/permissions
+      const roles = await user.get_roles();
+      req.roles = roles;
     
       // Continue with the request
       next();
