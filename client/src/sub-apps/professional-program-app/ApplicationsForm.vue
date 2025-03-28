@@ -74,7 +74,7 @@
                             <p>Please use this space to add any comments that should be made regarding these classes.</p>
                             <p>If you requested a waiver for any of these classes, please explain in detail the reasons you are requesting a 
                                 waiver for meeting all of the requirements for entrance into the Computer Science Professional Program. 
-                                You may also be required to meet with the curriculum committee to evaluate the waiver request.</p> 
+                                <br>You may also be required to meet with the curriculum committee to evaluate the waiver request.</p> 
                         </div>
                     </div>
 
