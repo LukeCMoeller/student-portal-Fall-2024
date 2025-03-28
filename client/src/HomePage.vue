@@ -60,7 +60,7 @@
             <template #title>Link Your GitHub</template>
             <template #content>
                 <p class="m-0">
-                    Link your GitHub to easily share projects and coursework with your instructors. Simplify submissions and stay organized!
+                    Link your GitHub to easily share projects and coursework with your instructors.
                 </p>
             </template>
             <template #footer>
@@ -119,10 +119,10 @@ export default {
 </script>
 <style scoped>
   .p-galleria {
-    width: 900px; /* Set a fixed width */
-  height: 300px; /* Set a fixed height */
-  object-fit: cover; /* Crop the image to fit */
-  border-radius: 0px; /* Optional rounded corners */
+    width: 900px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 0px;
   border: 4px solid grey;
   border-top: 0px;
   }

@@ -26,7 +26,6 @@ export const useProfileStore = defineStore('profile', {
       })
       await api.get('/api/v1/protected/academics').then((response) => {
         this.academics = response.data
-        console.log(this.academics.gpa)
       })
     },
     async unlinkDiscord(userId){

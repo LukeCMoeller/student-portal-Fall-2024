@@ -101,13 +101,13 @@
             </div>
             </form>
         </div>
-        <div class="col-12 p-0 m-0">
-            <!--Footer-->
-            <div :class="styles['footer']">
-                <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
-            </div>
-        </div>
     </div>
+    <div class="col-12 p-0 m-0">
+        <!--Footer-->
+        <div :class="styles['footer']">
+            <p>CS Applications - Contact webmaster@cs.ksu.edu for help</p>
+        </div>
+        </div>
     </div>
     </div>
   </template>
