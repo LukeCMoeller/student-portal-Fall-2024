@@ -13,6 +13,11 @@ export const useProfileStore = defineStore('profile', {
       github: ''
     }
   },
+  getters: {
+    full_name(state) {
+      return state.user.first_name + " " + state.user.last_name
+    }
+  },
   actions: {
     /**
      * Hydrate the store by querying the API for data

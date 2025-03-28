@@ -11,6 +11,7 @@ const router = express.Router();
 const adminOnly = require('../middleware/admin-required.js')
 const Application = require('../models/application.js');
 const { knex } = require('../models/base.js');
+const User = require('../models/user.js');
 
 /*
  * API routes for handling professional program applications
@@ -46,11 +47,16 @@ router.get('/', adminOnly, async (req, res) => {
 });
 
 router.get('/self', async (req, res) => {
-  let applications = await Application.query().where('user_id', req.user_id).limit(1)
+  //let applications = await Application.query().where('user_id', req.user_id).limit(1)
+  let applications = []
+  //let courses = await User.getApplicationCourses(req.user_id)
   if(applications.length === 0) {
-    res.status(404).send('Application not found.')
+    //No submitted application found, but still need to return the course information
+    //Need to just return some dummy data for now
+    res.json({application: undefined, course_grades: {cis_115:'A', cis_116:'B', cis_200:'C', cis_300:'D', cis_301:'A', ece_241:'F', math_220:'B', math_221:'D'}})
   } else {
-    res.json(applications[0])
+    //res.json(applications[0], courses)
+    res.json({application: applications[0], course_grades: {cis_115:'A', cis_116:'B', cis_200:'C', cis_300:'D', cis_301:'A', ece_241:'F', math_220:'B', math_221:'D'}})
   }
 })
 

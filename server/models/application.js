@@ -2,11 +2,14 @@ const Model = require('./base.js')
 const logger = require('../configs/logger.js')
 const objection = require('objection')
 
+//Related Roles
+const User = require('./user.js')
+
 //Model class for submitted professional program applications (PPAs)
 class Application extends Model {
     //The table in the migration this Model refers to
     static get tableName() {
-        return 'professional-program-application'
+        return 'professional_program_applications'
     }
 
     //Default, defined for clarity
@@ -44,13 +47,13 @@ class Application extends Model {
         return application[0]
     }
 
-    static async getApplicationCourses(user_id, ) {
+    static async getApplicationCourses(user_id) {
 
     }
 
     static get relationMappings() {
         return {
-          roles: {
+          user: {
             relation: Model.BelongsToOneRelation,
             modelClass: User,
             join: {
@@ -62,3 +65,5 @@ class Application extends Model {
         }
       }
 }
+
+module.exports = Application

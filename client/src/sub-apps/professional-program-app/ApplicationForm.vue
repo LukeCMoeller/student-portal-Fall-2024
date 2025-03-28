@@ -16,7 +16,7 @@
                     <!--Name field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="studentName" v-model="studentData.name" variant="filled" :class="styles['input']" />
+                        <InputText id="studentName" v-model="full_name" variant="filled" :class="styles['input']" />
                         <label for="studentName">Name:</label>
                         </IftaLabel>
                     </div>
@@ -24,7 +24,7 @@
                     <!--WID field-->
                     <div class="col-10 col-offset-1">
                         <IftaLabel variant="in">
-                        <InputText id="wid" v-model="studentData.wid" variant="filled" :class="styles['input']" />
+                        <InputText id="wid" v-model="user.wid" variant="filled" :class="styles['input']" />
                         <label for="wid">WID:</label>
                         </IftaLabel>
                     </div>
@@ -54,7 +54,7 @@
                     <!--Course table-->
                     <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
-                            <DataTable :value="courses" stripedRows id="appTable">
+                            <DataTable :value="application_table" stripedRows id="appTable">
                                 <Column field="class_descr" header="Course" />
                                 <Column field="status" header="Status" />
                                 <Column header="Waiver">
@@ -119,11 +119,19 @@
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
   import Checkbox from 'primevue/checkbox';
+  import { useToast } from 'primevue/usetoast'
 
   //CSS
   import styles from '../../components/styles/ApplicationForm.module.css'; 
   import shared from '../../components/styles/Shared.module.css';
 
+  //Stores
+  import {useApplicationStore} from '@/stores/ApplicationStore.js'
+  import {useProfileStore} from '@/stores/ProfileStore.js'
+  import {storeToRefs} from 'pinia'
+
+  //External Modules
+  
   
   export default {
     name: 'ApplicationForm',
@@ -139,17 +147,29 @@
       Column
     },
     setup() {
-      //Could easily get the profileStore in here and pull information from the logged in user
-      const studentData = ref({wid: 0, name: ""});
+      //Store setup
+      const applicationStore = useApplicationStore()
+      const profileStore = useProfileStore()
+      if (process.env.NODE_ENV !== 'test') {
+        applicationStore.hydrate()
+        profileStore.hydrate()
+      }
+      const {application_table} = storeToRefs(applicationStore)
+      const {user, full_name} = storeToRefs(profileStore)
+      /*
       const courses = ref([
-        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: "N/A"},
-        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: "N/A"},
+        {class_descr: "CIS 115", status: "In-Progress", waiver: false, grade: course_grades.value.cis_115},
+        {class_descr: "CIS 116", status: "In-Progress", waiver: false, grade: course_grades.value.cis_116},
+        {class_descr: "CIS 200", status: "In-Progress", waiver: false, grade: course_grades.value.cis_200},
+        {class_descr: "CIS 300", status: "In-Progress", waiver: false, grade: course_grades.value.cis_300},
+        {class_descr: "CIS 301", status: "In-Progress", waiver: false, grade: course_grades.value.cis_301},
+        {class_descr: "ECE 241", status: "In-Progress", waiver: false, grade: course_grades.value.ece_241},
+        {class_descr: "MATH 200", status: "In-Progress", waiver: false, grade: course_grades.value.math_220},
+        {class_descr: "MATH 221", status: "In-Progress", waiver: false, grade: course_grades.value.math_221},
       ]);
+      */
+
+      const toast = useToast()
       const loading = shallowRef(false);
       const statusMessage = shallowRef('');
       const alertStatus = shallowRef('info');
@@ -157,12 +177,14 @@
       const selectedAdvisor = ref("");
       const courseUpdates = shallowRef({});
       const submitting = shallowRef(false);
-      const additionalInfo = shallowRef('');
+      //const additionalInfo = application.notes !== "" ? application.notes : shallowRef('');
+      const additionalInfo = "";
       const hardcodedGPA = "3.5";
   
         const statusOptions = [
         { value: "Complete", label: "Complete" },
-        { value: "In-Progress", label: "In Progress" }
+        { value: "In-Progress", label: "In Progress" },
+        { value: "Unsubmitted", label: "Unsubmitted" }
       ];
   
         const gradeOptions = [
@@ -178,15 +200,36 @@
             "David Invergo", "Sheryl Cornell"
         ];
 
-        const SubmitApplication = () => {
-            if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
+        const errors = ref({})
+        const message = ref('')
+
+        const SubmitApplication = async () => {
+            //Convert these alerts to Toast, probably, be consistent with that
+            console.log(application_table)
+            /*if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
                 alert('Please select an advisor.')
                 return;
-            }
-            alert(`Form submitted!\nAdvisor: ${selectedAdvisor.value}`);
+            } else {
+                loading.value = true
+                errors.value = {}
+                message.value = ''
+                try {
+                    await applicationStore.submit()
+                    toast.add({ severity: 'success', summary: 'Success', detail: 'Application Submitted', life: 3000 })
+                } catch (error) {
+                if (error.response.data.data) {
+                    errors.value = error.response.data.data
+                    message.value = 'The server rejected this submission. Please correct errors listed below'
+                } else {
+                    message.value =
+                    'The server rejected this submission due to an SQL Error. Refresh and try again'
+                    }
+                }
+                loading.value = false
+            }*/
         };
 
-        return {styles, shared, studentData, courses, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions}
+        return {styles, shared, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application_table, full_name}
     }
 }
 

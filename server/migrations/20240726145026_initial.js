@@ -93,7 +93,13 @@ exports.up = function(knex) {
       table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
       table.primary(['course_id','user_id']);
-    });
+    })
+    .createTable('application_courses', function(table) {
+      table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
+      table.integer('application_id').unsigned().references('id').inTable('professional_program_applications').onDelete('CASCADE');
+      table.string('course_status').defaultTo("Not Started");
+      table.boolean('waiver').defaultTo(false);
+    });    
 };
 
 /**
@@ -110,5 +116,7 @@ exports.down = function(knex) {
     .dropTable('roles')
     .dropTable('user_program')
     .dropTable('programs')
+    .dropTable('user_discord')
+    .dropTable('user_github')
     .dropTable('users');
 };
