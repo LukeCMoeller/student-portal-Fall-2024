@@ -1,6 +1,6 @@
 import ProfessionalHome from './ProfessionalHome.vue';
-import ApplicationPage from './ApplicationsForm.vue';
-import ReviewPage from './AdminForm.vue'
+import ApplicationPage from './ApplicationPage.vue';
+import ReviewPage from './ReviewerPage.vue'
 
 const routes = [
   { path: '', name: 'home', component: ProfessionalHome },
