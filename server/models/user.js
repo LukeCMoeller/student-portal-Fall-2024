@@ -181,41 +181,6 @@ class User extends Model {
     })
   }
 
-  //For each course required in the professional program application, gets just the given user's highest grade.
-  //Returns those grades in an object with each grade being a property
-  static async getApplicationCourses(id) {
-    //Get arrays of each record of the user taking each course.
-    //I can think of a few ways to make all of these queries more compact, but this is clearer, I think
-    let cis_115 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'CIS').where('class_number', 115)
-    let cis_116 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'CIS').where('class_number', 116)
-    let cis_200 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'CIS').where('class_number', 200)
-    let cis_300 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'CIS').where('class_number', 300)
-    let cis_301 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'CIS').where('class_number', 301)
-    let ece_241 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'ECE').where('class_number', 241)
-    let math_220 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'MATH').where('class_number', 220)
-    let math_221 = await User.relatedQuery('course_students').for(id).select('grade').where('subject', 'MATH').where('class_number', 221)
-    courses = [cis_115, cis_116, cis_200, cis_300, cis_301, ece_241, math_220, math_221]
-    //Replace the array returned by each 
-    for(course in courses) {
-      //If there are no records, replace the (empty) array with 'N/A'
-      if(course.length === 0) {
-        course = 'N/A'
-      } 
-      //Otherwise, loop through and find the highest grade in the records,
-      //then replace the course array with that grade
-      else {
-        highest_grade = 'Z'
-        for(record in course) {
-          if(highest_grade > record.grade) {
-            highest_grade = record.grade
-          }
-        }
-
-      }
-    }
-    return courses
-  }
-
   // Optional JSON schema. This is not the database schema!
   // No tables or columns are generated based on this. This is only
   // used for input validation. Whenever a model instance is created

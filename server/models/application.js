@@ -28,27 +28,48 @@ class Application extends Model {
         return application[0]
     }
 
-    static async create(user_id, application) {
-        application = [
-            await Application.query().insert({
-                semester: application.semester,
-                status: application.status, //Might always be pending or something like that, if this is immediately after submission
-                notes: application.notes,
-                waiver: application.waiver
-                //We will need to do a separate related query afterwards for the user information
-            })
-        ]
-        //This should connect the application to the user that submitted it
-        //Might have to find the user in this method somehow, rather than passing in the ID
-        await Application.relatedQuery('user')
-            .for(application[0].id)
-            .relate(user_id)
-
-        return application[0]
+    static async getAllApplications() {
+      return this.query()
+      .withGraphFetched('user')
+      .modifyGraph('user', builder => {
+        builder.select('id', 'first_name', 'last_name', 'email', 'eid', 'wid');
+      })
+      .select(
+        'id',
+        'user_id',
+        'advisor',
+        'semester',
+        'status',
+        'notes',
+        'created_by',
+        'updated_by'
+      );
     }
 
-    static async getApplicationCourses(user_id) {
-
+    static async create(user_id, application) {
+      const existing = await this.query().findOne({ user_id });
+    
+      if (existing) {
+        // Update existing application
+        return await this.query().patchAndFetchById(existing.id, {
+          advisor: application.advisor,
+          semester: "Placeholder",
+          status: "Pending",
+          notes: application.notes || null,
+          updated_by: user_id,
+        });
+      } else {
+        // Insert new application
+        return await this.query().insert({
+          user_id,
+          advisor: application.advisor,
+          semester: "Placeholder",
+          status: "Pending",
+          notes: application.notes || null,
+          created_by: user_id,
+          updated_by: user_id,
+        });
+      }
     }
 
     static get relationMappings() {
@@ -57,13 +78,13 @@ class Application extends Model {
             relation: Model.BelongsToOneRelation,
             modelClass: User,
             join: {
-              from: 'users.id',
-              to: 'professional_program_applications.user_id',
+              from: 'professional_program_applications.user_id',
+              to: 'users.id',
             },
             filter: (builder) => builder.select('id'),
           },
         }
-      }
+    }
 }
 
 module.exports = Application

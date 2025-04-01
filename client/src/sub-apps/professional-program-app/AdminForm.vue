@@ -161,13 +161,12 @@
         <div>
             <DataTable :value="applications" v-model:selection="selectedApplications" stripedRows removableSort paginator :rows="8" id="adminTable">
                 <Column selectionMode="multiple"/>
-                <Column field="first_name" header="First Name" sortable />
-                <Column field="last_name" header="Last Name" sortable />
-                <Column field="eid" header="EID" />
-                <Column field="email" header="Email" sortable />
-                <Column field="wid" header="WID" />
+                <Column field="user.first_name" header="First Name" sortable />
+                <Column field="user.last_name" header="Last Name" sortable />
+                <Column field="user.eid" header="EID" />
+                <Column field="user.email" header="Email" sortable />
+                <Column field="user.wid" header="WID" />
                 <Column field="semester" header="Semester" />
-                <Column field="waiver" header="Waiver" />
                 <Column field="status" header="Status" />
                 <Column header="Admin Notes">
                   <template #body="slotProps">
@@ -236,7 +235,6 @@ export default {
     ];
 
     return {
-      // Define all reactive data properties here
       styles,
       shared,
       isLoading: false,
@@ -253,7 +251,6 @@ export default {
         email: "",
         wid: "",
         semester: "",
-        waiver: "",
         status: "",
         adminNotes: "",
         courses: [
@@ -281,7 +278,7 @@ export default {
     //Open notes
     handleAdminNoteClick(data){
       this.ApplicationData = data;
-      this.ApplicationData.adminNotes = 'hello'
+      this.ApplicationData.adminNotes = '';
       this.NotesDialog = true;
     },
     //Open edit dialog
@@ -321,7 +318,8 @@ export default {
         return `${formattedDate} at ${formattedTime}`;
     },
     handleDownloadSelected() { /* Handle download selected applications */ 
-    
+      if(this.selectedApplications.length === 0) return;
+      
       const data = this.selectedApplications.map(app => ({
             "First Name": app.first_name,
             "Last Name": app.last_name,
