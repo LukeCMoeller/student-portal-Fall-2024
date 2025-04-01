@@ -111,7 +111,7 @@ import styles from '../../components/styles/HomePage.module.css';
 import shared from '../../components/styles/Shared.module.css';
 
 //Components
-import adminMixin from '@/stores/RoleMixin';
+import adminMixin from '@/components/mixins/RoleMixin';
 
 //Stores
 import { storeToRefs } from 'pinia'

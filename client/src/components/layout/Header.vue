@@ -48,7 +48,7 @@ import styles from '../styles/Header.module.css';
 //Components
 import { computed, defineComponent, ref} from 'vue';
 import { useTokenStore } from '../../stores/TokenStore.js';
-import rolesMixin from '@/stores/RoleMixin';
+import rolesMixin from '@/components/mixins/RoleMixin';
 
 //Primevue components
 import ToggleSwitch from 'primevue/toggleswitch';
@@ -85,7 +85,7 @@ export default defineComponent({
           items: [
             { label: 'Home', route: '/professional-program' },
             { label: 'Apply', route: '/professional-program/apply' },
-            IsReviewer.value ? { label: 'Review', route: '/professional-program/review' } : null
+            (IsReviewer.value || IsAdmin.value) ? { label: 'Review', route: '/professional-program/review' } : null
           ].filter(Boolean)
         },
         { label: 'Profile', route: '/profile', root: true },
