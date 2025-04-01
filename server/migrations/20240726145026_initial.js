@@ -64,17 +64,17 @@ exports.up = function(knex) {
     .createTable('professional_program_applications', function(table) {
       table.increments('id');
       table.integer('user_id').references('id').inTable('users').onDelete('CASCADE');
+      table.string('advisor').notNullable();
       table.string('semester').notNullable();
       table.string('status').notNullable();
-      table.string('notes');
-      table.boolean('waiver');
+      table.string('notes').defaultTo("");
       table.timestamps();
       table.string('created_by', 20);
       table.string('updated_by', 20);
     })
     .createTable('courses', function(table){
       table.increments('id');
-      table.integer('class_number').notNullable().unique();
+      table.integer('class_number').notNullable();
       table.integer('term').notNullable();
       table.string('subject').notNullable();
       table.string('catalog').notNullable();
@@ -87,7 +87,7 @@ exports.up = function(knex) {
       table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
       table.primary(['course_id','user_id']);
-      table.string('grade');
+      table.string('grade').nullable();
       table.boolean('ignore_in_gpa').defaultTo(false);
       table.boolean('dropped').defaultTo(false);
       table.string('dropped_date');
@@ -100,10 +100,12 @@ exports.up = function(knex) {
       table.primary(['course_id','user_id']);
     })
     .createTable('application_courses', function(table) {
-      table.integer('course_id').unsigned().references('id').inTable('courses').onDelete('CASCADE');
-      table.integer('application_id').unsigned().references('id').inTable('professional_program_applications').onDelete('CASCADE');
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
+      table.string('subject').notNullable();
+      table.integer('class_number').notNullable();
       table.string('course_status').defaultTo("Not Started");
       table.boolean('waiver').defaultTo(false);
+      table.unique(['user_id', 'subject', 'class_number']);
     });    
 };
 

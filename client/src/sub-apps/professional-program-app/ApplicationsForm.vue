@@ -35,7 +35,7 @@
                         <IftaLabel variant="in">
                         <Select 
                         id="advisor" 
-                        v-model="selectedAdvisor" 
+                        v-model="application.advisor" 
                         :options="advisorOptions" 
                         showClear
                         :class="styles['input']"
@@ -55,9 +55,13 @@
                     <!--Course table-->
                     <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
-                            <DataTable :value="application_table" stripedRows id="appTable">
-                                <Column field="class_descr" header="Course" />
-                                <Column field="status" header="Status" />
+                            <DataTable :value="courses" stripedRows>
+                                <Column header="Course">
+                                    <template #body="{ data }">
+                                        {{ data.subject }} {{ data.class_number }}
+                                    </template>
+                                </Column>
+                                <Column field="course_status" header="Status" />
                                 <Column header="Waiver">
                                     <template #body="{ data }">
                                         <Checkbox v-model="data.waiver" binary/>
@@ -82,7 +86,7 @@
                     <div class="col-10 col-offset-1">
                         <Textarea 
                         placeholder="Add comments or additional information here" 
-                        v-model="additionalInfo" 
+                        v-model="application.notes" 
                         rows="7" cols="75"
                         autoResize
                         id="commentBox"
@@ -115,7 +119,7 @@
   <script>
 
   //Components
-  import { shallowRef, ref } from 'vue';
+  import { shallowRef, ref, toRaw } from 'vue';
 
   //Primevue components
   import InputText from 'primevue/inputtext';
@@ -137,9 +141,6 @@
   import {useApplicationStore} from '@/stores/ApplicationStore.js'
   import {useProfileStore} from '@/stores/ProfileStore.js'
   import {storeToRefs} from 'pinia'
-
-  //External Modules
-  
   
   export default {
     name: 'ApplicationForm',
@@ -155,77 +156,37 @@
       Column
     },
     setup() {
-      //Store setup
-      const applicationStore = useApplicationStore()
-      const profileStore = useProfileStore()
-      if (process.env.NODE_ENV !== 'test') {
-        applicationStore.hydrate()
-        profileStore.hydrate()
-      }
-      const {application_table} = storeToRefs(applicationStore)
-      const {user, full_name} = storeToRefs(profileStore)
+        //Store setup
+        const applicationStore = useApplicationStore()
+        const profileStore = useProfileStore()
+        if (process.env.NODE_ENV !== 'test') {
+            applicationStore.hydrate()
+            profileStore.hydrate()
+        }
+        const {courses, application} = storeToRefs(applicationStore)
+        const {user, full_name} = storeToRefs(profileStore)
 
-      const toast = useToast()
-      const loading = shallowRef(false);
-      const statusMessage = shallowRef('');
-      const alertStatus = shallowRef('info');
-      const showAlert = shallowRef(false);
-      const selectedAdvisor = ref("");
-      const courseUpdates = shallowRef({});
-      const submitting = shallowRef(false);
-      //const additionalInfo = application.notes !== "" ? application.notes : shallowRef('');
-      const additionalInfo = "";
-      const hardcodedGPA = "3.5";
-  
-        const statusOptions = [
-        { value: "Complete", label: "Complete" },
-        { value: "In-Progress", label: "In Progress" },
-        { value: "Unsubmitted", label: "Unsubmitted" }
-      ];
-  
-        const gradeOptions = [
-        { value: "n/a", label: "N/A" },
-        { value: "A", label: "A" },
-        { value: "B", label: "B" },
-        { value: "C", label: "C" },
-        { value: "D", label: "D" },
-        { value: "F", label: "F"}
-        ];
-    
+        const toast = useToast();
+        const statusMessage = shallowRef('');
         const advisorOptions = [
             "David Invergo", "Sheryl Cornell"
         ];
 
-        const errors = ref({})
-        const message = ref('')
-
         const SubmitApplication = async () => {
-            //Convert these alerts to Toast, probably, be consistent with that
-            console.log(application_table)
-            /*if(!selectedAdvisor.value || selectedAdvisor.value.trim() === ""){
-                alert('Please select an advisor.')
+            if(!application.value.advisor || application.value.advisor.trim() === ""){
+                toast.add({ severity: 'error', summary: 'Failed to submit', detail: 'Please select an advisor!', life: 3000, });
                 return;
-            } else {
-                loading.value = true
-                errors.value = {}
-                message.value = ''
-                try {
-                    await applicationStore.submit()
-                    toast.add({ severity: 'success', summary: 'Success', detail: 'Application Submitted', life: 3000 })
-                } catch (error) {
-                if (error.response.data.data) {
-                    errors.value = error.response.data.data
-                    message.value = 'The server rejected this submission. Please correct errors listed below'
-                } else {
-                    message.value =
-                    'The server rejected this submission due to an SQL Error. Refresh and try again'
-                    }
-                }
-                loading.value = false
-            }*/
+            }
+            try {
+                await applicationStore.submit(application.value, courses.value)
+                toast.add({ severity: 'success', summary: 'Success', detail: 'Application Submitted', life: 3000 })
+            } catch (error) {
+                console.log(error)
+                toast.add({ severity: 'error', summary: 'Failed to submit', detail: error, life: 3000, });
+            }
         };
 
-        return {styles, shared, SubmitApplication, loading, statusMessage, alertStatus, showAlert, selectedAdvisor, courseUpdates, submitting, additionalInfo, hardcodedGPA, advisorOptions, user, application_table, full_name}
+        return {styles, shared, SubmitApplication, statusMessage, advisorOptions, user, application, courses, full_name}
     }
 }
 
