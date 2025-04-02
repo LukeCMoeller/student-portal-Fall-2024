@@ -44,11 +44,26 @@ export const useUsersStore = defineStore('users', 'currentUser', {
         .post('/api/v1/protected/users/' + user.id, {
           user: user
         })
-        .then(async () => {
-          await this.hydrate()
+    },
+    /**
+         * Refresh the entire discord 
+         */
+    async refreshDiscord() {
+      await api
+        .post('/api/v1/protected/discord/refreshDiscordRolls', {
         })
     },
-
+    /**
+         * Send a student to get refreshed in the discord bot
+         *
+         * @param {User} user
+         */
+    async refreshStudent(user) {
+      await api
+        .post('/api/v1/protected/discord/RefreshStudentRolls', {
+          user: user
+        })
+    },
     /**
      * Create a new item via the API
      *

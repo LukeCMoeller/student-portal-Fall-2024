@@ -42,7 +42,7 @@ client.once('ready', async () => {
   all_students = await discordModelTest.get_users_with_discord();
 
   if (TestingDatabaseAll) {
-    handleAllStudentRoled();
+    handleAllStudentRoles();
     TestingDatabaseAll = false;
   }
   if (TestingDatabaseSingle) {
@@ -63,7 +63,7 @@ function matchClassesToRoles(listOfCourses) {
   return convertedCourses;
 }
 
-async function handleAllStudentRoled() {
+async function handleAllStudentRoles() {
   for (let x = 0; x < all_students.length; x++) {
     let student_courses = await discordModelTest.get_student_courses(all_students[x].discord_id);
     let student_roles = matchClassesToRoles(student_courses);
