@@ -6,11 +6,10 @@ import Logger from 'js-logger'
 import api from '../services/tokenApi.js'
 
 //Admin level store to get list of users, currently unused
-export const useUsersStore = defineStore('users', 'currentUser', {
+export const useAdminStore = defineStore('users', {
   state: () => {
     return {
-      users: [], // list of users
-      currentUser: User() //logged in user
+      users: []
     }
   },
   getters: {
@@ -85,14 +84,5 @@ export const useUsersStore = defineStore('users', 'currentUser', {
         await this.hydrate()
       })
     },
-
-    /**
-     * Load the currently logged in user to the store.
-     */
-    async loadCurrentUser() {
-      await api.get('api/v1/users/whoami').then((response) => {
-        this.currentUser = response.data
-      })
-    }
   }
 })
