@@ -134,6 +134,7 @@ export default {
     }
   },
   setup() {
+    
     // Stores
     const profileStore = useProfileStore()
     if (process.env.NODE_ENV !== 'test') {

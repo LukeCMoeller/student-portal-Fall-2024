@@ -47,6 +47,7 @@ router.use(requestLogger)
 router.get('/login', refreshToken, async function (req, res, next) {
   if (!req.session.user_id) {
     let email = ''
+    let wid = 0
     if (req.query.email && process.env.FORCE_AUTH === 'true') {
       // force authentication enabled, use email from query
       email = req.query.email
@@ -60,13 +61,15 @@ router.get('/login', refreshToken, async function (req, res, next) {
         return
       } else {
         // CAS is authenticated, get email from session
+        console.log(req.session)
         email =
           req.session[cas.session_name] + '@ksu.edu'
+        wid = req.session[cas.ksupersonwildcatid]
       }
     }
     if (email && email.length != 0) {
       // Find or Create User for email
-      let user = await User.findOrCreate(email)
+      let user = await User.findOrCreate(email, wid)
       // Store User ID in session
       // req.session.user_id = user.id
       // req.session.user_email = email
