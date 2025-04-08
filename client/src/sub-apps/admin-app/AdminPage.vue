@@ -52,28 +52,45 @@
 <script>
 import { ref } from "vue";
 import { useAdminStore } from '@/stores/AdminStore.js';
+
+//primevue components
 import Button from 'primevue/button';
 import IftaLabel from 'primevue/iftalabel';
 import Select from 'primevue/select';
+import { useToast } from 'primevue/usetoast'
 //styles
 import styles from '@/components/styles/AdminPage.module.css';
 import shared from '@/components/styles/Shared.module.css';
 
 import discordText from '@/components/assets/DiscordText.png';
 
+
 export default {
   name: 'Admin',
   components: { Button, IftaLabel, Select },
   setup() {
+    const toast = useToast();
     const adminStore = useAdminStore();
     const selectedStudent = ref("");
-    const studentOptions = ["Peter", "Chris","Brian"];  
+    const studentOptions = ["Luke Moeller", "Josh Riddle","Struggle Student"];  
     const RefreshDiscord = async () => {
-      adminStore.refreshDiscord();
+      const booltest = adminStore.refreshDiscord();
+      if(booltest === true){
+        toast.add({ severity: 'success', summary: 'Discord Updated', detail: 'All Students roles updated. ', life: 3000, });
+      }else{
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Error on attempted action', life: 3000, });
+      }
+      
     };
 
     const RefreshStudent = async (studentID) => {
-      adminStore.refreshStudent(studentID);
+      const booltest = adminStore.refreshStudent(studentID);
+      if(booltest === true){
+        toast.add({ severity: 'success', summary: 'Student sucessfully added', detail: 'Student ' + studentID + ' has updated discord roles.', life: 3000, });
+      }else{
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Error on attempted action for ' + studentID, life: 3000, });
+      }
+      
     };
 
     return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent };

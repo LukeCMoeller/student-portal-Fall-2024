@@ -48,9 +48,14 @@ export const useAdminStore = defineStore('users', {
          * Refresh the entire discord 
          */
     async refreshDiscord() {
-      await api
-        .post('/api/v1/protected/discord/refreshDiscordRolls', {
+      try{
+        await api
+        .post('/api/v1/protected/discord/refreshDiscordRoles', {
         })
+        return true;
+      }catch{
+        return false;
+      }
     },
     /**
          * Send a student to get refreshed in the discord bot
@@ -58,10 +63,23 @@ export const useAdminStore = defineStore('users', {
          * @param {User} user
          */
     async refreshStudent(user) {
-      await api
-        .post('/api/v1/protected/discord/RefreshStudentRolls', {
+      if(user == "Luke Moeller"){
+        user = 592454625270038547;
+      }else if (user == "Josh Riddle"){
+        user= 1313234532412952578;
+      }
+      try{
+        console.log(user);
+        await api
+        .post('/api/v1/protected/discord/refreshStudentRoles', {
           user: user
         })
+        return true;
+      }
+      catch{
+        return false;
+      }
+
     },
     /**
      * Create a new item via the API

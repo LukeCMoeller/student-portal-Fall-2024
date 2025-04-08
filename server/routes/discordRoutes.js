@@ -181,19 +181,23 @@ router.get('/username', async (req,res) => {
     res.json({ username: '' });
   }
 })
-router.post('/refreshDiscordRolls', async function (req, res, next) {
+router.post('/refreshDiscordRoles', async function (req, res, next) {
   try {
     discordbot.handleAllStudentRoles();
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    res.status(500).send('Server error');
   }
 })
-router.post('/refreshStudentRolls', async function (req, res, next) {
+router.post('/refreshStudentRoles', async function (req, res, next) {
   try {
-    const studentDiscordId = await db('discord_id').where('user_id', user_id).select('discord_id').first();
-    discordbot.handleSelectStudentRoled(studentDiscordId);
+    //const studentDiscordId = await db('discord_id').where('user_id', user_id).select('discord_id').first();
+    //discordbot.handleSelectStudentRoled(studentDiscordId);
+    console.log(req.body);
+    discordbot.handleSelectStudentRoles(req.body.user);
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    res.status(500).send('Server error');
   }
 })
   

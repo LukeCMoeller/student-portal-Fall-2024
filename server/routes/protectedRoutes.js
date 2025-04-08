@@ -30,6 +30,7 @@ const usersRoutes = require('./userRoutes.js')
 const profileRoutes = require('./profileRoutes.js')
 const applicationsRoutes = require('./applicationRoutes.js')
 const academicsRoutes = require('./academicsRoutes.js')
+const discordRoutes = require('./discordRoutes.js')
 
 //This verifies that the user has logged in before they can access any sub route
 router.use(token)
@@ -40,5 +41,5 @@ router.use('/users', usersRoutes)
 router.use('/profile', profileRoutes)
 router.use('/applications', applicationsRoutes)
 router.use('/academics', academicsRoutes)
-
+router.use('/discord', discordRoutes)
 module.exports = router
