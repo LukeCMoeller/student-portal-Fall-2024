@@ -58,7 +58,7 @@ class User extends Model {
 
 
   //Method used to find or create a user, which is then passed into the web token
-  static async findOrCreate(email) {
+  static async findOrCreate(email, wid) {
     let user = await User.query().where('email', email).limit(1)
     // user not found - create user
     if (user.length === 0) {
@@ -66,7 +66,7 @@ class User extends Model {
         await User.query().insert({
           email: email,
           eid: email,
-          wid: getRandomInt(1000000000),
+          wid: wid,
           first_name: email,
           last_name: email,
           profile_updated: false
