@@ -40,14 +40,12 @@ class Course extends Model {
         }
     }
 
-    // Helper to check if a course is part of the prerequisite courses
     static isPrerequisiteCourse(course) {
         return prerequisiteCourses.some(prereq =>
             prereq.class_number === course.class_number && prereq.subject === course.subject
         );
     }
 
-    // Helper to add a course to the results
     static addCourseToResults(course, combinedCourses) {
         const existingCourse = combinedCourses.find(c =>
             c.class_number === course.class_number && c.subject === course.subject
@@ -58,21 +56,15 @@ class Course extends Model {
                 class_number: course.class_number,
                 subject: course.subject,
                 grade: course.grade || "N/A",  // Default to "N/A" if no grade exists
-                course_status: course.course_status || "Not Started", // Default status
+                course_status: course.course_status || (course.grade ? "In Progress" : "Not Started"),
                 waiver: course.waiver || false, // Default waiver
             });
+        } else {
+            // Only update the waiver field if course already exists
+            existingCourse.waiver = course.waiver || existingCourse.waiver || false;
         }
     }
 
-    // Helper to fetch additional courses from application_courses table
-    static async fetchAdditionalCourses(user_id, combinedCourses) {
-        return ApplicationCourse.query()
-            .where('user_id', user_id)
-            .whereNotIn('class_number', combinedCourses.map(course => course.class_number)) // Exclude courses already in combinedCourses
-            .select('class_number', 'subject', 'course_status', 'waiver');
-    }
-
-    // Helper to add missing prerequisite courses to the results
     static addMissingPrerequisiteCourses(combinedCourses) {
         for (const prereq of prerequisiteCourses) {
             const match = combinedCourses.find(c =>
@@ -96,47 +88,39 @@ class Course extends Model {
     // Main function to get application courses
     static async getApplicationCourses(user_id) {
         try {
-            // Query for courses the user is enrolled in from course_students and their status from application_courses if they exist
-            const foundCourses = await this.query()
+            user_id = parseInt(user_id, 10);
+            const results = [];
+
+            //Pull all real enrolled courses.
+            const enrolledCourses = await this.query()
                 .join('course_students', 'courses.id', 'course_students.course_id')
-                .leftJoin('application_courses', function () {
-                    this.on('courses.class_number', '=', 'application_courses.class_number')
-                        .andOn('courses.subject', '=', 'application_courses.subject')
-                        .andOn('application_courses.user_id', '=', user_id);
-                })
                 .where('course_students.user_id', user_id)
                 .select(
                     'courses.class_number',
                     'courses.subject',
-                    'course_students.grade',
-                    'application_courses.course_status',
-                    'application_courses.waiver'
+                    'course_students.grade'
                 );
-
-            // Combine the found courses from both course_students and application_courses
-            const combinedCourses = [];
-
-            // Add courses from foundCourses (course_students + application_courses) to the result
-            foundCourses.forEach(course => {
-                // Call isPrerequisiteCourse inside getApplicationCourses before adding to the result
+            //Add to the results
+            enrolledCourses.forEach(course => {
                 if (this.isPrerequisiteCourse(course)) {
-                    this.addCourseToResults(course, combinedCourses);
+                    this.addCourseToResults(course, results);
                 }
             });
 
-            // Fetch and add additional courses from application_courses
-            const additionalCourses = await this.fetchAdditionalCourses(user_id, combinedCourses);
-            additionalCourses.forEach(course => {
-                // Call isPrerequisiteCourse inside getApplicationCourses before adding to the result
+            //Pull all application course data
+            const appCourses = await ApplicationCourse.get(user_id)
+            appCourses.forEach(course => {
                 if (this.isPrerequisiteCourse(course)) {
-                    this.addCourseToResults(course, combinedCourses);
+                    this.addCourseToResults(course, results);
                 }
             });
 
-            // Add any missing prerequisite courses to the results
-            this.addMissingPrerequisiteCourses(combinedCourses);
+            this.addMissingPrerequisiteCourses(results);
 
-            return combinedCourses;
+            ApplicationCourse.update(user_id, results);
+
+            return results;
+            
         } catch (err) {
             logger.error('Error fetching application courses:', err);
             throw err;

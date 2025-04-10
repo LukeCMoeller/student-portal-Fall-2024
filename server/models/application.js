@@ -1,6 +1,7 @@
 const Model = require('./base.js')
 const logger = require('../configs/logger.js')
 const objection = require('objection')
+const Course = require('./course');
 
 //Related Roles
 const User = require('./user.js')
@@ -29,21 +30,23 @@ class Application extends Model {
     }
 
     static async getAllApplications() {
-      return this.query()
-      .withGraphFetched('user')
-      .modifyGraph('user', builder => {
-        builder.select('id', 'first_name', 'last_name', 'email', 'eid', 'wid');
-      })
-      .select(
-        'id',
-        'user_id',
-        'advisor',
-        'semester',
-        'status',
-        'notes',
-        'created_by',
-        'updated_by'
-      );
+      const applications = await this.query()
+        .withGraphFetched('user')
+        .modifyGraph('user', builder => {
+          builder.select('id', 'first_name', 'last_name', 'email', 'eid', 'wid');
+        })
+        .select(
+          'id',
+          'user_id',
+          'advisor',
+          'semester',
+          'status',
+          'notes',
+          'created_by',
+          'updated_by'
+        );
+    
+      return applications;
     }
 
     static async create(user_id, application) {
@@ -53,7 +56,7 @@ class Application extends Model {
         // Update existing application
         return await this.query().patchAndFetchById(existing.id, {
           advisor: application.advisor,
-          semester: "Placeholder",
+          semester: "Spring 2025",
           status: "Pending",
           notes: application.notes || null,
           updated_by: user_id,
@@ -63,7 +66,7 @@ class Application extends Model {
         return await this.query().insert({
           user_id,
           advisor: application.advisor,
-          semester: "Placeholder",
+          semester: "Spring 2025",
           status: "Pending",
           notes: application.notes || null,
           created_by: user_id,
