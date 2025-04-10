@@ -4,7 +4,7 @@
     <!--Admin note dialog-->
     <Dialog id="notesDialog" class="notes-dialog" v-model:visible="NotesDialog" modal header="Edit Notes" :style="{ width: '25rem' }">
       <div class="flex items-center gap-4">
-        <label for="username" class="font-semibold w-24">Name: {{ fullName }}</label>
+        <label for="username" class="font-semibold w-24">Name: <span>{{fullName}}</span></label>
       </div>
       <br>
       <div class="flex items-center gap-4 mb-8">
@@ -28,7 +28,7 @@
     <!--Email Dialog-->
     <Dialog id="emailDialog" class="email-dialog" v-model:visible="EmailDialog" modal header="Email" :style="{ width: '40rem' }">
       <IftaLabel variant="in">
-        <InputText id="emailTo" :placeholder="selectedApplications.map(element => element.first_name + ' ' + element.last_name).join(', ')" variant="filled" :class="styles['input']" readonly/>
+        <InputText id="emailTo" :placeholder="selectedApplications.map(applicant => applicant.user.email).join(', ')" variant="filled" :class="styles['input']" readonly/>
         <label for="emailTo">To:</label>
       </IftaLabel><br>
       <IftaLabel variant="in">
@@ -66,25 +66,15 @@
           <div class="col-10 col-offset-1">
               <label class="font-semibold w-24" :class="styles['input']">Name: <span>{{ fullName }}</span></label>
               <br />
-              <label class="font-semibold w-24" :class="styles['input']">EID: <span>{{ ApplicationData.eid }}</span></label>
+              <label class="font-semibold w-24" :class="styles['input']">EID: <span>{{ ApplicationData.user.eid }}</span></label>
               <br />
-              <label class="font-semibold w-24" :class="styles['input']">Email: <span>{{ ApplicationData.email }}</span></label>
+              <label class="font-semibold w-24" :class="styles['input']">Email: <span>{{ ApplicationData.user.email }}</span></label>
               <br />
-              <label class="font-semibold w-24" :class="styles['input']">WID: <span>{{ ApplicationData.wid }}</span></label>
+              <label class="font-semibold w-24" :class="styles['input']">WID: <span>{{ ApplicationData.user.wid }}</span></label>
               <br />
-              <label class="font-semibold w-24" :class="styles['input']">Waiver: <span>{{ ApplicationData.waiver }}</span></label>
-          </div>
-
-          <!--Semester drop down-->
-          <div class="col-10 col-offset-1">
-              <IftaLabel variant="in">
-              <Select 
-              id="semester" 
-              v-model="ApplicationData.semester" 
-              :class="styles['input']"
-              />
-              <label for="status">Semester:</label>
-              </IftaLabel>
+              <label class="font-semibold w-24" :class="styles['input']">Advisor: <span>{{ ApplicationData.advisor }}</span></label>
+              <br />
+              <label class="font-semibold w-24" :class="styles['input']">Semester: <span>{{ ApplicationData.semester }}</span></label>
           </div>
 
           <!--Status drop down-->
@@ -104,10 +94,18 @@
           <div class="col-10 col-offset-1">
             <div :class="styles['table']"> 
                 <DataTable :value="ApplicationData.courses" stripedRows id="appTable">
-                    <Column field="class_descr" header="Course" />
-                    <Column field="course_id" header="Course ID" />
-                    <Column field="status" header="Status" />
-                    <Column field="grade" header="Grade" />
+                  <Column header="Course">
+                      <template #body="{ data }">
+                          {{ data.subject }} {{ data.class_number }}
+                      </template>
+                  </Column>
+                  <Column field="course_status" header="Status" />
+                  <Column header="Waiver">
+                    <template #body="{ data }">
+                      <Checkbox v-model="data.waiver" binary :disabled="true" />
+                    </template>
+                  </Column>
+                  <Column field="grade" header="Grade" />
                 </DataTable>
             </div>
           </div>
@@ -200,6 +198,7 @@ import Textarea from 'primevue/textarea';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
+import Checkbox from 'primevue/checkbox';
 
 //Our components
 import LoadingIndicator from '@/components/common/LoadingIndicator.vue';
@@ -214,6 +213,7 @@ export default {
     Select,
     Dialog,
     DataTable,
+    Checkbox,
     Column,
     InputText,
     IftaLabel,
@@ -243,20 +243,8 @@ export default {
       NotesDialog: false,
       EditDialog: false,
       EmailDialog: false,
-      emailData: { subject: "", cc: "", body: "" },
-      ApplicationData: {
-        first_name: "",
-        last_name: "",
-        eid: "",
-        email: "",
-        wid: "",
-        semester: "",
-        status: "",
-        adminNotes: "",
-        courses: [
-        {class_descr: "", course_id: "", status: "", grade: ""},
-        ]
-      },
+      emailData: {},
+      ApplicationData: {},
       statusOptions,
     };
   },
@@ -278,13 +266,15 @@ export default {
     //Open notes
     handleAdminNoteClick(data){
       this.ApplicationData = data;
-      this.ApplicationData.adminNotes = '';
       this.NotesDialog = true;
     },
     //Open edit dialog
-    HandleEditClick(data){
+    async HandleEditClick(data) {
+      const reviewStore = useReviewerStore(); // Get the store here directly
       this.ApplicationData = data;
       this.EditDialog = true;
+      await reviewStore.fetchApplicationsCourses(this.ApplicationData.user.id);
+      this.ApplicationData.courses = reviewStore.app_courses;
     },
     fetchCourses(wid) { 
       //This could just be an axios request, I think? We have a courseRoutes that currently isn't getting used
@@ -359,12 +349,7 @@ export default {
   computed: {
     fullName: {
       get() {
-        return `${this.ApplicationData.first_name} ${this.ApplicationData.last_name}`
-      },
-      set(value) {
-        const [firstName, ...lastName] = value.split(" ")
-        this.ApplicationData.first_name = firstName;
-        this.ApplicationData.last_name = lastName.join(" ")
+        return `${this.ApplicationData.user.first_name} ${this.ApplicationData.user.last_name}`
       }
     },
   },

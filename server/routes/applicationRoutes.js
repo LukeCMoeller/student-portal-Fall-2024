@@ -32,6 +32,16 @@ router.get('/', reviewerOnly, async (req, res) => {
   }
 });
 
+router.get('/courses', reviewerOnly, async (req, res) => {
+  try {
+    let courses = await Course.getApplicationCourses(req.query.app_user_id)
+    res.json(courses)
+  } catch (err) {
+    console.error('Error retieving user application details:', err);
+    res.status(500).send('Server error');
+  }
+});
+
 router.get('/self', async (req, res) => {
     try {
       let courses = await Course.getApplicationCourses(req.user_id)

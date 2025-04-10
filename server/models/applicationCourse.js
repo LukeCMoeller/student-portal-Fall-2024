@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const logger = require('../configs/logger.js');
 
 const prerequisiteCourses = require('../configs/prerequisiteCourses');
 
@@ -25,6 +26,13 @@ class ApplicationCourse extends Model {
                 waiver: { type: 'boolean' }
             }
         };
+    }
+
+    static async get(user_id){
+        const appCourses = await this.query()
+                .where('user_id', user_id)
+                .select('class_number', 'subject', 'course_status', 'waiver');
+        return appCourses;
     }
 
     static async insert(userId, subject, classNumber, status = 'Not Started') {

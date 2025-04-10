@@ -24,7 +24,7 @@ exports.seed = async function(knex) {
   // Insert users
   await knex('users').insert([
     {
-      wid: 1000000,
+      wid: 111222669,
       eid: 'student',
       first_name: 'Fake',
       last_name: 'Student',
@@ -35,7 +35,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 101,
+      wid: 156428926,
       eid: 'jariddle',
       first_name: 'Josh',
       last_name: 'Riddle',
@@ -46,7 +46,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 102,
+      wid: 658942578,
       eid: 'ejones',
       first_name: 'Ethan',
       last_name: 'Jones',
@@ -57,7 +57,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 103,
+      wid: 365742584,
       eid: 'ajohnson',
       first_name: 'Alice',
       last_name: 'Johnson',
@@ -68,7 +68,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 104,
+      wid: 987265481,
       eid: 'admin',
       first_name: 'admin',
       last_name: 'admin',
@@ -79,7 +79,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 105,
+      wid: 845216385,
       eid: 'lcmoeller',
       first_name: 'luke',
       last_name: 'moeller',
@@ -90,7 +90,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 106,
+      wid: 564892156,
       eid: 'reviewer',
       first_name: 'reviewer',
       last_name: 'reviewer',
@@ -101,7 +101,7 @@ exports.seed = async function(knex) {
       updated_by: 'system'
     },
     {
-      wid: 107,
+      wid: 256915473,
       eid: 'struggle',
       first_name: 'struggle',
       last_name: 'struggle',
