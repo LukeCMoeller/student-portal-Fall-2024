@@ -89,6 +89,7 @@ export default defineComponent({
           ].filter(Boolean)
         },
         { label: 'Profile', route: '/profile', root: true },
+        { label: 'Grades', route: '/grades', root: true },
         IsAdmin.value ? { label: 'Admin', route: '/admin', root: true } : null
       ].filter(Boolean);
     });

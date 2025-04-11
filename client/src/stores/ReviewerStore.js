@@ -7,7 +7,7 @@ import api from '@/services/adminApi'
 // Import token store
 import { useTokenStore } from './TokenStore'
 
-export const useReviewerStore = defineStore('admin', {
+export const useReviewerStore = defineStore('reviewer', {
   state: () => {
     return {
       applications: [],
