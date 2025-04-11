@@ -6,11 +6,10 @@ import Logger from 'js-logger'
 import api from '../services/tokenApi.js'
 
 //Admin level store to get list of users, currently unused
-export const useUsersStore = defineStore('users', 'currentUser', {
+export const useAdminStore = defineStore('users', {
   state: () => {
     return {
-      users: [], // list of users
-      currentUser: User() //logged in user
+      users: []
     }
   },
   getters: {
@@ -44,11 +43,45 @@ export const useUsersStore = defineStore('users', 'currentUser', {
         .post('/api/v1/protected/users/' + user.id, {
           user: user
         })
-        .then(async () => {
-          await this.hydrate()
-        })
     },
+    /**
+         * Refresh the entire discord 
+         */
+    async refreshDiscord() {
+      try{
+        await api
+        .post('/api/v1/protected/discord/refreshDiscordRoles', {
+        })
+          return true;
+      }catch{
+        return false;
+      }
+    },
+    /**
+         * Send a student to get refreshed in the discord bot
+         *
+         * @param {User} user
+         */
+    async refreshStudent(user) {
+      if(user === "Luke Moeller"){
+        user = '592454625270038547';
+      }else if (user === "Josh Riddle"){
+        user= '1313234532412952578';
+      } else if(user === "Struggle Student"){
+        return false;
+      }
+      try{
+        await api
+        .post('/api/v1/protected/discord/refreshStudentRoles', {
+          user: user
+        })
+        return true;
+      }
+      catch{
+        return false;
+      }
 
+    },
     /**
      * Create a new item via the API
      *
@@ -70,14 +103,5 @@ export const useUsersStore = defineStore('users', 'currentUser', {
         await this.hydrate()
       })
     },
-
-    /**
-     * Load the currently logged in user to the store.
-     */
-    async loadCurrentUser() {
-      await api.get('api/v1/users/whoami').then((response) => {
-        this.currentUser = response.data
-      })
-    }
   }
 })

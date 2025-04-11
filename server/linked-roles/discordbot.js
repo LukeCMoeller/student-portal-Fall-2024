@@ -33,6 +33,7 @@ let all_students;
 
 client.login(process.env.DISCORD_SECRET).catch(console.error);
 client.once('ready', async () => {
+  
   console.log('Bot is online!');
   ourServerguild = await client.guilds.cache.get('1285994775282978900');
   if (!ourServerguild) {
@@ -40,14 +41,13 @@ client.once('ready', async () => {
     return;
   }
   all_students = await discordModelTest.get_users_with_discord();
-
   if (TestingDatabaseAll) {
-    handleAllStudentRoled();
+    handleAllStudentRoles();
     TestingDatabaseAll = false;
   }
   if (TestingDatabaseSingle) {
     let mydiscord = '592454625270038547';
-    handleSelectStudentRoled(mydiscord);
+    handleSelectStudentRoles(mydiscord);
     TestingDatabaseSingle = false;
   }
 });
@@ -63,7 +63,7 @@ function matchClassesToRoles(listOfCourses) {
   return convertedCourses;
 }
 
-async function handleAllStudentRoled() {
+async function handleAllStudentRoles() {
   for (let x = 0; x < all_students.length; x++) {
     let student_courses = await discordModelTest.get_student_courses(all_students[x].discord_id);
     let student_roles = matchClassesToRoles(student_courses);
@@ -85,12 +85,13 @@ async function handleAllStudentRoled() {
   }
 }
 
-async function handleSelectStudentRoled(studentDiscordID) {
+async function handleSelectStudentRoles(studentDiscordID) {
   let student_courses = await discordModelTest.get_student_courses(studentDiscordID);
   let student_roles = matchClassesToRoles(student_courses);
   const member = await ourServerguild.members.fetch(studentDiscordID).catch(() => null);
   if (!member) {
     console.error('Student not found');
+    return false;
   } else {
     try {
       const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id));
@@ -101,6 +102,7 @@ async function handleSelectStudentRoled(studentDiscordID) {
       }
     } catch (error) {
       console.error('Error adding role:', error);
+      return false;
     }
   }
 }
@@ -121,5 +123,7 @@ client.on('guildMemberAdd', async (member) => {
     console.error('Error adding role:', error);
   }
 });
-
-module.exports = discord;
+module.exports = {
+  handleSelectStudentRoles,
+  handleAllStudentRoles
+};

@@ -15,6 +15,8 @@ const db = require('../configs/db.js')
 const crypto = require('crypto')
 const discord = require('../linked-roles/discord.js')
 const storage = require('../linked-roles/storage.js')
+const discordbot = require('../linked-roles/discordbot.js');
+const { setDefaultAutoSelectFamily } = require('net');
 
 /* Discord */
 router.get('/', async (req,res) => {
@@ -179,6 +181,29 @@ router.get('/username', async (req,res) => {
     res.json({ username: '' });
   }
 })
-
+router.post('/refreshDiscordRoles', async function (req, res, next) {
+  try {
+    const result = discordbot.handleAllStudentRoles();
+    res.json({result: true});
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+    res.json(false);
+  }
+})
+router.post('/refreshStudentRoles', async function (req, res, next) {
+  try {
+    //const studentDiscordId = await db('discord_id').where('user_id', user_id).select('discord_id').first();
+    //discordbot.handleSelectStudentRoled(studentDiscordId);
+    const discordID = req.body.user;
+    console.log(discordID);
+    await discordbot.handleSelectStudentRoles(discordID);
+    res.json(true);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+    res.json(false);
+  }
+})
   
 module.exports = router
