@@ -35,8 +35,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async unlinkDiscord(userId){
       try {
-        return await api.delete(`/
-          api/v1/protected/discord/`, {
+        return await api.delete(`/api/v1/discord/`, {
             params: { userId },
         })
         } catch (error) {
@@ -45,7 +44,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async unlinkGitHub(userId){
       try {
-        return await api.delete(`/api/v1/protected/github/`, {
+        return await api.delete(`/api/v1/github/`, {
             params: { userId },
         })
         } catch (error) {
@@ -54,7 +53,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async getDiscordInfo(userId) {
       try {
-        const response = await api.get(`/api/v1/protected/discord/username`, {
+        const response = await api.get(`/api/v1/discord/username`, {
             params: { userId },
         });
         this.discord = response.data.username;
@@ -64,7 +63,7 @@ export const useProfileStore = defineStore('profile', {
     },
     async getGitHubInfo(userId) {
       try {
-        const response = await api.get(`/api/v1/protected/github/username`, {
+        const response = await api.get(`/api/v1/github/username`, {
             params: { userId },
         });
         this.github = response.data.username;

@@ -40,7 +40,7 @@ async function getOAuthTokens(code) {
       client_secret: process.env.DISCORD_CLIENT_SECRET,
       grant_type: 'authorization_code',
       code,
-      redirect_uri: `${process.env.SERVER_URL}/discord/role-callback`,
+      redirect_uri: `${process.env.SERVER_URL}/api/v1/discord/role-callback`,
     });
 
     const response = await fetch(url, {

@@ -177,7 +177,8 @@ exports.seed = async function(knex) {
   const courseMap = Object.fromEntries(courses.map(c => [c.class_number, c.id]));
 
   await knex('course_students').insert([
-    { course_id: courseMap[101], user_id: userMap['jariddle'], grade: 'C', ignore_in_gpa: false, dropped: false },
+    { course_id: courseMap[115], user_id: userMap['jariddle'], grade: 'C', ignore_in_gpa: false, dropped: false },
+    { course_id: courseMap[300], user_id: userMap['jariddle'], grade: 'C', ignore_in_gpa: false, dropped: false },
     { course_id: courseMap[102], user_id: userMap['ejones'], grade: 'B+', ignore_in_gpa: false, dropped: false },
     { course_id: courseMap[115], user_id: userMap['lcmoeller'], grade: 'F', ignore_in_gpa: false, dropped: false },
     {course_id: courseMap[115], user_id: userMap['student'], grade: 'A', ignore_in_gpa: false, dropped: false },

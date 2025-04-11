@@ -32,6 +32,7 @@ const requestLogger = require('../middleware/request-logger.js')
 const protectedRoutes = require('./protectedRoutes.js')
 const authRoutes = require('./authRoutes.js')
 const githubRoutes = require('./githubRoutes.js')
+const discordRoutes = require('./discordRoutes.js')
 
 // Load DB Audit Middleware
 router.use(dbAudit)
@@ -42,6 +43,7 @@ router.use(requestLogger)
 router.use('/protected', protectedRoutes) //This route is for any sub route that requires authentication
 router.use('/auth', authRoutes) //This route is for authenticating users
 router.use('/github', githubRoutes)
+router.use('/discord', discordRoutes)
 
 /**
  * @swagger

@@ -3,7 +3,7 @@
  * tags:
  *   name: GitHub
  *   description: API to connect a user's GitHub account. User-level
- *   base-file-route: /api/v1/protected/github/
+ *   base-file-route: /api/v1/github/
  */
 
 // Load Libraries
@@ -18,7 +18,7 @@ try {
       {
         clientID: process.env.HUBGIT_CLIENT_ID,
         clientSecret: process.env.HUBGIT_CLIENT_SECRET,
-        callbackURL: `${process.env.SERVER_URL}/github/callback`, // or process.env.GITHUB_CALLBACK_URL
+        callbackURL: `${process.env.SERVER_URL}/api/v1/github/callback`, // or process.env.GITHUB_CALLBACK_URL
       },
       (accessToken, refreshToken, profile, done) => {
         return done(null, profile);

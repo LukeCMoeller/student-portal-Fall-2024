@@ -57,7 +57,7 @@
             <!--Discord-->
             <div class="col-12 border-round-sm" style="background-color: gray; border: 3px solid #757575; height:16rem; width:80%" >
                   <img :src="discordText" alt="discord text" style="margin: 15px; height: 40px; margin-left: auto; margin-right: auto; display: block;text-align: center;"/>
-                  <h4 :class="styles['text']" v-if="discord === '' | discord === undefined" style ="text-align: center; color:white">Click the button below to connect to the offical <br>K-State Discord.</h4>
+                  <h4 :class="styles['text']" v-if="discord === '' | discord === undefined" style ="text-align: center; color:white">Click the button below to connect to the official <br>K-State Discord.</h4>
                   <h4 :class="styles['text']" v-else style ="text-align: center; color:white"><span style="color:#41d873">Verified: {{discord}}</span><br><br>Now join the discord:<a style="color:plum; font-weight: bold; text-decoration: underline;" href="https://discord.gg/EpMjM4JbXG">Click here</a><br>Click the button below to unlink your account.</h4>
                 <div class="flex align-items-center justify-content-center" v-if="discord === '' | discord === undefined">
                   <button type="button" :class="styles['btn-update']">
@@ -172,12 +172,20 @@ export default {
           life: 3000,
         });
       }
+      else{
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Could not unlink discord.',
+          life: 3000,
+        });
+      }
     } catch (error) {
       console.error('Error unlinking Discord:', error);
       toast.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Failed to unlink Discord!',
+        detail: 'Failed to unlink Discord account',
         life: 3000,
       });
     }
@@ -192,6 +200,14 @@ export default {
           severity: 'success',
           summary: 'Success',
           detail: 'GitHub Unlinked!',
+          life: 3000,
+        });
+      }
+      else{
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to unlink GitHub account.',
           life: 3000,
         });
       }

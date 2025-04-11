@@ -50,7 +50,7 @@ export const useAdminStore = defineStore('users', {
     async refreshDiscord() {
       try{
         await api
-        .post('/api/v1/protected/discord/refreshDiscordRoles', {
+        .post('/api/v1/discord/refreshDiscordRoles', {
         })
           return true;
       }catch{
@@ -66,13 +66,13 @@ export const useAdminStore = defineStore('users', {
       if(user === "Luke Moeller"){
         user = '592454625270038547';
       }else if (user === "Josh Riddle"){
-        user= '1313234532412952578';
+        user = '1313234532412952578';
       } else if(user === "Struggle Student"){
         return false;
       }
       try{
         await api
-        .post('/api/v1/protected/discord/refreshStudentRoles', {
+        .post('/api/v1/discord/refreshStudentRoles', {
           user: user
         })
         return true;
