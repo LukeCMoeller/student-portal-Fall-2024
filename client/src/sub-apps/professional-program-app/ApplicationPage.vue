@@ -69,7 +69,7 @@
                                 </Column>
                                 <Column field="grade" header="Grade" />
                             </DataTable>
-                    </div>
+                        </div>
                     </div>
                     
                     <!--Message-->
@@ -143,7 +143,7 @@
   import {storeToRefs} from 'pinia'
   
   export default {
-    name: 'ApplicationForm',
+    name: 'ApplicationPage',
     components: {
       InputText,
       Textarea,
