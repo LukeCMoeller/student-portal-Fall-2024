@@ -33,6 +33,7 @@ let all_students;
 
 client.login(process.env.DISCORD_SECRET).catch(console.error);
 client.once('ready', async () => {
+  
   console.log('Bot is online!');
   ourServerguild = await client.guilds.cache.get('1285994775282978900');
   if (!ourServerguild) {
@@ -40,7 +41,6 @@ client.once('ready', async () => {
     return;
   }
   all_students = await discordModelTest.get_users_with_discord();
-
   if (TestingDatabaseAll) {
     handleAllStudentRoles();
     TestingDatabaseAll = false;
@@ -91,14 +91,9 @@ async function handleSelectStudentRoles(studentDiscordID) {
   const member = await ourServerguild.members.fetch(studentDiscordID).catch(() => null);
   if (!member) {
     console.error('Student not found');
+    return false;
   } else {
     try {
-      
-    console.log('client:', client);
-    console.log('client.guilds:', client.guilds);
-    console.log('member:', member);
-    console.log('member.roles:', member.roles);
-
       const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id));
       if (rolesToRemove.size > 0) await member.roles.remove(rolesToRemove);
       for (let y = 0; y < student_roles.length; y++) {
@@ -107,6 +102,7 @@ async function handleSelectStudentRoles(studentDiscordID) {
       }
     } catch (error) {
       console.error('Error adding role:', error);
+      return false;
     }
   }
 }

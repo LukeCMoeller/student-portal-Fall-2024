@@ -10,10 +10,9 @@
             <h4 :class="shared['h4-style']">Welcome aboard captain</h4>
           </div>
           <!-- Admin Controls -->
-          <div class="col-10 col-offset-1 xl:col-6 xl:col-offset-3" style="padding-top: 3rem;">
-            <div  :class="shared['flex-centered']" class="border-round-sm flex flex-column" 
-                 style="background-color: gray; border: 3px solid #757575; height: 22rem; width: 80%;">
-              
+          <div class="flex justify-content-center" style="padding-top: 3rem;">
+            <div class="border-round-sm flex flex-column align-items-center"
+                style="background-color: gray; border: 3px solid #757575; height: 22rem; width: 40rem;">
               <img :src="discordText" alt="discord text" class="m-3" style="height: 40px;" />
               
               <h4 :class="styles['text']" class="text-white text-center">
@@ -72,9 +71,9 @@ export default {
     const toast = useToast();
     const adminStore = useAdminStore();
     const selectedStudent = ref("");
-    const studentOptions = ["Luke Moeller", "Josh Riddle","Struggle Student"];  
+    const studentOptions = ["Luke Moeller", "Josh Riddle", "Struggle Student"];  
     const RefreshDiscord = async () => {
-      const booltest = adminStore.refreshDiscord();
+      const booltest = await adminStore.refreshDiscord();
       if(booltest === true){
         toast.add({ severity: 'success', summary: 'Discord Updated', detail: 'All Students roles updated. ', life: 3000, });
       }else{
@@ -84,7 +83,7 @@ export default {
     };
 
     const RefreshStudent = async (studentID) => {
-      const booltest = adminStore.refreshStudent(studentID);
+      const booltest = await adminStore.refreshStudent(studentID);
       if(booltest === true){
         toast.add({ severity: 'success', summary: 'Student sucessfully added', detail: 'Student ' + studentID + ' has updated discord roles.', life: 3000, });
       }else{
