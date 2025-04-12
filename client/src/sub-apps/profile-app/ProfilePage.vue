@@ -100,7 +100,8 @@
 <script>
 
 //Components
-import { ref } from 'vue';
+import { ref, onMounted, watch  } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useProfileStore } from '@/stores/ProfileStore';
 import { useTokenStore } from '@/stores/TokenStore';
 import { storeToRefs } from 'pinia'
@@ -149,12 +150,34 @@ export default {
     const userId = tokenStore.id;
     profileStore.getDiscordInfo(userId);
     profileStore.getGitHubInfo(userId);
+
+    //Check if user has not updated profile
+    const route = useRoute()
+    const router = useRouter()
+    function maybeShowToast(query) {
+      if (query.showToast === 'true') {
+        toast.add({
+          severity: 'warn',
+          summary: 'Update Required',
+          detail: 'You must update your profile before navigating from this page.',
+          life: 3000,
+        })
+        // Remove the query param from the URL
+        router.replace({ path: route.path, query: {} })
+      }
+    }
+    onMounted(() => {
+      maybeShowToast(route.query)
+    })
+    watch(() => route.query, maybeShowToast, { immediate: false })
     
+    //Function for linking GitHub account
     const HandleGitHubClick = () => {
     const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/api/v1/github?state=${userId}`;
     window.location.href = gitAuthUrl;
     };
 
+    //Function for linking Discord account
     const HandleDiscordClick = () => {
     const discordAuthUrl = `${import.meta.env.VITE_SERVER_URL}/api/v1/discord?state=${userId}`;
     window.location.href = discordAuthUrl;
