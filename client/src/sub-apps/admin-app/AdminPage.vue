@@ -40,6 +40,15 @@
               <Button @click="RefreshStudent(selectedStudent)" class="btn-submit">
               Submit
               </Button>
+
+              <h4 :class="styles['text']" class="text-white text-center mt-3">
+                Select a .csv report from KSIS to import:
+              </h4>
+              <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select a file:</label>
+              <input type="file" id="reportImport" name="reportImport" accept="text/csv"> 
+              <Button @click="ImportReport" class="btn-submit">
+              Import
+              </Button>
             </div>
           </div>
         </div>
@@ -92,7 +101,17 @@ export default {
       
     };
 
-    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent };
+    const ImportReport = async() => {
+      const report = document.getElementById("reportImport").files[0]
+      try {
+        //await a route that I need to code
+        toast.add({severity: 'success', summary: 'KSIS report has been imported', life: 3000})
+      } catch (error) {
+        toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000})
+      }
+    }
+
+    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ImportReport };
   }
 };
 </script>
