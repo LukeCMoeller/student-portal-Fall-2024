@@ -196,7 +196,12 @@ class User extends Model {
       },
     }
   }
-
+  static async queryAllUsers() {
+    const allUsers = await this.query()
+      .leftJoin('user_discord', 'users.id', 'user_discord.user_id')
+      .select('users.*', 'user_discord.discord_id');
+    return allUsers;
+  }
   // This object defines the relations to other models.
   static get relationMappings() {
     return {

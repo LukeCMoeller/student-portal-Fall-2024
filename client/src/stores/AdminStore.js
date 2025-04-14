@@ -103,5 +103,19 @@ export const useAdminStore = defineStore('users', {
         await this.hydrate()
       })
     },
+    /**
+     * Get all usesers, names, EID, Discord
+     */
+    async getAllUsers(){
+      try {
+        const response = await api.get('/api/v1/protected/admin/allUsers'); //right here
+        console.log("the response " + response);
+        
+        return response;
+      } catch (error) {
+        console.error("Error fetching all users: ", error);
+        throw error; 
+      }
+    }
   }
 })
