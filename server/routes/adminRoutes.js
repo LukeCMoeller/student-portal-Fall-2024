@@ -128,5 +128,9 @@ router.post('/updateUser', async (req, res) => {
     }
 
 });
+router.post('/importReport', async (req, res) => {
+    //receives the file from the req, need to split it, then split the lines, then send those to the user model
+})
+
 module.exports = router;
 
