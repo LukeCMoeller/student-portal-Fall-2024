@@ -72,18 +72,16 @@ export default {
     const adminStore = useAdminStore();
     const allUsers = ref([]);
     const fetchUsers = async() => {
-      console.log("beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
       allUsers = await adminStore.getAllUsers();
-      console.log("beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
     }
     fetchUsers();
     const discordUsers = {};
     console.log("allUsers: ", allUsers);
     console.log(typeof allUsers);
-    //allUsers.forEach(user => {
-    //   const fullName = `${user.first_name} ${user.last_name}`;
-    //  discordUsers[fullName] = user.discord_id;
-    //});
+    allUsers.forEach(user => {
+       const fullName = `${user.first_name} ${user.last_name}`;
+      discordUsers[fullName] = user.discord_id;
+    });
     
     const selectedStudent = ref("");
     //const studentOptions = Object.keys(discordUsers);

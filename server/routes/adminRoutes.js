@@ -112,7 +112,7 @@ router.get('/allUsers', async (req, res) => {
     try{
         const result = await user.queryAllUsers();
         console.log(result);
-        return result;
+        res.json(result);
 
     }catch(error){
         console.log(error);
