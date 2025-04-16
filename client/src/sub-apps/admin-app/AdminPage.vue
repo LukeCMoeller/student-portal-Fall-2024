@@ -73,26 +73,26 @@ export default {
     const adminStore = useAdminStore();
     let allUsers = ref([]);
     const discordUsers = {};
-
+    const studentOptions = ref([]);
     const fetchUsers = async() => {
       allUsers = await adminStore.getAllUsers();
     }
     fetchUsers();
 
     const selectedStudent = ref("");
-    const studentOptions = Object.keys(discordUsers);
+   
     //const studentOptions = ["Luke Moeller", "Josh Riddle", "Struggle Student"];  
     
     const updateDiscordUsers = async() => {
-      for(let i = 0; i < Object.keys(allUsers).length; i++){
-        const user = Object.keys(allUsers)[i];
-        console.log(user);
+    const users = Object.values(allUsers)[0];
+      for(let i = 0; i < users.length; i++){
+        const user = users[i];
         if(user.discord_id !== null){
           const fullName = `${user.first_name} ${user.last_name}`;
           discordUsers[fullName] = user.discord_id;
         }
       }
-      console.log(discordUsers);
+       studentOptions.value = Object.keys(discordUsers);
     }
 
     const RefreshDiscord = async () => {
@@ -106,7 +106,12 @@ export default {
     };
 
     const RefreshStudent = async (studentID) => {
-      const booltest = await adminStore.refreshStudent(studentID);
+    const discordID = discordUsers[studentID];
+    if(!discordID){
+    toast.add({ severity: 'error', summary: 'Student Not Found', detail: 'Could not find Discord ID for ${studentID}.', life: 3000, });
+    }
+
+      const booltest = await adminStore.refreshStudent(discordID);
       if(booltest === true){
         toast.add({ severity: 'success', summary: 'Student sucessfully added', detail: 'Student ' + studentID + ' has updated discord roles.', life: 3000, });
       }else{
