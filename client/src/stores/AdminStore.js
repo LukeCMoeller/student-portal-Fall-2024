@@ -109,7 +109,7 @@ export const useAdminStore = defineStore('users', {
     async getAllUsers(){
       try {
         const response = await api.get('/api/v1/protected/admin/allUsers');
-        console.log("the response " + response.data); //closer
+
         
         return response;
       } catch (error) {

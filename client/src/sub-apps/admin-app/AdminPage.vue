@@ -33,6 +33,7 @@
                   :options="studentOptions" 
                   showClear 
                   :class="styles['input']" 
+                  :onclick = "updateDiscordUsers"
                 />
                 <label for="studentDiscord">Students:</label>
               </IftaLabel>
@@ -70,22 +71,30 @@ export default {
   setup() {
     const toast = useToast();
     const adminStore = useAdminStore();
-    const allUsers = ref([]);
+    let allUsers = ref([]);
+    const discordUsers = {};
+
     const fetchUsers = async() => {
       allUsers = await adminStore.getAllUsers();
     }
     fetchUsers();
-    const discordUsers = {};
-    console.log("allUsers: ", allUsers);
-    console.log(typeof allUsers);
-    allUsers.forEach(user => {
-       const fullName = `${user.first_name} ${user.last_name}`;
-      discordUsers[fullName] = user.discord_id;
-    });
-    
+
     const selectedStudent = ref("");
-    //const studentOptions = Object.keys(discordUsers);
-    const studentOptions = ["Luke Moeller", "Josh Riddle", "Struggle Student"];  
+    const studentOptions = Object.keys(discordUsers);
+    //const studentOptions = ["Luke Moeller", "Josh Riddle", "Struggle Student"];  
+    
+    const updateDiscordUsers = async() => {
+      for(let i = 0; i < Object.keys(allUsers).length; i++){
+        const user = Object.keys(allUsers)[i];
+        console.log(user);
+        if(user.discord_id !== null){
+          const fullName = `${user.first_name} ${user.last_name}`;
+          discordUsers[fullName] = user.discord_id;
+        }
+      }
+      console.log(discordUsers);
+    }
+
     const RefreshDiscord = async () => {
       const booltest = await adminStore.refreshDiscord();
       if(booltest === true){
@@ -106,7 +115,7 @@ export default {
       
     };
 
-    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent };
+    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, updateDiscordUsers };
   }
 };
 </script>
