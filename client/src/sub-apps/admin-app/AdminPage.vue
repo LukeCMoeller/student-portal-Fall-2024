@@ -9,6 +9,21 @@
             <h1 :class="shared['h1-style']">Admin Control Panel</h1>
             <h4 :class="shared['h4-style']">Welcome aboard captain</h4>
           </div>
+          <!-- Editing roles -->
+          <div class="flex justify-content-center" style="padding-top: 3rem;">
+            <div class="border-round-sm flex flex-column align-items-center"
+                style="background-color: #d1d1d1; border: 3px solid #512888; height: 22rem; width: 40rem;">
+                <div :class="styles['table']"> 
+                  <DataTable :value="allUsers" stripedRows>
+                    <Column header="Users">
+                      <template #body="{ data }">
+                        {{ data.first_name }} {{ data.last_name }}
+                      </template>
+                    </Column>
+                  </DataTable>
+                </div>
+            </div>
+          </div>
           <!-- Admin Controls -->
           <div class="flex justify-content-center" style="padding-top: 3rem;">
             <div class="border-round-sm flex flex-column align-items-center"
@@ -50,7 +65,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useAdminStore } from '@/stores/AdminStore.js';
 
 //primevue components
@@ -58,6 +73,8 @@ import Button from 'primevue/button';
 import IftaLabel from 'primevue/iftalabel';
 import Select from 'primevue/select';
 import { useToast } from 'primevue/usetoast'
+import DataTable from 'primevue/datatable';
+
 //styles
 import styles from '@/components/styles/AdminPage.module.css';
 import shared from '@/components/styles/Shared.module.css';
@@ -67,21 +84,19 @@ import discordText from '@/components/assets/DiscordText.png';
 
 export default {
   name: 'Admin',
-  components: { Button, IftaLabel, Select },
+  components: { Button, IftaLabel, Select, DataTable },
   setup() {
     const toast = useToast();
     const adminStore = useAdminStore();
+    
     let allUsers = ref([]);
     const discordUsers = {};
     const studentOptions = ref([]);
     const fetchUsers = async() => {
       allUsers = await adminStore.getAllUsers();
     }
-    fetchUsers();
-
+    onMounted(fetchUsers());
     const selectedStudent = ref("");
-   
-    //const studentOptions = ["Luke Moeller", "Josh Riddle", "Struggle Student"];  
     
     const updateDiscordUsers = async() => {
     const users = Object.values(allUsers)[0];

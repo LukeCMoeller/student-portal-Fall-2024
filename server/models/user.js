@@ -196,10 +196,13 @@ class User extends Model {
       },
     }
   }
+  // query to grab all users with all propertires, discord id, and all roles. 
   static async queryAllUsers() {
     const allUsers = await this.query()
       .leftJoin('user_discord', 'users.id', 'user_discord.user_id')
-      .select('users.*', 'user_discord.discord_id');
+      .leftJoin('user_roles', 'users.id', 'user_roles.user_id')
+      .leftJoin('roles', 'user_roles.role_id', 'roles.id')
+      .select('users.*', 'user_discord.discord_id', 'roles.name as role_name');
     return allUsers;
   }
   // This object defines the relations to other models.

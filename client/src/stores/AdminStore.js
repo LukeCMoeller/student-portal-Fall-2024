@@ -63,13 +63,6 @@ export const useAdminStore = defineStore('users', {
          * @param {User} user
          */
     async refreshStudent(user) {
-      if(user === "Luke Moeller"){
-        user = '592454625270038547';
-      }else if (user === "Josh Riddle"){
-        user = '1313234532412952578';
-      } else if(user === "Struggle Student"){
-        return false;
-      }
       try{
         await api
         .post('/api/v1/discord/refreshStudentRoles', {
