@@ -103,5 +103,16 @@ export const useAdminStore = defineStore('users', {
         await this.hydrate()
       })
     },
+
+    async importStudentReport(file) {
+      try {
+        await api.post('/api/v1/protected/admin/importStudentReport/', {file: file})
+        return true
+      } catch (error) {
+        console.log(error)
+        return false
+      }
+      
+    }
   }
 })

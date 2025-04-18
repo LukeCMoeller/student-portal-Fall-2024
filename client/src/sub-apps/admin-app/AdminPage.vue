@@ -104,7 +104,7 @@ export default {
     const ImportReport = async() => {
       const report = document.getElementById("reportImport").files[0]
       try {
-        //await a route that I need to code
+        await adminStore.importStudentReport(report)
         toast.add({severity: 'success', summary: 'KSIS report has been imported', life: 3000})
       } catch (error) {
         toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000})
