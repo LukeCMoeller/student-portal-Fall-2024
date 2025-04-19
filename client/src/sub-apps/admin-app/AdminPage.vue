@@ -17,13 +17,13 @@
                   <DataTable :value="allUsers" stripedRows>
                     <Column header="Users">
                       <template #body="{ data }">
-                        {{ data.first_name }} {{ data.last_name }}
+                        {{ data.first_name + " " + data.last_name }}
                       </template>
                     </Column>
                   </DataTable>
                 </div>
             </div>
-          </div>
+          </div> 
           <!-- Admin Controls -->
           <div class="flex justify-content-center" style="padding-top: 3rem;">
             <div class="border-round-sm flex flex-column align-items-center"
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useAdminStore } from '@/stores/AdminStore.js';
 
 //primevue components
@@ -74,6 +74,7 @@ import IftaLabel from 'primevue/iftalabel';
 import Select from 'primevue/select';
 import { useToast } from 'primevue/usetoast'
 import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 //styles
 import styles from '@/components/styles/AdminPage.module.css';
@@ -84,7 +85,7 @@ import discordText from '@/components/assets/DiscordText.png';
 
 export default {
   name: 'Admin',
-  components: { Button, IftaLabel, Select, DataTable },
+  components: { Button, IftaLabel, Select, DataTable, Column },
   setup() {
     const toast = useToast();
     const adminStore = useAdminStore();
@@ -93,9 +94,9 @@ export default {
     const discordUsers = {};
     const studentOptions = ref([]);
     const fetchUsers = async() => {
-      allUsers = await adminStore.getAllUsers();
+      allUsers.value = await adminStore.getAllUsers();
     }
-    onMounted(fetchUsers());
+    onMounted(fetchUsers);
     const selectedStudent = ref("");
     
     const updateDiscordUsers = async() => {
