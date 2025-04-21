@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const neatcsv = require('neat-csv')
 //const isAdmin = require('../middleware/admin-required');
 //router.use(isAdmin);
 
@@ -111,12 +110,12 @@ router.post('/updateApplication', async (req, res) => {
 
 router.post('/importStudentReport', async (req, res) => {
     //receives the file from the req, need to split it, then split the lines, then send those to the user model
-    const report = neatcsv(req.body.report)
-    console.log(report)
+    console.log(req.body.report)
 })
 
 router.post('/importEnrollmentReport', async (req, res) => {
     //receives the file from the req, need to split it, then split the lines, then send those to the courses model
+    const user = 
 })
 
 module.exports = router;

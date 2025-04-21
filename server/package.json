@@ -32,6 +32,7 @@
     "node-cas-authentication": "git+ssh://git@github.com:alt-cs-lab/cas-authentication",
     "node-fetch": "^2.7.0",
     "objection": "^3.1.5",
+    "papaparse": "^5.5.2",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "pg": "^8.13.0",
