@@ -83,6 +83,16 @@ class User extends Model {
     return user[0]
   }
 
+  static async addEnrollment(enrollmentLine) {
+    let user = await User.query().where('wid', enrollmentLine.info["Student ID"]).limit(1)
+    //If there is a user
+    if (user.length !== 0) {
+
+    }
+    //What do we do if the user doesn't exist?
+    //How are new users getting added? Is it through our student report, or will it be done automatically like it is now?
+  }
+
   // static async findByRefreshToken(token) {
   //   let user = await User.query().where('refresh_token', token).limit(1)
   //   if (user.length === 0) {

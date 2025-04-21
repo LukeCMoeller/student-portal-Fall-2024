@@ -76,7 +76,7 @@
               </h4>
               <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select a file:</label>
               <input type="file" id="reportImport" name="reportImport" accept="text/csv"> 
-              <Button @click="ImportReport" class="btn-submit">
+              <Button @click="ParseEnrollmentReport" class="btn-submit">
               Import
               </Button>
             </div>
@@ -90,6 +90,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useAdminStore } from '@/stores/AdminStore.js';
+import Papa from 'papaparse';
 
 //primevue components
 import Button from 'primevue/button';
@@ -164,17 +165,21 @@ export default {
         
       };
 
-      const ImportReport = async() => {
+    const ParseEnrollmentReport = () => {
       const report = document.getElementById("reportImport").files[0]
-      try {
-        await adminStore.importStudentReport(report)
-        toast.add({severity: 'success', summary: 'KSIS report has been imported', life: 3000})
-      } catch (error) {
-        toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000})
-      }
+      Papa.parse(report, {header: true, complete: ImportEnrollmentReport})
     }
 
-    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ImportReport, updateDiscordUsers, allUsers, updateRole };
+    const ImportEnrollmentReport = async(results, file) => {
+      console.log(results)
+        const result = await adminStore.importEnrollmentReport(results);
+        if (result) {
+          toast.add({severity: 'success', summary: 'KSIS report has been imported', life: 3000})}
+        else {
+          toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
+    }
+
+    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ParseEnrollmentReport, updateDiscordUsers, allUsers, updateRole };
   }
 };
 </script>

@@ -105,10 +105,10 @@ export const useAdminStore = defineStore('users', {
 
         return response;
       } catch (error) {
-        console.error("Error fetching all users: ", error);
-        throw error; 
+        throw error
       }
     },
+
      /**
      * Swappes the users roles
      * @param {UserID} the ID of the user
@@ -125,6 +125,16 @@ export const useAdminStore = defineStore('users', {
             console.error("Error fetching all users: ", error);
             throw error; 
           }
-        }
+        },
+
+        async importEnrollmentReport(file) {
+          try {
+            await api.post('/api/v1/protected/admin/importEnrollmentReport/', {file: file})
+            return true
+          } catch (error) {
+            console.error("Error fetching all users: ", error);
+            throw error; 
+          }
+        },
   }
 })
