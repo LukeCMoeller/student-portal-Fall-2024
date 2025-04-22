@@ -27,7 +27,7 @@
                             <Checkbox
                               v-model="data.roles"
                               :value="role"
-                              @change="() => updateRole(data, role)"
+                              @change="() => updateRole(data)"
                             />
                             <label>{{ role }} </label>
                           </div>
@@ -136,9 +136,9 @@ export default {
       }
       
     };
-    const updateRole = async (user, updatedRole) =>{
-    //change the thing to match
-    //await adminStore.updateUserRoles(user.id, updatedRole);
+    const updateRole = async (user) =>{
+      //change the thing to match
+      await adminStore.updateUserRoles(user.id, user.roles);
     }
     const RefreshStudent = async (studentID) => {
       const discordID = discordUsers[studentID];

@@ -114,13 +114,11 @@ export const useAdminStore = defineStore('users', {
      * @param {UserID} the ID of the user
      * @param {Role} What Role the user will be swapped to
      */
-        async updateUserRole(UserID, Role){
+        async updateUserRoles(userId, roles){
           try {
             const response = await api.post('/api/v1/protected/admin/updateUser', {
-              params: {
-                user_id: UserID,
-                role: Role
-              }
+              user_id: userId,
+              roles: roles
             })
             return response;
           } catch (error) {

@@ -120,8 +120,9 @@ router.get('/allUsers', async (req, res) => {
 });
 router.post('/updateUser', async (req, res) => {
     try{
-        await user.updateUserRole(req.body.params.user_id, req.body.params.role); //update user role does not exist
-        res.json("yiipii");
+        const {user_id, roles} = req.body;
+        await user.updateUserRoles(user_id, roles);
+        res.status(200).json({ message: 'User roles updated successfully' });
     }catch(error){
         console.log(error);
     }

@@ -136,8 +136,35 @@ class User extends Model {
     //Roles for current user
     return roles.some((r) => r.name === 'api')
   }
-  static async updateUserRole(UserId, Role){
+  static async updateUserRoles(userId, roles) {
+    try {
+      // Get the user
+      const user = await User.query().findById(userId);
+  
+      if (!user) {
+        throw new Error(`User with ID ${userId} not found.`);
+      }
+  
+      // Unrelate all current roles for the user
+      await user.$relatedQuery('roles').unrelate();
 
+      if (Array.isArray(roles) && roles.length > 0) {
+       //Get the role id based on the names provided
+        const roleRecords = await Role.query()
+          .whereIn('name', roles)
+          .select('id');
+        
+        //relate and add the new roles
+        await user.$relatedQuery('roles').relate(
+          roleRecords.map(role => ({ id: role.id }))
+        );
+      }
+  
+      return true;
+    } catch (err) {
+      logger.error('Error updating user roles:', err);
+      throw err;
+    }
   }
 
   async get_roles(){
