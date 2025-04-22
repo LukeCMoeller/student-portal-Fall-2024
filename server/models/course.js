@@ -46,7 +46,7 @@ class Course extends Model {
         );
     }
 
-    static addCourseToResults(course, combinedCourses) {
+    static addCourseToResults(course, combinedCourses, enrolled) {
         const existingCourse = combinedCourses.find(c =>
             c.class_number === course.class_number && c.subject === course.subject
         );
@@ -56,7 +56,7 @@ class Course extends Model {
                 class_number: course.class_number,
                 subject: course.subject,
                 grade: course.grade || "N/A",  // Default to "N/A" if no grade exists
-                course_status: course.course_status || (course.grade ? "In Progress" : "Not Started"),
+                course_status: course.course_status || (course.grade ? "Completed" : (enrolled ? "In-Progress" : "Not Started")),
                 waiver: course.waiver || false, // Default waiver
             });
         } else {
@@ -103,7 +103,7 @@ class Course extends Model {
             //Add to the results
             enrolledCourses.forEach(course => {
                 if (this.isPrerequisiteCourse(course)) {
-                    this.addCourseToResults(course, results);
+                    this.addCourseToResults(course, results, true);
                 }
             });
 
@@ -111,7 +111,7 @@ class Course extends Model {
             const appCourses = await ApplicationCourse.get(user_id)
             appCourses.forEach(course => {
                 if (this.isPrerequisiteCourse(course)) {
-                    this.addCourseToResults(course, results);
+                    this.addCourseToResults(course, results, false);
                 }
             });
 
