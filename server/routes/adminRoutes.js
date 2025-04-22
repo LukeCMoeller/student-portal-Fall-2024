@@ -111,7 +111,6 @@ router.post('/updateApplication', async (req, res) => {
 router.get('/allUsers', async (req, res) => {
     try{
         const result = await user.queryAllUsers();
-        console.log(result);
         res.json(result);
 
     }catch(error){
@@ -119,4 +118,14 @@ router.get('/allUsers', async (req, res) => {
     }
 
 });
+router.post('/updateUser', async (req, res) => {
+    try{
+        await user.updateUserRole(req.body.params.user_id, req.body.params.role); //update user role does not exist
+        res.json("yiipii");
+    }catch(error){
+        console.log(error);
+    }
+
+});
 module.exports = router;
+

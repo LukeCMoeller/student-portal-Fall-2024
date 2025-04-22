@@ -136,6 +136,9 @@ class User extends Model {
     //Roles for current user
     return roles.some((r) => r.name === 'api')
   }
+  static async updateUserRole(UserId, Role){
+
+  }
 
   async get_roles(){
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
@@ -202,7 +205,13 @@ class User extends Model {
       .leftJoin('user_discord', 'users.id', 'user_discord.user_id')
       .leftJoin('user_roles', 'users.id', 'user_roles.user_id')
       .leftJoin('roles', 'user_roles.role_id', 'roles.id')
-      .select('users.*', 'user_discord.discord_id', 'roles.name as role_name');
+      .select(
+        'users.*',
+        'user_discord.discord_id',
+        knex.raw(`COALESCE(json_agg(roles.name) FILTER (WHERE roles.name IS NOT NULL), '[]') AS roles`)
+      )
+      .groupBy('users.id', 'user_discord.discord_id');
+  
     return allUsers;
   }
   // This object defines the relations to other models.

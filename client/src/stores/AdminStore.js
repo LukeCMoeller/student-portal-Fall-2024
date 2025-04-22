@@ -103,12 +103,30 @@ export const useAdminStore = defineStore('users', {
       try {
         const response = await api.get('/api/v1/protected/admin/allUsers');
 
-        
         return response;
       } catch (error) {
         console.error("Error fetching all users: ", error);
         throw error; 
       }
-    }
+    },
+     /**
+     * Swappes the users roles
+     * @param {UserID} the ID of the user
+     * @param {Role} What Role the user will be swapped to
+     */
+        async updateUserRole(UserID, Role){
+          try {
+            const response = await api.post('/api/v1/protected/admin/updateUser', {
+              params: {
+                user_id: UserID,
+                role: Role
+              }
+            })
+            return response;
+          } catch (error) {
+            console.error("Error fetching all users: ", error);
+            throw error; 
+          }
+        }
   }
 })
