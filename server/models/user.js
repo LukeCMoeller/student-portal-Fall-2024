@@ -136,6 +136,7 @@ class User extends Model {
     //Roles for current user
     return roles.some((r) => r.name === 'api')
   }
+  
   static async updateUserRoles(userId, roles) {
     try {
       // Get the user
@@ -145,7 +146,7 @@ class User extends Model {
         throw new Error(`User with ID ${userId} not found.`);
       }
   
-      // Unrelate all current roles for the user
+      // Remove all current roles for the user
       await user.$relatedQuery('roles').unrelate();
 
       if (Array.isArray(roles) && roles.length > 0) {
@@ -154,7 +155,7 @@ class User extends Model {
           .whereIn('name', roles)
           .select('id');
         
-        //relate and add the new roles
+        //Add the new roles
         await user.$relatedQuery('roles').relate(
           roleRecords.map(role => ({ id: role.id }))
         );
