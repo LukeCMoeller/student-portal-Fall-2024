@@ -30,9 +30,9 @@ class Course extends Model {
                     'courses.name',
                     'courses.section',
                     'courses.component',
-                    'courses.credit_hours'
+                    'courses.credit_hours',
+                    'course_students.grade'
                 );
-
             return courses;
         } catch (err) {
             logger.error('Error fetching user courses:', err);
