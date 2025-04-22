@@ -30,6 +30,7 @@ const usersRoutes = require('./userRoutes.js')
 const profileRoutes = require('./profileRoutes.js')
 const applicationsRoutes = require('./applicationRoutes.js')
 const academicsRoutes = require('./academicsRoutes.js')
+const courseRoutes = require('./courseRoutes.js');
 
 //This verifies that the user has logged in before they can access any sub route
 router.use(token)
@@ -40,4 +41,5 @@ router.use('/users', usersRoutes)
 router.use('/profile', profileRoutes)
 router.use('/applications', applicationsRoutes)
 router.use('/academics', academicsRoutes)
+router.use('/courses', courseRoutes)
 module.exports = router
