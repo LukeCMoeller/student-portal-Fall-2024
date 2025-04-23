@@ -3,6 +3,7 @@ const router = express.Router();
 //const isAdmin = require('../middleware/admin-required');
 //router.use(isAdmin);
 
+const User = require('../models/user.js')
 
 
 router.post('/disableApplications', async (req, res) => {
@@ -114,8 +115,7 @@ router.post('/importStudentReport', async (req, res) => {
 })
 
 router.post('/importEnrollmentReport', async (req, res) => {
-    //receives the file from the req, need to split it, then split the lines, then send those to the courses model
-    const user = 
+
 })
 
 module.exports = router;
