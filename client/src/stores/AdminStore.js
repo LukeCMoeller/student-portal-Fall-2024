@@ -127,14 +127,15 @@ export const useAdminStore = defineStore('users', {
           }
         },
 
-        async importEnrollmentReport(file) {
-          try {
-            await api.post('/api/v1/protected/admin/importEnrollmentReport/', {file: file})
-            return true
-          } catch (error) {
-            console.error("Error fetching all users: ", error);
-            throw error; 
-          }
-        },
+    async importEnrollmentReport(parsed) {
+      try {
+        await api.post('/api/v1/protected/admin/importEnrollmentReport/', {parsed: parsed})
+        return true
+      } catch (error) {
+        console.log(error)
+        return false
+      }
+      
+    }
   }
 })

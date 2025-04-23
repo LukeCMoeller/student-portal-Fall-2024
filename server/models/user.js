@@ -7,6 +7,7 @@ const knex = require('../configs/db.js');
 
 // Related Models
 const Role = require('./role.js')
+const Course = require('./course.js')
 
 //Random function for WID testing for now
 function getRandomInt(max) {
@@ -87,10 +88,14 @@ class User extends Model {
     let user = await User.query().where('wid', enrollmentLine.info["Student ID"]).limit(1)
     //If there is a user
     if (user.length !== 0) {
-
+      const splitDate = enrollmentLine.info["Start Date"].split('/')
+      const termCode = Course.createTermCode(splitDate[2], splitDate[1], splitDate[0])
+      
     }
     //What do we do if the user doesn't exist?
+      //Just create them
     //How are new users getting added? Is it through our student report, or will it be done automatically like it is now?
+      //Both
   }
 
   // static async findByRefreshToken(token) {
