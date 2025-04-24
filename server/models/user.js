@@ -84,18 +84,57 @@ class User extends Model {
     return user[0]
   }
 
+  //Method used when importing enrollment information from the file
   static async addEnrollment(enrollmentLine) {
     let user = await User.query().where('wid', enrollmentLine.info["Student ID"]).limit(1)
-    //If there is a user
-    if (user.length !== 0) {
-      const splitDate = enrollmentLine.info["Start Date"].split('/')
-      const termCode = Course.createTermCode(splitDate[2], splitDate[1], splitDate[0])
-      
+    //If there isn't a user
+    if (user.length === 0) {
+      const studentName = enrollmentLine.info["Student Name"].split(', ')
+      //Copying this from the method above since we have more information than it expects
+      //Could make the method above more robust and just use it, currently not worried about that
+      user = [
+        await User.query().insert({
+          email: enrollmentLine.info["Email"],
+          eid: enrollmentLine.info["Email"],
+          wid: enrollmentLine.info["Student ID"],
+          first_name: studentName[1],
+          last_name: studentName[0],
+          profile_updated: false
+        }),
+      ]
+      const defaultRoleId = 1;  // Assuming the default role has id 1
+
+      // Insert into the user_roles table
+      await User.relatedQuery('roles') 
+        .for(user[0].id) 
+        .relate(defaultRoleId);
+      logger.info('User ' + email + ' created')
     }
-    //What do we do if the user doesn't exist?
-      //Just create them
-    //How are new users getting added? Is it through our student report, or will it be done automatically like it is now?
-      //Both
+    const splitDate = enrollmentLine.info["Start Date"].split('/')
+    const termCode = Course.createTermCode(splitDate[2], splitDate[1], splitDate[0])
+
+    //Find or create the course the line is talking about
+    let enrolledCourse = Course.find(enrollmentLine.info["Enrollment Course Number"], termCode)
+    if (enrolledCourse === undefined) {
+      enrolledCourse = Course.create(enrollmentLine.info["Enrollment Course Name"], enrollmentLine.info["Enrollment Course Number"],
+        enrollmentLine.info["Enrollment Section Name"], enrollmentLine.info["Credit Hours"], termCode
+      )
+    }
+    //And finally connect the two, adding all of the information that needs
+    await User.relatedQuery('course_students')
+      .for(user[0].id)
+      .relate({
+        id: enrolledCourse.id,
+        grade: enrollmentLine.info["Final Grade"], 
+        ignore_in_gpa: false, 
+        dropped: enrollmentLine.info["Dropped?"], 
+        dropped_date: enrollmentLine.info["Dropped Date"], 
+        last_attendance: enrollmentLine.info["Last Date of Attendance"], 
+        midterm_grade: enrollmentLine.info["Midterm Grade"]})
+
+    //And by finally, I mean we still need to connect the instructor
+    //I'm pretty sure I'll need to learn regexs for this, as the instructor string is "LastName, FirstName (WID) <email>"
+
   }
 
   // static async findByRefreshToken(token) {
