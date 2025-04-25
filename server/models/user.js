@@ -88,6 +88,8 @@ class User extends Model {
 
   //Method used when importing enrollment information from the file
   static async addEnrollment(enrollmentLine) {
+    //Two problems: it's running into errors with inserting the users on the first run of it (trying to insert the same user twice)
+    //and it's somehow exiting out of the select course bit with an undefined course.
     let user = await User.query().where('wid', enrollmentLine["Student ID"]).limit(1)
     //If there isn't a user
     if (user.length === 0) {
@@ -117,11 +119,14 @@ class User extends Model {
 
     //Find or create the course the line is talking about
     let enrolledCourse = await Course.find(enrollmentLine["Enrollment Course Number"], termCode)
+    console.log(enrolledCourse)
     if (enrolledCourse === undefined) {
+      console.log(enrolledCourse)
       enrolledCourse = await Course.create(enrollmentLine["Enrollment Course Name"], enrollmentLine["Enrollment Course Number"],
         enrollmentLine["Enrollment Section Name"], enrollmentLine["Credit Hours"], termCode
       )
     }
+    console.log(enrolledCourse)
     //And finally connect the two, adding all of the information that needs
     await User.relatedQuery('course_students')
       .for(user[0].id)

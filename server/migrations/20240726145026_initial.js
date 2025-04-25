@@ -90,7 +90,7 @@ exports.up = function(knex) {
       table.boolean('ignore_in_gpa').defaultTo(false);
       table.boolean('dropped').defaultTo(false);
       table.string('dropped_date');
-      table.string('last_attendence');
+      table.string('last_attendance');
       table.string('midterm_grade');
     })
     .createTable('course_instructors', function(table) {
