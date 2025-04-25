@@ -63,13 +63,6 @@ export const useAdminStore = defineStore('users', {
          * @param {User} user
          */
     async refreshStudent(user) {
-      if(user === "Luke Moeller"){
-        user = '592454625270038547';
-      }else if (user === "Josh Riddle"){
-        user = '1313234532412952578';
-      } else if(user === "Struggle Student"){
-        return false;
-      }
       try{
         await api
         .post('/api/v1/discord/refreshStudentRoles', {
@@ -103,5 +96,35 @@ export const useAdminStore = defineStore('users', {
         await this.hydrate()
       })
     },
+    /**
+     * Get all usesers, names, EID, Discord
+     */
+    async getAllUsers(){
+      try {
+        const response = await api.get('/api/v1/protected/admin/allUsers');
+
+        return response;
+      } catch (error) {
+        console.error("Error fetching all users: ", error);
+        throw error; 
+      }
+    },
+     /**
+     * Swappes the users roles
+     * @param {UserID} the ID of the user
+     * @param {Role} What Role the user will be swapped to
+     */
+        async updateUserRoles(userId, roles){
+          try {
+            const response = await api.post('/api/v1/protected/admin/updateUser', {
+              user_id: userId,
+              roles: roles
+            })
+            return response;
+          } catch (error) {
+            console.error("Error fetching all users: ", error);
+            throw error; 
+          }
+        }
   }
 })

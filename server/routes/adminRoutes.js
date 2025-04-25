@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const user = require('../models/user.js');
 //const isAdmin = require('../middleware/admin-required');
 //router.use(isAdmin);
 
@@ -107,5 +108,25 @@ router.post('/updateApplication', async (req, res) => {
         res.status(500).json({ message: `Failed to update application for wid: ${appId}.` });
     }
 });
+router.get('/allUsers', async (req, res) => {
+    try{
+        const result = await user.queryAllUsers();
+        res.json(result);
 
+    }catch(error){
+        console.log(error);
+    }
+
+});
+router.post('/updateUser', async (req, res) => {
+    try{
+        const {user_id, roles} = req.body;
+        await user.updateUserRoles(user_id, roles);
+        res.status(200).json({ message: 'User roles updated successfully' });
+    }catch(error){
+        console.log(error);
+    }
+
+});
 module.exports = router;
+

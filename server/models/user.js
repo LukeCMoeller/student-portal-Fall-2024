@@ -136,6 +136,37 @@ class User extends Model {
     //Roles for current user
     return roles.some((r) => r.name === 'api')
   }
+  
+  static async updateUserRoles(userId, roles) {
+    try {
+      // Get the user
+      const user = await User.query().findById(userId);
+  
+      if (!user) {
+        throw new Error(`User with ID ${userId} not found.`);
+      }
+  
+      // Remove all current roles for the user
+      await user.$relatedQuery('roles').unrelate();
+
+      if (Array.isArray(roles) && roles.length > 0) {
+       //Get the role id based on the names provided
+        const roleRecords = await Role.query()
+          .whereIn('name', roles)
+          .select('id');
+        
+        //Add the new roles
+        await user.$relatedQuery('roles').relate(
+          roleRecords.map(role => ({ id: role.id }))
+        );
+      }
+  
+      return true;
+    } catch (err) {
+      logger.error('Error updating user roles:', err);
+      throw err;
+    }
+  }
 
   async get_roles(){
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
@@ -196,7 +227,21 @@ class User extends Model {
       },
     }
   }
-
+  // query to grab all users with all propertires, discord id, and all roles. 
+  static async queryAllUsers() {
+    const allUsers = await this.query()
+      .leftJoin('user_discord', 'users.id', 'user_discord.user_id')
+      .leftJoin('user_roles', 'users.id', 'user_roles.user_id')
+      .leftJoin('roles', 'user_roles.role_id', 'roles.id')
+      .select(
+        'users.*',
+        'user_discord.discord_id',
+        knex.raw(`COALESCE(json_agg(roles.name) FILTER (WHERE roles.name IS NOT NULL), '[]') AS roles`)
+      )
+      .groupBy('users.id', 'user_discord.discord_id');
+  
+    return allUsers;
+  }
   // This object defines the relations to other models.
   static get relationMappings() {
     return {
