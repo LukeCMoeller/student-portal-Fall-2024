@@ -8,6 +8,8 @@ const knex = require('../configs/db.js');
 // Related Models
 const Role = require('./role.js')
 const Course = require('./course.js')
+const CourseStudent = require('./courseStudent.js')
+const CourseInstructor = require('./courseInstructor.js')
 
 //Random function for WID testing for now
 function getRandomInt(max) {
@@ -86,17 +88,17 @@ class User extends Model {
 
   //Method used when importing enrollment information from the file
   static async addEnrollment(enrollmentLine) {
-    let user = await User.query().where('wid', enrollmentLine.info["Student ID"]).limit(1)
+    let user = await User.query().where('wid', enrollmentLine["Student ID"]).limit(1)
     //If there isn't a user
     if (user.length === 0) {
-      const studentName = enrollmentLine.info["Student Name"].split(', ')
+      const studentName = enrollmentLine["Student Name"].split(', ')
       //Copying this from the method above since we have more information than it expects
       //Could make the method above more robust and just use it, currently not worried about that
       user = [
         await User.query().insert({
-          email: enrollmentLine.info["Email"],
-          eid: enrollmentLine.info["Email"],
-          wid: enrollmentLine.info["Student ID"],
+          email: enrollmentLine["Email"],
+          eid: enrollmentLine["Email"],
+          wid: enrollmentLine["Student ID"],
           first_name: studentName[1],
           last_name: studentName[0],
           profile_updated: false
@@ -110,14 +112,14 @@ class User extends Model {
         .relate(defaultRoleId);
       logger.info('User ' + email + ' created')
     }
-    const splitDate = enrollmentLine.info["Start Date"].split('/')
+    const splitDate = enrollmentLine["Start Date"].split('/')
     const termCode = Course.createTermCode(splitDate[2], splitDate[1], splitDate[0])
 
     //Find or create the course the line is talking about
-    let enrolledCourse = Course.find(enrollmentLine.info["Enrollment Course Number"], termCode)
+    let enrolledCourse = await Course.find(enrollmentLine["Enrollment Course Number"], termCode)
     if (enrolledCourse === undefined) {
-      enrolledCourse = Course.create(enrollmentLine.info["Enrollment Course Name"], enrollmentLine.info["Enrollment Course Number"],
-        enrollmentLine.info["Enrollment Section Name"], enrollmentLine.info["Credit Hours"], termCode
+      enrolledCourse = await Course.create(enrollmentLine["Enrollment Course Name"], enrollmentLine["Enrollment Course Number"],
+        enrollmentLine["Enrollment Section Name"], enrollmentLine["Credit Hours"], termCode
       )
     }
     //And finally connect the two, adding all of the information that needs
@@ -125,15 +127,17 @@ class User extends Model {
       .for(user[0].id)
       .relate({
         id: enrolledCourse.id,
-        grade: enrollmentLine.info["Final Grade"], 
+        grade: enrollmentLine["Final Grade"], 
         ignore_in_gpa: false, 
-        dropped: enrollmentLine.info["Dropped?"], 
-        dropped_date: enrollmentLine.info["Dropped Date"], 
-        last_attendance: enrollmentLine.info["Last Date of Attendance"], 
-        midterm_grade: enrollmentLine.info["Midterm Grade"]})
+        dropped: enrollmentLine["Dropped?"], 
+        dropped_date: enrollmentLine["Dropped Date"], 
+        last_attendance: enrollmentLine["Last Date of Attendance"], 
+        midterm_grade: enrollmentLine["Midterm Grade"]})
 
     //And by finally, I mean we still need to connect the instructor
     //I'm pretty sure I'll need to learn regexs for this, as the instructor string is "LastName, FirstName (WID) <email>"
+    //or I could try to come up with some really cursed split scheme
+    //might just be a task I'd leave for the next group
 
   }
 
@@ -274,9 +278,11 @@ class User extends Model {
       },
       course_students: {
         relation: Model.ManyToManyRelation,
+        modelClass: Course,
         join: {
           from: 'users.id',
           through: {
+            modelClass: CourseStudent,
             from: 'course_students.user_id',
             to: 'course_students.course_id',
             extra:['grade', 'ignore_in_gpa', 'dropped', 'dropped_date', 'last_attendance', 'midterm_grade']
@@ -286,9 +292,11 @@ class User extends Model {
       },
       course_instructors: {
         relation: Model.ManyToManyRelation,
+        modelClass: Course,
         join: {
           from: 'users.id',
           through: {
+            modelClass: CourseInstructor,
             from: 'course_instructors.user_id',
             to: 'course_instructors.course_id'
           },
