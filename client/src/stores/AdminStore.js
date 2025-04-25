@@ -128,6 +128,7 @@ export const useAdminStore = defineStore('users', {
         },
 
     async importEnrollmentReport(parsed) {
+      console.log(parsed)
       try {
         await api.post('/api/v1/protected/admin/importEnrollmentReport/', {parsed: parsed})
         return true

@@ -134,7 +134,10 @@ router.post('/importReport', async (req, res) => {
 })
 
 router.post('/importEnrollmentReport', async (req, res) => {
-
+    const enrollmentLines = req.body.parsed.data
+    enrollmentLines.forEach(async element => {
+        await User.addEnrollment(element)
+    });
 })
 
 module.exports = router;

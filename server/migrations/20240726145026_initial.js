@@ -80,7 +80,6 @@ exports.up = function(knex) {
       table.string('catalog').notNullable();
       table.string('name').notNullable();
       table.string('section').notNullable();
-      table.string('component').notNullable();
       table.integer('credit_hours');
     })
     .createTable('course_students', function(table) {

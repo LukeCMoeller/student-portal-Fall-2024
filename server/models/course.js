@@ -75,7 +75,8 @@ class Course extends Model {
     }
 
     static async find(courseNumber, termCode) {
-        const course = await Course.query().where('class_number', courseNumber).where('term', termCode).limit(1)
+        const courseCode = courseNumber.split('-')
+        const course = await Course.query().where('class_number', courseCode[1]).where('subject', courseCode[0]).where('term', termCode).limit(1)
         if (course.length === 0) {
             return undefined
         }
@@ -83,9 +84,12 @@ class Course extends Model {
     }
 
     static async create(courseName, courseNumber, sectionName, creditHours, termCode) {
+        const courseCode = courseNumber.split('-')
         const course = await Course.query().insert({
             name: courseName,
-            class_number: courseNumber,
+            class_number: courseCode[1],
+            subject: courseCode[0],
+            catalog: courseCode[1],
             section: sectionName,
             credit_hours: creditHours,
             term: termCode
