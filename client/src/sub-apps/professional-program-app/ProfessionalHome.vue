@@ -30,44 +30,44 @@
 
             <div v-if="academics.gpa" class="col-12" style="width:100%;">
               <div :class="styles['status-box-style']">
-                <h2 :class="styles['status-h2-style']" style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 :class="styles['status-h2-style']" style="display: flex; align-items: center; gap: 30px;">
+                  <i 
+                    :class="academics.gpa > 2.29 ? 'pi pi-check' : 'pi pi-exclamation-triangle'" 
+                    style="font-size: 1.5rem;" 
+                    :style="{ color: academics.gpa > 2.29 ? 'green' : 'goldenrod' }">
+                  </i>
                   <span>
-                    Current GPA: 
-                    <span v-if="academics.gpa > 2.29" style="color:green;">{{ academics.gpa }}</span>
-                    <span v-else style="color:red;">{{ academics.gpa }}</span>
+                    Cumulative GPA:
+                    <span :style="{ color: academics.gpa > 2.29 ? 'green' : 'goldenrod' }">{{ academics.gpa }}</span>
                   </span>
-                  <div style="display: flex; gap: 10px;">
-                    <i class="pi pi-check" style="font-size: 1.5rem; color: green;" v-if="academics.gpa > 2.29"></i>
-                    <i class="pi pi-times" style="font-size: 1.5rem; color: red;" v-else></i>
-                  </div>
                 </h2>
               </div>
             </div>
 
             <div v-if="academics.warning" class="col-12" style="width:100%;">
               <div :class="styles['status-box-style']">
-                <h2 :class="styles['status-h2-style']" style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 :class="styles['status-h2-style']" style="display: flex; align-items: center; gap: 30px;">
+                  <div style="display: flex; gap: 10px;">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 1.5rem; color: goldenrod;"></i>
+                  </div>
                   <span>
                     Academic Status:
-                    <span style="color:red;"> Warning</span>
+                    <span style="color:goldenrod;"> Warning</span>
                   </span>
-                  <div style="display: flex; gap: 10px;">
-                    <i class="pi pi-times" style="font-size: 1.5rem; color: red;"></i>
-                  </div>
                 </h2>
               </div>
             </div>
 
             <div v-if="academics.probation" class="col-12" style="width:100%;">
               <div :class="styles['status-box-style']">
-                <h2 :class="styles['status-h2-style']" style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 :class="styles['status-h2-style']" style="display: flex; gap: 30px; align-items: center;">
+                  <div style="display: flex; gap: 10px;">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 1.5rem; color: goldenrod;"></i>
+                  </div>
                   <span>
                     Standing:
-                    <span style="color:red;">On Probation</span>
+                    <span style="color:goldenrod;">On Probation</span>
                   </span>
-                  <div style="display: flex; gap: 10px;">
-                    <i class="pi pi-times" style="font-size: 1.5rem; color: red;"></i>
-                  </div>
                 </h2>
               </div>
             </div>

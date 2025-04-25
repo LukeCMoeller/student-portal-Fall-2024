@@ -13,10 +13,18 @@
         <div class="col-12 col-offset-0 xl:col-8 xl:col-offset-2">
           <div > 
             <DataTable :value="courses" removableSort paginator :rows="8" stripedRows>
-              <Column field="class" header="Status" />
-              <Column field="status" header="Status" />
+              <Column field="name" header="Class" />
+              <Column header="Course Code">
+                <template #body="slotProps">
+                  {{ slotProps.data.subject + ' ' + slotProps.data.catalog}}
+                </template>
+              </Column>
+              <Column header="Status">
+                <template #body="slotProps">
+                  {{ slotProps.data.grade ? 'Completed' : 'In Progress' }}
+                </template>
+              </Column>
               <Column field="credit_hours" header="Credit Hours" />
-              <Column field="instructor" header="Instructor"  />
               <Column field="grade" header="Grade" />
             </DataTable>
           </div>
@@ -60,8 +68,9 @@ export default {
   },
   setup(){
     //courses
-    const studentStore = useStudentStore()
-    const {courses} = storeToRefs(studentStore)
+    const studentStore = useStudentStore();
+    studentStore.hydrate();
+    const {courses} = storeToRefs(studentStore);
 
     return {styles, shared, courses}
   },

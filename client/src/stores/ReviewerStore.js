@@ -23,7 +23,7 @@ export const useReviewerStore = defineStore('reviewer', {
 
       // Get the token from the token store
       const token = tokenStore.token
-
+      
       if (!token) {
         Logger.error('No token found')
         return

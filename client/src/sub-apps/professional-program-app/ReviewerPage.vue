@@ -110,6 +110,22 @@
             </div>
           </div>
 
+          <!--Student notes-->
+          <div class="col-10 col-offset-1">
+              <IftaLabel>
+              <Textarea 
+              placeholder="Add comments or additional information here" 
+              v-model="ApplicationData.notes" 
+              rows="7" cols="75"
+              autoResize
+              id="commentBox"
+              style="width:100%"
+              readonly
+              />
+              <label for="commentBox">Comments:</label>
+              </IftaLabel>
+          </div>
+
         </div>
       </div>
       <div class="flex justify-end gap-2">
@@ -251,8 +267,8 @@ export default {
   methods: {
     async loadApplications() {
       const reviewStore = useReviewerStore();
-      await reviewStore.fetchApplications(); // Fetch applications from the store
-      this.applications = reviewStore.applications; // Set the applications to the component
+      await reviewStore.fetchApplications(); 
+      this.applications = reviewStore.applications; 
     },
     HandleSendEmailClick(){
 
