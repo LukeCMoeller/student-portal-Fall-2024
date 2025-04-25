@@ -165,11 +165,11 @@ exports.seed = async function(knex) {
   ]);
   
   await knex('courses').insert([
-    { class_number: 101, term: 202501, subject: 'CIS', catalog: '101', name: 'Intro to CS', section: 'A', component: 'LEC', credit_hours: 3 },
-    { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B', component: 'LEC',  credit_hours: 4 },
-    { class_number: 115, term: 202501, subject: 'CIS', catalog: '115', name: 'Intro to Programming', section: 'B', component: 'LEC',  credit_hours: 4 },
-    { class_number: 200, term: 202501, subject: 'CIS', catalog: '200', name: 'Programming fundementals', section: 'A', component: 'LEC',  credit_hours: 4 },
-    { class_number: 300, term: 202501, subject: 'CIS', catalog: '300', name: 'Data and Program Structures', section: 'A', component: 'LEC',  credit_hours: 3 }
+    { class_number: 101, term: 202501, subject: 'CIS', catalog: '101', name: 'Intro to CS', section: 'A', credit_hours: 3 },
+    { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B',  credit_hours: 4 },
+    { class_number: 115, term: 202501, subject: 'CIS', catalog: '115', name: 'Intro to Programming', section: 'B',  credit_hours: 4 },
+    { class_number: 200, term: 202501, subject: 'CIS', catalog: '200', name: 'Programming fundementals', section: 'A', credit_hours: 4 },
+    { class_number: 300, term: 202501, subject: 'CIS', catalog: '300', name: 'Data and Program Structures', section: 'A', credit_hours: 3 }
   ]);
 
   //Add students and instructors to courses
