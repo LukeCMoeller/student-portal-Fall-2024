@@ -41,7 +41,7 @@
           <!-- Admin Controls -->
           <div class="flex justify-content-center" style="padding-top: 3rem;">
             <div class="border-round-sm flex flex-column align-items-center"
-                style="background-color: gray; border: 3px solid #757575; height: 22rem; width: 40rem;">
+                style="background-color: gray; border: 3px solid #757575; height: 30rem; width: 40rem;">
               <img :src="discordText" alt="discord text" class="m-3" style="height: 40px;" />
               
               <h4 :class="styles['text']" class="text-white text-center">
@@ -80,9 +80,6 @@
               Import
               </Button>
 
-              <h4 :class="styles['text']" class="text-white text-center mt-3">
-                Select a .csv report from KSIS to import:
-              </h4>
               <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select an enrollment file:</label>
               <input type="file" id="enrollmentReportImport" name="reportImport" accept="text/csv"> 
               <Button @click="ParseEnrollmentReport" class="btn-submit">
