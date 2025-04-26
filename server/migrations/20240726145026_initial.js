@@ -35,9 +35,10 @@ exports.up = function(knex) {
     })
     .createTable('programs', function(table) {
       table.increments('id');
-      table.string('name').notNullable().unique();
+      table.string('name').notNullable();
       table.string('plan').notNullable();
       table.string('subplan');
+      table.unique(['name', 'plan'])
     })
     .createTable('user_program', function(table) {
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');

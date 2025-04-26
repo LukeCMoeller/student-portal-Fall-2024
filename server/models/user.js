@@ -10,6 +10,9 @@ const Role = require('./role.js')
 const Course = require('./course.js')
 const CourseStudent = require('./courseStudent.js')
 const CourseInstructor = require('./courseInstructor.js')
+const Program = require('./program.js')
+const UserProgram = require('./user_program.js')
+const AcademicStatus = require('./academic_status.js')
 
 //Random function for WID testing for now
 function getRandomInt(max) {
@@ -86,20 +89,109 @@ class User extends Model {
     return user[0]
   }
 
+  //Method used when importing students from the file report
+  static async importStudent(studentLine) {
+    let user = await User.query().where('wid', studentLine["Student ID"]).limit(1)
+    //If there isn't a user
+    if (user.length === 0) {
+      //I think this is having issues because of multithreading. Causes errors on first run only with the report we have
+      const studentName = studentLine["Student Name"].split(', ')
+      //Copying this from the method above since we have more information than it expects
+      //Could make the method above more robust and just use it, currently not worried about that
+      user = [
+        await User.query().insert({
+          email: studentLine["Email"],
+          eid: studentLine["Email"].split('@')[0],
+          wid: studentLine["Student ID"],
+          first_name: studentName[1],
+          last_name: studentName[0],
+          profile_updated: false
+        }),
+      ]
+      const defaultRoleId = 1;  // Assuming the default role has id 1
+
+      // Insert into the user_roles table
+      await User.relatedQuery('roles') 
+        .for(user[0].id) 
+        .relate(defaultRoleId);
+      logger.info('User ' + email + ' created')
+}
+      const graduationInformation = studentLine["Classification"].split(' (')
+      //Now deal with major information
+      const majors = studentLine['Majors'].split(',')
+      majors.forEach(async major => {
+        //Majors are formatted as 'Name - Plan'
+        const parsed = major.split(' - ')
+        //This is having the same issue as the course creation in the enrollment import:
+        //Importing fails on the first run due to multithreading trying to create multiple of the same instance at the same time, but succeeds afterwards
+        const program = await Program.findOrCreate(parsed[0], parsed[1])
+
+        const joined = await User.relatedQuery('user_program').for(user[0].id).where('program_id', program.id).limit(1)
+        if(joined.length === 0) {
+          await User.relatedQuery('user_program')
+          .for(user[0].id)
+          .relate(
+            {
+              id: program.id,
+              assigned_advisor: studentLine["Assigned Staff"],
+              graduated: false,
+              withdrew: false,
+              dismissed: false,
+              program_gpa: studentLine['Cumulative GPA'],
+              classification: graduationInformation[0],
+              graduation_date: graduationInformation[1].substring(0, -1),
+              on_warning: false,
+            })
+        } else {
+          await User.relatedQuery('user_program')
+          .for(user[0].id)
+          .patch(
+            {
+              assigned_advisor: studentLine["Assigned Staff"],
+              graduated: false,
+              withdrew: false,
+              dismissed: false,
+              program_gpa: studentLine['Cumulative GPA'],
+              classification: graduationInformation[0],
+              graduation_date: graduationInformation[1].substring(0, -1),
+              on_warning: false,
+            })
+          .where('program_id', program.id)
+        }
+        
+      });
+
+      //And now a quick insert into academic status
+      const academic_status = await AcademicStatus.query().where('user_id', user[0].id).limit(1)
+      if (academic_status.length === 0) {
+        await User.relatedQuery('academic_status')
+        .for(user[0].id)
+        .insert({
+          user_id: user[0].id,
+          gpa: studentLine['Cumulative GPA']
+        })
+      } else {
+        await User.relatedQuery('academic_status')
+        .for(user[0].id)
+        .patch({
+          gpa: studentLine['Cumulative GPA']
+        })
+      }
+  }
+
   //Method used when importing enrollment information from the file
   static async addEnrollment(enrollmentLine) {
-    //Two problems: it's running into errors with inserting the users on the first run of it (trying to insert the same user twice)
-    //and it's somehow exiting out of the select course bit with an undefined course.
     let user = await User.query().where('wid', enrollmentLine["Student ID"]).limit(1)
     //If there isn't a user
     if (user.length === 0) {
+      //I think this is having issues because of multithreading. Causes errors on first run only with the report we have
       const studentName = enrollmentLine["Student Name"].split(', ')
       //Copying this from the method above since we have more information than it expects
       //Could make the method above more robust and just use it, currently not worried about that
       user = [
         await User.query().insert({
           email: enrollmentLine["Email"],
-          eid: enrollmentLine["Email"],
+          eid: enrollmentLine["Email"].split('@')[0],
           wid: enrollmentLine["Student ID"],
           first_name: studentName[1],
           last_name: studentName[0],
@@ -119,16 +211,15 @@ class User extends Model {
 
     //Find or create the course the line is talking about
     let enrolledCourse = await Course.find(enrollmentLine["Enrollment Course Number"], termCode)
-    console.log(enrolledCourse)
     if (enrolledCourse === undefined) {
-      console.log(enrolledCourse)
       enrolledCourse = await Course.create(enrollmentLine["Enrollment Course Name"], enrollmentLine["Enrollment Course Number"],
         enrollmentLine["Enrollment Section Name"], enrollmentLine["Credit Hours"], termCode
       )
     }
-    console.log(enrolledCourse)
     //And finally connect the two, adding all of the information that needs
-    await User.relatedQuery('course_students')
+    const joined = await User.relatedQuery('course_students').for(user[0].id).where('course_id', enrolledCourse.id).limit(1)
+    if(joined.length === 0) {
+      await User.relatedQuery('course_students')
       .for(user[0].id)
       .relate({
         id: enrolledCourse.id,
@@ -138,12 +229,25 @@ class User extends Model {
         dropped_date: enrollmentLine["Dropped Date"], 
         last_attendance: enrollmentLine["Last Date of Attendance"], 
         midterm_grade: enrollmentLine["Midterm Grade"]})
+    } else {
+      await User.relatedQuery('course_students')
+      .for(user[0].id)
+      .patch({
+        grade: enrollmentLine["Final Grade"], 
+        ignore_in_gpa: false, 
+        dropped: enrollmentLine["Dropped?"], 
+        dropped_date: enrollmentLine["Dropped Date"], 
+        last_attendance: enrollmentLine["Last Date of Attendance"], 
+        midterm_grade: enrollmentLine["Midterm Grade"]})
+      .where('course_id', enrolledCourse.id)
+    }
+    
 
     //And by finally, I mean we still need to connect the instructor
     //I'm pretty sure I'll need to learn regexs for this, as the instructor string is "LastName, FirstName (WID) <email>"
     //or I could try to come up with some really cursed split scheme
     //might just be a task I'd leave for the next group
-
+    return;
   }
 
   // static async findByRefreshToken(token) {
@@ -351,6 +455,28 @@ class User extends Model {
             to: 'course_instructors.course_id'
           },
           to: 'courses.id'
+        }
+      },
+      user_program: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Program,
+        join: {
+          from: 'users.id',
+          through: {
+            modelClass: UserProgram,
+            from: 'user_program.user_id',
+            to: 'user_program.program_id',
+            extra: ['assigned_advisor', 'graduated', 'withdrew', 'dismissed', 'program_gpa', 'classification', 'graduation_date', 'on_warning']
+          },
+          to: 'programs.id'
+        }
+      },
+      academic_status: {
+        relation: Model.HasOneRelation,
+        modelClass: AcademicStatus,
+        join: {
+          from: 'users.id',
+          to: 'academic_status.user_id'
         }
       }
     }
