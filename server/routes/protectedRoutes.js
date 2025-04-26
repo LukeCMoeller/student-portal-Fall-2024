@@ -32,6 +32,7 @@ const applicationsRoutes = require('./applicationRoutes.js')
 const academicsRoutes = require('./academicsRoutes.js')
 const adminRoutes = require('./adminRoutes.js')
 const courseRoutes = require('./courseRoutes.js');
+const adminOnly = require('../middleware/admin-required.js')
 
 //This verifies that the user has logged in before they can access any sub route
 router.use(token)
@@ -43,7 +44,6 @@ router.use('/users', usersRoutes)
 router.use('/profile', profileRoutes)
 router.use('/applications', applicationsRoutes)
 router.use('/academics', academicsRoutes)
-router.use('/admin', adminRoutes)
-
 router.use('/courses', courseRoutes)
+router.use('/admin', adminRoutes, adminOnly)
 module.exports = router

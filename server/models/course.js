@@ -40,6 +40,64 @@ class Course extends Model {
         }
     }
 
+    static createTermCode(year, month, day) {
+        //Take last two of the year, turn them into the second and third of the term code, then put a 2 on the front
+        let termCode = ((year % 100) * 10) + 2000
+        //Add on the last digit for the semester
+        //If course starts from December to April
+        if (month == 12 || month <= 4) {
+            //Spring
+            termCode += 2
+        }
+        //If course starts on or after September (since December is already covered)
+        else if (month >= 9) {
+            //Fall
+            termCode += 5
+        }
+        //If course starts in August
+        else if (month == 8) {
+            //Then we have to see whether it's fall or summer intersession
+            //If before the 15th
+            if (day <= 15) {
+                //Summer
+                termCode += 4
+            } else {
+                //Fall
+                termCode += 5
+            }
+        }
+        //Otherwise, it's during summer
+        else {
+            termCode += 4
+        }
+
+        return termCode
+    }
+
+    static async find(courseNumber, termCode) {
+        const courseCode = courseNumber.split('-')
+        const course = await Course.query().where('class_number', courseCode[1]).where('subject', courseCode[0]).where('term', termCode).limit(1)
+        if (course.length === 0) {
+            return undefined
+        }
+        return course[0]
+    }
+
+    static async create(courseName, courseNumber, sectionName, creditHours, termCode) {
+        const courseCode = courseNumber.split('-')
+        const course = await Course.query().insert({
+            name: courseName,
+            class_number: courseCode[1],
+            subject: courseCode[0],
+            catalog: courseCode[1],
+            section: sectionName,
+            credit_hours: creditHours,
+            term: termCode
+            //What is subject and catalog in the table?
+        })
+        return course[0]
+    }
+
     static isPrerequisiteCourse(course) {
         return prerequisiteCourses.some(prereq =>
             prereq.class_number === course.class_number && prereq.subject === course.subject

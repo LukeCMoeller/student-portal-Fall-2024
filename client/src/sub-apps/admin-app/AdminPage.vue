@@ -41,7 +41,7 @@
           <!-- Admin Controls -->
           <div class="flex justify-content-center" style="padding-top: 3rem;">
             <div class="border-round-sm flex flex-column align-items-center"
-                style="background-color: gray; border: 3px solid #757575; height: 22rem; width: 40rem;">
+                style="background-color: gray; border: 3px solid #757575; height: 30rem; width: 40rem;">
               <img :src="discordText" alt="discord text" class="m-3" style="height: 40px;" />
               
               <h4 :class="styles['text']" class="text-white text-center">
@@ -70,6 +70,21 @@
               <Button @click="RefreshStudent(selectedStudent)" class="btn-submit">
               Submit
               </Button>
+
+              <h4 :class="styles['text']" class="text-white text-center mt-3">
+                Select a .csv report from KSIS to import:
+              </h4>
+              <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select a student file:</label>
+              <input type="file" id="studentReportImport" name="reportImport" accept="text/csv"> 
+              <Button @click="ParseStudentReport" class="btn-submit">
+              Import
+              </Button>
+
+              <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select an enrollment file:</label>
+              <input type="file" id="enrollmentReportImport" name="reportImport" accept="text/csv"> 
+              <Button @click="ParseEnrollmentReport" class="btn-submit">
+              Import
+              </Button>
             </div>
           </div>
         </div>
@@ -81,6 +96,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useAdminStore } from '@/stores/AdminStore.js';
+import Papa from 'papaparse';
 
 //primevue components
 import Button from 'primevue/button';
@@ -155,7 +171,35 @@ export default {
         
       };
 
-      return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, updateDiscordUsers, allUsers, updateRole };
+    const ParseEnrollmentReport = () => {
+      const report = document.getElementById("enrollmentReportImport").files[0]
+      Papa.parse(report, {header: true, complete: ImportEnrollmentReport})
+    }
+
+    const ImportEnrollmentReport = async(results, file) => {
+      console.log(results)
+        const result = await adminStore.importEnrollmentReport(results);
+        if (result) {
+          toast.add({severity: 'success', summary: 'KSIS enrollment report has been imported', life: 3000})}
+        else {
+          toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
+    }
+
+    const ParseStudentReport = () => {
+      const report = document.getElementById("studentReportImport").files[0]
+      Papa.parse(report, {header: true, complete: ImportStudentReport})
+    }
+
+    const ImportStudentReport = async(results, file) => {
+      console.log(results)
+        const result = await adminStore.importStudentReport(results);
+        if (result) {
+          toast.add({severity: 'success', summary: 'KSIS student report has been imported', life: 3000})}
+        else {
+          toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
+    }
+
+    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ParseEnrollmentReport, ParseStudentReport, updateDiscordUsers, allUsers, updateRole };
   }
 };
 </script>

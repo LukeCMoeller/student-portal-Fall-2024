@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const user = require('../models/user.js');
 //const isAdmin = require('../middleware/admin-required');
 //router.use(isAdmin);
 
+const User = require('../models/user.js')
 
 
 router.post('/disableApplications', async (req, res) => {
@@ -128,5 +128,30 @@ router.post('/updateUser', async (req, res) => {
     }
 
 });
+router.post('/importStudentReport', async (req, res) => {
+    const enrollmentLines = req.body.parsed.data
+    try {
+        enrollmentLines.forEach(async element => {
+            await User.importStudent(element)
+        });
+        res.status(200).json({message: 'Student information successfully imported'})
+    } catch (err) {
+        res.status(500).json({message: 'Student information import failed'})
+    }
+})
+
+router.post('/importEnrollmentReport', async (req, res) => {
+    const enrollmentLines = req.body.parsed.data
+    try {
+        enrollmentLines.forEach(async element => {
+            await User.addEnrollment(element)
+        });
+        res.status(200).json({message: 'Enrollment information successfully imported'})
+    } catch (err) {
+        res.status(500).json({message: 'Enrollment information import failed'})
+    }
+    
+})
+
 module.exports = router;
 

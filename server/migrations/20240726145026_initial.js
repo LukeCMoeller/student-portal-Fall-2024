@@ -35,9 +35,10 @@ exports.up = function(knex) {
     })
     .createTable('programs', function(table) {
       table.increments('id');
-      table.string('name').notNullable().unique();
+      table.string('name').notNullable();
       table.string('plan').notNullable();
       table.string('subplan');
+      table.unique(['name', 'plan'])
     })
     .createTable('user_program', function(table) {
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
@@ -80,7 +81,6 @@ exports.up = function(knex) {
       table.string('catalog').notNullable();
       table.string('name').notNullable();
       table.string('section').notNullable();
-      table.string('component').notNullable();
       table.integer('credit_hours');
     })
     .createTable('course_students', function(table) {
@@ -91,7 +91,7 @@ exports.up = function(knex) {
       table.boolean('ignore_in_gpa').defaultTo(false);
       table.boolean('dropped').defaultTo(false);
       table.string('dropped_date');
-      table.string('last_attendence');
+      table.string('last_attendance');
       table.string('midterm_grade');
     })
     .createTable('course_instructors', function(table) {
