@@ -44,8 +44,17 @@
               <h4 :class="styles['text']" class="text-white text-center mt-3">
                 Select a .csv report from KSIS to import:
               </h4>
-              <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select a file:</label>
-              <input type="file" id="reportImport" name="reportImport" accept="text/csv"> 
+              <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select a student file:</label>
+              <input type="file" id="studentReportImport" name="reportImport" accept="text/csv"> 
+              <Button @click="ParseStudentReport" class="btn-submit">
+              Import
+              </Button>
+
+              <h4 :class="styles['text']" class="text-white text-center mt-3">
+                Select a .csv report from KSIS to import:
+              </h4>
+              <label for="reportImport" :class="styles['text']" class="text-white text-center mt-3">Select an enrollment file:</label>
+              <input type="file" id="enrollmentReportImport" name="reportImport" accept="text/csv"> 
               <Button @click="ParseEnrollmentReport" class="btn-submit">
               Import
               </Button>
@@ -103,7 +112,7 @@ export default {
     };
 
     const ParseEnrollmentReport = () => {
-      const report = document.getElementById("reportImport").files[0]
+      const report = document.getElementById("enrollmentReportImport").files[0]
       Papa.parse(report, {header: true, complete: ImportEnrollmentReport})
     }
 
@@ -111,12 +120,26 @@ export default {
       console.log(results)
         const result = await adminStore.importEnrollmentReport(results);
         if (result) {
-          toast.add({severity: 'success', summary: 'KSIS report has been imported', life: 3000})}
+          toast.add({severity: 'success', summary: 'KSIS enrollment report has been imported', life: 3000})}
         else {
           toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
     }
 
-    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ParseEnrollmentReport };
+    const ParseStudentReport = () => {
+      const report = document.getElementById("studentReportImport").files[0]
+      Papa.parse(report, {header: true, complete: ImportStudentReport})
+    }
+
+    const ImportStudentReport = async(results, file) => {
+      console.log(results)
+        const result = await adminStore.importStudentReport(results);
+        if (result) {
+          toast.add({severity: 'success', summary: 'KSIS student report has been imported', life: 3000})}
+        else {
+          toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
+    }
+
+    return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ParseEnrollmentReport, ParseStudentReport };
   }
 };
 </script>

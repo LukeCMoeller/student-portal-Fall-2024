@@ -110,15 +110,28 @@ router.post('/updateApplication', async (req, res) => {
 });
 
 router.post('/importStudentReport', async (req, res) => {
-    //receives the file from the req, need to split it, then split the lines, then send those to the user model
-    console.log(req.body.report)
+    const enrollmentLines = req.body.parsed.data
+    try {
+        enrollmentLines.forEach(async element => {
+            await User.importStudent(element)
+        });
+        res.status(200).json({message: 'Student information successfully imported'})
+    } catch (err) {
+        res.status(500).json({message: 'Student information import failed'})
+    }
 })
 
 router.post('/importEnrollmentReport', async (req, res) => {
     const enrollmentLines = req.body.parsed.data
-    enrollmentLines.forEach(async element => {
-        await User.addEnrollment(element)
-    });
+    try {
+        enrollmentLines.forEach(async element => {
+            await User.addEnrollment(element)
+        });
+        res.status(200).json({message: 'Enrollment information successfully imported'})
+    } catch (err) {
+        res.status(500).json({message: 'Enrollment information import failed'})
+    }
+    
 })
 
 module.exports = router;
