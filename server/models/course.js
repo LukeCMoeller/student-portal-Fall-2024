@@ -29,7 +29,6 @@ class Course extends Model {
                     'courses.catalog',
                     'courses.name',
                     'courses.section',
-                    'courses.component',
                     'courses.credit_hours',
                     'course_students.grade'
                 );
