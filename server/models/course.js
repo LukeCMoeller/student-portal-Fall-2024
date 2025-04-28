@@ -92,8 +92,7 @@ class Course extends Model {
             section: sectionName,
             credit_hours: creditHours,
             term: termCode
-            //What is subject and catalog in the table?
-        })
+        }).onConflict().ignore();
         return course[0]
     }
 

@@ -21,7 +21,7 @@ class Program extends Model {
             await Program.query().insert({
                 name: name,
                 plan: plan,
-            })
+            }).onConflict().ignore()
         ]
     }
 

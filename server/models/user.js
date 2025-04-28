@@ -122,8 +122,6 @@ class User extends Model {
       majors.forEach(async major => {
         //Majors are formatted as 'Name - Plan'
         const parsed = major.split(' - ')
-        //This is having the same issue as the course creation in the enrollment import:
-        //Importing fails on the first run due to multithreading trying to create multiple of the same instance at the same time, but succeeds afterwards
         const program = await Program.findOrCreate(parsed[0], parsed[1])
 
         const joined = await User.relatedQuery('user_program').for(user[0].id).where('program_id', program.id).limit(1)
@@ -184,7 +182,6 @@ class User extends Model {
     let user = await User.query().where('wid', enrollmentLine["Student ID"]).limit(1)
     //If there isn't a user
     if (user.length === 0) {
-      //I think this is having issues because of multithreading. Causes errors on first run only with the report we have
       const studentName = enrollmentLine["Student Name"].split(', ')
       //Copying this from the method above since we have more information than it expects
       //Could make the method above more robust and just use it, currently not worried about that
