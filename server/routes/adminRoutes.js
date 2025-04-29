@@ -110,7 +110,7 @@ router.post('/updateApplication', async (req, res) => {
 });
 router.get('/allUsers', async (req, res) => {
     try{
-        const result = await user.queryAllUsers();
+        const result = await User.queryAllUsers();
         res.json(result);
 
     }catch(error){
@@ -121,7 +121,7 @@ router.get('/allUsers', async (req, res) => {
 router.post('/updateUser', async (req, res) => {
     try{
         const {user_id, roles} = req.body;
-        await user.updateUserRoles(user_id, roles);
+        await User.updateUserRoles(user_id, roles);
         res.status(200).json({ message: 'User roles updated successfully' });
     }catch(error){
         console.log(error);
