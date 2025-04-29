@@ -20,18 +20,6 @@ export const useTokenStore = defineStore('token', {
   },
   getters: {
     /**
-     * Gets the user's refresh token
-     *
-     * @returns String: the user's refresh token
-     */
-    // refresh_token() {
-    //   if (this.token) {
-    //     return jwtDecode(this.token)['refresh_token']
-    //   } else {
-    //     return ''
-    //   }
-    // },
-    /**
      * Gets the user's email
      *
      * @returns String: the user's email
@@ -178,55 +166,6 @@ export const useTokenStore = defineStore('token', {
           }
         })
     },
-
-    // /**
-    //  * Use the refresh token to get a new API token
-    //  */
-    // async refreshToken() {
-    //   Logger.info('token:refresh')
-    //   await api
-    //     .post('/auth/token', {
-    //       refresh_token: this.refresh_token
-    //     })
-    //     .then((response) => {
-    //       this.token = response.data.token
-    //     })
-    //     .catch((err) => {
-    //       // If the refresh token fails, the user must log in again
-    //       if (err.response && err.response.status === 401) {
-    //         this.token = ''
-    //         Logger.info('token:refresh login failed - redirecting to CAS')
-    //         window.location.href = '/auth/login'
-    //       } else {
-    //         Logger.error('token:refresh error' + err)
-    //         this.token = ''
-    //       }
-    //     })
-    // },
-
-    // /**
-    //  * Try to establish a session with a refresh token.
-    //  */
-    // async tryRefreshToken() {
-    //   Logger.info('token:tryrefresh')
-    //   await api
-    //     .post('/auth/token', {
-    //       refresh_token: this.refresh_token
-    //     })
-    //     .then((response) => {
-    //       this.token = response.data.token
-    //     })
-    //     .catch((err) => {
-    //       // if it fails, log out the user but do not force a login
-    //       if (err.response && err.response.status === 401) {
-    //         this.token = ''
-    //         Logger.info('token:tryrefresh login failed')
-    //       } else {
-    //         this.token = ''
-    //         Logger.error('token:tryrefresh error' + err)
-    //       }
-    //     })
-    // },
 
     /**
      * Log the user out and clear the token

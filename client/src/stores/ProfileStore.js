@@ -58,7 +58,7 @@ export const useProfileStore = defineStore('profile', {
         });
         this.discord = response.data.username;
         } catch (error) {
-            console.error('Error verifying Discord:', error);
+            console.log('User Discord not found.');
         }
     },
     async getGitHubInfo(userId) {
@@ -68,7 +68,7 @@ export const useProfileStore = defineStore('profile', {
         });
         this.github = response.data.username;
     } catch (error) {
-        console.error('Error verifying GitHub:', error);
+        console.log('User GitHub not found.');
     }
     },
     /**
