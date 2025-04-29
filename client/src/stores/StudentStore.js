@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import Logger from 'js-logger'
 
 // Services
-import api from '@/services/adminApi'
+import api from '@/services/tokenApi'
 
 // Import token store
 import { useTokenStore } from './TokenStore'

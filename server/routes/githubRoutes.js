@@ -34,6 +34,7 @@ try {
 
 router.get('/', (req, res, next) => {
     const userId = req.query.state;
+    console.log(req)
   
     passport.authenticate('github', {
       scope: ['user:email'],

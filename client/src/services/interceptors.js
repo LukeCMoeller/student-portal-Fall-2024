@@ -57,22 +57,6 @@ const setupInterceptors = () => {
       return Promise.reject(err)
     }
   )
-/*
-  lti.interceptors.request.use(
-    (config) => {
-      const tokenStore = useTokenStore()
-      if (tokenStore.ltik) {
-        config.headers['Authorization'] = 'Bearer ' + tokenStore.ltik
-      }
-      return config
-    },
-
-    // If we receive an error, we reject with the error
-    (error) => {
-      return Promise.reject(error)
-    }
-  )
-    */
 }
 
 export default setupInterceptors

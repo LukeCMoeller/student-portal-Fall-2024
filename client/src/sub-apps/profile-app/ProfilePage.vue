@@ -173,8 +173,8 @@ export default {
     
     //Function for linking GitHub account
     const HandleGitHubClick = () => {
-    const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/api/v1/github?state=${userId}`;
-    window.location.href = gitAuthUrl;
+      const gitAuthUrl = `${import.meta.env.VITE_SERVER_URL}/api/v1/github?state=${userId}`;
+      window.location.href = gitAuthUrl;
     };
 
     //Function for linking Discord account
