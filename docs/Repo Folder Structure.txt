@@ -1,3 +1,5 @@
+A quick guide, mostly for other development teams, of what folder have what and what they do
+
 Lines that start with - are the name of the folder
 Lines that start with * are a description of the contents of the folder above them
 
