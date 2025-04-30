@@ -106,10 +106,10 @@ import { useToast } from 'primevue/usetoast'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Checkbox from 'primevue/checkbox';
+
 //styles
 import styles from '@/components/styles/AdminPage.module.css';
 import shared from '@/components/styles/Shared.module.css';
-
 import discordText from '@/components/assets/DiscordText.png';
 
 
@@ -123,16 +123,17 @@ export default {
     const allUsers = ref([]);
     const discordUsers = {};
     const studentOptions = ref([]);
+    // Calls the function before anything else happens to properly get all users
     const fetchUsers = async() => {
-      allUsers.value = await adminStore.getAllUsers();
+      allUsers.value = await adminStore.getAllUsers(); // Gets all users from the server
     }
     onMounted(fetchUsers);
     const selectedStudent = ref("");
     
-
-    const updateDiscordUsers = async() => {
-    const users = allUsers.value.data;
-    console.log(users);
+    // Called upon pressing refresh button. Creates the list of discordUsers to be displayed
+    const updateDiscordUsers = async() => { 
+      const users = allUsers.value.data;
+      console.log(users);
       for(let i = 0; i < users.length; i++){
         const user = users[i];
         if(user.discord_id !== null){
@@ -142,28 +143,29 @@ export default {
       }
        studentOptions.value = Object.keys(discordUsers);
     }
-    
-    const RefreshDiscord = async () => {
-      const booltest = await adminStore.refreshDiscord();
-      if(booltest === true){
+    // Called upon pressing the refresh button. resets all discord user roles. 
+    const RefreshDiscord = async () => { 
+      const result = await adminStore.refreshDiscord();
+      if(result === true){
         toast.add({ severity: 'success', summary: 'Discord Updated', detail: 'All Students roles updated. ', life: 3000, });
       }else{
         toast.add({ severity: 'error', summary: 'Error', detail: 'Error on attempted action', life: 3000, });
       }
-      
     };
+
+    // Updates the role of the user so that can access more or less
     const updateRole = async (user) =>{
-      //change the thing to match
       await adminStore.updateUserRoles(user.id, user.roles);
     }
+    
+    // Same as RefreshDiscord but for one student.
     const RefreshStudent = async (studentID) => {
       const discordID = discordUsers[studentID];
       if(!discordID){
         toast.add({ severity: 'error', summary: 'Student Not Found', detail: 'Could not find Discord ID for ${studentID}.', life: 3000, });
       }
-
-        const booltest = await adminStore.refreshStudent(discordID);
-        if(booltest === true){
+        const result = await adminStore.refreshStudent(discordID);
+        if(result === true){
           toast.add({ severity: 'success', summary: 'Student sucessfully added', detail: 'Student ' + studentID + ' has updated discord roles.', life: 3000, });
         }else{
           toast.add({ severity: 'error', summary: 'Error', detail: 'Error on attempted action for ' + studentID, life: 3000, });

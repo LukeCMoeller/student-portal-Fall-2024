@@ -1,0 +1,17 @@
+The discord bot has a few requirements. Most of which are set up in the Github Secrets
+
+The following:
+
+DISCORD_CLIENT_ID
+DISCORD_CLIENT_SECRET
+DISCORD_SECRET
+
+must all be generated from the discord developer portal. 
+
+Follow the steps here in the README https://github.com/JustinBeckwith/linked-role-bot to set up the linked roles.
+Glitch is not needed as the files are located in server/linked-roles/linked_roles_glitch. 
+
+In the discordbot.js file. After adding the bot to the intended server, replace the server id on line 38 with the new server
+
+To test the automatic roles in the admin page, you must have seeding of a test user linked with a discord account. Make sure they have
+the classes that are seeded with the roles. 
