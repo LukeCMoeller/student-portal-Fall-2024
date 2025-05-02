@@ -9,10 +9,10 @@ const client = new Client({
 });
 
 const discordModelTest = new User();
+//The server the bot is in. 
 let ourServerguild;
-let TestingDatabaseAll = false;
-let TestingDatabaseSingle = false;
 
+//the discord role id that match the CIS courses
 let roles = [
   '1340083275179491328', // CIS 115 student
   '1340083455555276821', // CIS 200 student
@@ -35,46 +35,38 @@ client.login(process.env.DISCORD_SECRET).catch(console.error);
 client.once('ready', async () => {
   
   console.log('Bot is online!');
-  ourServerguild = await client.guilds.cache.get('1285994775282978900');
+  ourServerguild = await client.guilds.cache.get('1285994775282978900'); // Our test discord server id
   if (!ourServerguild) {
     console.error('Guild not found!');
     return;
   }
+  // Querys the database and collects all students with a discord_id that is not null
   all_students = await discordModelTest.get_users_with_discord();
-  if (TestingDatabaseAll) {
-    handleAllStudentRoles();
-    TestingDatabaseAll = false;
-  }
-  if (TestingDatabaseSingle) {
-    let mydiscord = '592454625270038547';
-    handleSelectStudentRoles(mydiscord);
-    TestingDatabaseSingle = false;
-  }
 });
-
+// Converts the queried objects into the assigned roles. 
 function matchClassesToRoles(listOfCourses) {
   let convertedCourses = [];
   for (let i = 0; i < listOfCourses.length; i++) {
     if (listOfCourses[i].catalog.includes(115)) convertedCourses.push(roles[0]);
     if (listOfCourses[i].catalog.includes(200)) convertedCourses.push(roles[1]);
     if (listOfCourses[i].catalog.includes(300)) convertedCourses.push(roles[2]);
-    //put more courses here
+    // Put more courses here as needed
   }
   return convertedCourses;
 }
-
+// Called from admin page. resets all CIS related discord roles. 
 async function handleAllStudentRoles() {
-  for (let x = 0; x < all_students.length; x++) {
-    let student_courses = await discordModelTest.get_student_courses(all_students[x].discord_id);
-    let student_roles = matchClassesToRoles(student_courses);
-    const member = await ourServerguild.members.fetch(all_students[x].discord_id).catch(() => null);
+  for (let x = 0; x < all_students.length; x++) {  // For every student with a valid discord 
+    let student_courses = await discordModelTest.get_student_courses(all_students[x].discord_id); // Get all CIS related courses
+    let student_roles = matchClassesToRoles(student_courses); // Then get all of the matching discord roles from said courses
+    const member = await ourServerguild.members.fetch(all_students[x].discord_id).catch(() => null); // Get the discord of the user itself
     if (!member) {
       console.error('Student not found');
     } else {
       try {
-        const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id));
+        const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id)); // Remove all previous CIS roles
         if (rolesToRemove.size > 0) await member.roles.remove(rolesToRemove);
-        for (let y = 0; y < student_roles.length; y++) {
+        for (let y = 0; y < student_roles.length; y++) { // Assign all new CIS roles
           const role = ourServerguild.roles.cache.get(student_roles[y]);
           await member.roles.add(role);
         }
@@ -84,19 +76,19 @@ async function handleAllStudentRoles() {
     }
   }
 }
-
+// Called from admin page. Resets 1 students CIS discord roles. Same as handleAllStudent but without the loop
 async function handleSelectStudentRoles(studentDiscordID) {
-  let student_courses = await discordModelTest.get_student_courses(studentDiscordID);
-  let student_roles = matchClassesToRoles(student_courses);
-  const member = await ourServerguild.members.fetch(studentDiscordID).catch(() => null);
+  let student_courses = await discordModelTest.get_student_courses(studentDiscordID); //get all CIS related courses
+  let student_roles = matchClassesToRoles(student_courses); // Then get all of the matching discord roles from said courses
+  const member = await ourServerguild.members.fetch(studentDiscordID).catch(() => null);  // Get the discord of the user itself
   if (!member) {
     console.error('Student not found');
     return false;
   } else {
     try {
-      const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id));
+      const rolesToRemove = member.roles.cache.filter(role => roles.includes(role.id)); // Remove all previous CIS roles
       if (rolesToRemove.size > 0) await member.roles.remove(rolesToRemove);
-      for (let y = 0; y < student_roles.length; y++) {
+      for (let y = 0; y < student_roles.length; y++) { // Assign all new CIS roles
         const role = ourServerguild.roles.cache.get(student_roles[y]);
         await member.roles.add(role);
       }
@@ -106,18 +98,18 @@ async function handleSelectStudentRoles(studentDiscordID) {
     }
   }
 }
-
+// Automatically runs whenever a user joins the discord
 client.on('guildMemberAdd', async (member) => {
   if (!member) {
     console.error('Member not found!');
     return;
   }
-  const welcomeChannel = member.guild.channels.cache.get('1306295646248239134');
+  const welcomeChannel = member.guild.channels.cache.get('1306295646248239134'); // welcome channel
   if (welcomeChannel) {
-    welcomeChannel.send(`Welcome to the server, ${member.user.tag}! 🎉`);
+    welcomeChannel.send(`Welcome to the server, ${member.user.tag}! 🎉`); 
   }
   try {
-    await member.roles.add('1308820949310902282');
+    await member.roles.add(roles[0]); // Automatically gives new members role for testing 
     console.log(`Roles added for member: ${member.user.tag}`);
   } catch (error) {
     console.error('Error adding role:', error);
