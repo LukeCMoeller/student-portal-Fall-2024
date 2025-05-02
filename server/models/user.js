@@ -94,7 +94,6 @@ class User extends Model {
     let user = await User.query().where('wid', studentLine["Student ID"]).limit(1)
     //If there isn't a user
     if (user.length === 0) {
-      //I think this is having issues because of multithreading. Causes errors on first run only with the report we have
       const studentName = studentLine["Student Name"].split(', ')
       //Copying this from the method above since we have more information than it expects
       //Could make the method above more robust and just use it, currently not worried about that
@@ -124,8 +123,10 @@ class User extends Model {
         const parsed = major.split(' - ')
         const program = await Program.findOrCreate(parsed[0], parsed[1])
 
+        //Check if the overall program exists yet
         const joined = await User.relatedQuery('user_program').for(user[0].id).where('program_id', program.id).limit(1)
         if(joined.length === 0) {
+          //If it does, connect the user's program to the overall
           await User.relatedQuery('user_program')
           .for(user[0].id)
           .relate(
@@ -141,6 +142,7 @@ class User extends Model {
               on_warning: false,
             })
         } else {
+          //If not, create both at the same time
           await User.relatedQuery('user_program')
           .for(user[0].id)
           .patch(
@@ -214,8 +216,10 @@ class User extends Model {
       )
     }
     //And finally connect the two, adding all of the information that needs
+    //Check to see if a record already exists for that student in that class
     const joined = await User.relatedQuery('course_students').for(user[0].id).where('course_id', enrolledCourse.id).limit(1)
     if(joined.length === 0) {
+      //Create it
       await User.relatedQuery('course_students')
       .for(user[0].id)
       .relate({
@@ -227,6 +231,7 @@ class User extends Model {
         last_attendance: enrollmentLine["Last Date of Attendance"], 
         midterm_grade: enrollmentLine["Midterm Grade"]})
     } else {
+      //Updated it
       await User.relatedQuery('course_students')
       .for(user[0].id)
       .patch({
@@ -246,14 +251,6 @@ class User extends Model {
     //might just be a task I'd leave for the next group
     return;
   }
-
-  // static async findByRefreshToken(token) {
-  //   let user = await User.query().where('refresh_token', token).limit(1)
-  //   if (user.length === 0) {
-  //     return null
-  //   }
-  //   return user[0]
-  // }
 
   async updateRefreshToken() {
     var token = this.refresh_token
