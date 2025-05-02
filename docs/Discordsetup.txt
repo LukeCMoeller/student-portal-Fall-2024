@@ -1,7 +1,9 @@
 The discord bot has a few requirements. Most of which are set up in the Github Secrets and a custom Discord server. 
 
 Firstly: 
-Create a new discord server. Copy the ID into the discordbot.js in linked roles on line 38. This is where the bot grabs the specific guild information. 
+Create a new discord server. 
+To copy the discord server id, enable "Debeloper Mode" in you settigns. Then simply right click the server icon and scroll down to "Copy ID"
+Enter the ID into the discordbot.js in linked roles on line 38. This is where the bot grabs the specific guild information. For refrence guild and server are bascially the same thing. 
 
 Make a few custome roles titles CIS 115, CIS 200, CIS 300. Copy the role IDs and put them in discordbot.js in linked roles on line 16.
 This makes it easier to convert from the queried courses in the database into usable discord role IDs.
@@ -15,7 +17,9 @@ DISCORD_CLIENT_ID
 DISCORD_CLIENT_SECRET
 DISCORD_SECRET
 
- 
+Whoever creates the repo must make these secrets. Go settings, Security, Secrets and variables, Codespaces. 
+Make a New repository secret with the exact format as above and add the values grabbed from the developer portal.  
+
 Follow the steps here in the README https://github.com/JustinBeckwith/linked-role-bot to set up the linked roles.
 Glitch is not needed as the files are located in server/linked-roles/linked_roles_glitch. 
 In the tutorial, assing the UUID as COOKIE_SECRET
