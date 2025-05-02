@@ -1,17 +1,25 @@
-The discord bot has a few requirements. Most of which are set up in the Github Secrets
+The discord bot has a few requirements. Most of which are set up in the Github Secrets and a custom Discord server. 
 
-The following:
+Firstly: 
+Create a new discord server. Copy the ID into the discordbot.js in linked roles on line 38. This is where the bot grabs the specific guild information. 
 
-DISCORD_CLIENT_ID
+Make a few custome roles titles CIS 115, CIS 200, CIS 300. Copy the role IDs and put them in discordbot.js in linked roles on line 16.
+This makes it easier to convert from the queried courses in the database into usable discord role IDs.
+
+For the discord bot. You must go to the discord developer portal and create a new discord bot. 
+To create the URL for the bot, in the OAuth2 page select bot and then Manage Roles, then guild install. This link will allow you to add the bot to your server. 
+
+You will need the following below as discord secrets in your Github. All of which can be found in the developer portal. 
+
+DISCORD_CLIENT_ID 
 DISCORD_CLIENT_SECRET
 DISCORD_SECRET
 
-must all be generated from the discord developer portal. 
-
+ 
 Follow the steps here in the README https://github.com/JustinBeckwith/linked-role-bot to set up the linked roles.
 Glitch is not needed as the files are located in server/linked-roles/linked_roles_glitch. 
+In the tutorial, assing the UUID as COOKIE_SECRET
 
-In the discordbot.js file. After adding the bot to the intended server, replace the server id on line 38 with the new server
 
 To test the automatic roles in the admin page, you must have seeding of a test user linked with a discord account. Make sure they have
 the classes that are seeded with the roles. 
