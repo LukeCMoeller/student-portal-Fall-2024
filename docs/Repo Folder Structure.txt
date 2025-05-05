@@ -1,4 +1,4 @@
-A quick guide, mostly for other development teams, of what folder have what and what they do
+A quick guide, mostly for other development teams, of what folders have what and what they do
 
 Lines that start with - are the name of the folder
 Lines that start with * are a description of the contents of the folder above them
@@ -17,12 +17,12 @@ Lines that start with * are a description of the contents of the folder above th
 	-node_modules
 		*Auto created folder, all of the installed modules go here
 	-public
-		*Just the little icon that's on the tab
+		*Just the little icon that's on the browser tab
 	-src
 		*All of the actual stuff for the client
 		-components
 			-assets
-				*Images used through the client
+				*Images used in the client
 			-common
 				*shared HTML components used throughout the client
 			-layout

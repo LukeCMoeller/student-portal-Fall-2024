@@ -16,7 +16,7 @@ If your sub-app uses any custom components or Pinia stores, place those outside 
 
 ### Server Files
 
-For any server api calls made by your sub-app, collect them into a single route file (unless they are extremely closely coupled to the route of an exisiting sub-app) and place them in the server's routes folder. Overall, the server doesn't make any distinctions between sub-apps, so place any server side files you create in the respective folder, but otherwise don't worry about it.
+For any server api calls made by your sub-app, collect them into a single route file (unless they are extremely closely coupled to the route of an exisiting sub-app) and place them in the server's routes folder. Overall, the server doesn't make any distinctions between sub-apps, so place any server side files you create in the respective folder, but otherwise don't worry about separating it out.
 
 ## Integrating a Sub-App
 
@@ -24,7 +24,7 @@ For your sub-app to be visible in the client and for its routes to work in the s
 
 ### Client Router
 
-The first place is in the client's router. This is handled as Vue routers normally are, but if you have a router for your sub-app, then instead of pointing to any of your pages, the client router should point to your sub-app's router, which will then handle the request and direct to the correct page.
+The first place is in the client's main router file, `src/router.js`. This is handled as Vue routers normally are, but if you have a router for your sub-app, then instead of pointing to any of your pages, the client router should point to your sub-app's router, which will then handle the request and direct to the correct page.
 
 ### Client Header
 
