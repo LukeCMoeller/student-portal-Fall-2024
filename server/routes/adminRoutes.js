@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-//const isAdmin = require('../middleware/admin-required');
-//router.use(isAdmin);
 
 const User = require('../models/user.js')
 

@@ -1,6 +1,6 @@
 /* https://www.bezkoder.com/vue-refresh-token/ */
 // Imports
-import api from './tokenApi'
+import api from './apiHook'
 
 // Stores
 import { useTokenStore } from '@/stores/TokenStore.js'

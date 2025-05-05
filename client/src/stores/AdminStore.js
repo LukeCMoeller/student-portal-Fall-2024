@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Logger from 'js-logger'
 
 // Services
-import api from '../services/tokenApi.js'
+import api from '../services/apiHook.js'
 
 //Admin level store to get list of users, currently unused
 export const useAdminStore = defineStore('users', {
