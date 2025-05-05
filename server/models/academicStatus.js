@@ -1,6 +1,6 @@
 const logger = require('../configs/logger.js')
 const { Model } = require('objection');
-const User = require('./user');
+const User = require('./user.js');
 
 class AcademicStatus extends Model {
 

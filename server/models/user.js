@@ -11,8 +11,8 @@ const Course = require('./course.js')
 const CourseStudent = require('./courseStudent.js')
 const CourseInstructor = require('./courseInstructor.js')
 const Program = require('./program.js')
-const UserProgram = require('./user_program.js')
-const AcademicStatus = require('./academic_status.js')
+const UserProgram = require('./userProgram.js')
+const AcademicStatus = require('./academicStatus.js')
 
 //Random function for WID testing for now
 function getRandomInt(max) {

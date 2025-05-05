@@ -24,6 +24,7 @@ router.get('/', async (req,res) => {
   const userId = req.query.state;
   res.redirect(`https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${process.env.SERVER_URL}%2Fapi%2Fv1%2Fdiscord%2Fcallback&scope=identify&state=${userId}`)
 })
+
 router.delete('/', async (req,res) => {
   const userId = req.query.userId;
   if (!userId) {
@@ -81,6 +82,7 @@ router.get('/callback', async (req, res) => {
     res.status(500).send('Authentication failed');
   }
 });
+
 router.get('/linked-roles', async (req,res) => {
     const state = crypto.randomUUID();
     const url = new URL('https://discord.com/api/oauth2/authorize');
@@ -93,6 +95,7 @@ router.get('/linked-roles', async (req,res) => {
     res.cookie('clientState', state, { maxAge: 1000 * 60 * 5, signed: true });
     res.redirect(url);
 })
+
 router.get('/role-callback', async(req, res) => {
   try {
     // 1. Uses the code and state to acquire Discord OAuth2 tokens

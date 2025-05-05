@@ -1,7 +1,7 @@
 const logger = require('../configs/logger.js')
 const { Model } = require('objection');
 const User = require('./user');
-const UserProgram = require('./user_program.js')
+const UserProgram = require('./userProgram.js')
 
 class Program extends Model {
 

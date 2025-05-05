@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Logger from 'js-logger'
 
 // Services
-import api from '@/services/tokenApi'
+import api from '@/services/apiHook'
 
 export const useApplicationStore = defineStore('application', {
   state: () => {
