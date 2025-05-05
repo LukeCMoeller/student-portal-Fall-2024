@@ -1,8 +1,8 @@
 const Model = require('../models/base.js');
 const User = require('../models/discordmodel.js');
 const { Client, GatewayIntentBits } = require('discord.js');
-
-class discord extends Model {}
+//the discord role ids that match the CIS courses
+const roles = require('../configs/discordRoleIDs.js')
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
@@ -12,30 +12,13 @@ const discordModelTest = new User();
 //The server the bot is in. 
 let ourServerguild;
 
-//the discord role id that match the CIS courses
-let roles = [
-  '1340083275179491328', // CIS 115 student
-  '1340083455555276821', // CIS 200 student
-  '1345109207837446255', // CIS 300 student
-  '2222222222222222222', // CIS 308 student FAKE
-  '3333333333333333333', // CIS 415 student FAKE
-  '4444444444444444444', // CIS 450 student FAKE
-  '5555555555555555555', // CIS 501 student FAKE
-  '6666666666666666666', // CIS 505 and 705 student FAKE
-  '7777777777777777777', // CIS 520 student FAKE
-  '8888888888888888888', // CIS 527 and 510 student FAKE
-  '9999999999999999999', // CIS 580 student FAKE
-  '1010101010101010101', // CIS 642 and 643 student FAKE
-  '1101101101101101101', // CIS 015 and 018 student FAKE
-];
-
 let all_students;
 
 client.login(process.env.DISCORD_SECRET).catch(console.error);
 client.once('ready', async () => {
   
   console.log('Bot is online!');
-  ourServerguild = await client.guilds.cache.get('1285994775282978900'); // Our test discord server id
+  ourServerguild = await client.guilds.cache.get(process.env.DISCORD_SERVER_ID);
   if (!ourServerguild) {
     console.error('Guild not found!');
     return;
@@ -105,7 +88,7 @@ client.on('guildMemberAdd', async (member) => {
   }
   // Code below will fail if welcome channle is not created. 
   // Does not need to be titled welcome and honistly isnt required. 
-  const welcomeChannel = member.guild.channels.cache.get('1306295646248239134'); // welcome channel
+  const welcomeChannel = member.guild.channels.cache.get(process.env.DISCORD_WELCOME_CHANNEL);
   if (welcomeChannel) {
     welcomeChannel.send(`Welcome to the server, ${member.user.tag}! 🎉`); 
   }

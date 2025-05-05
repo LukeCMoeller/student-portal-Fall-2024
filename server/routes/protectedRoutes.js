@@ -23,7 +23,7 @@ const router = express.Router()
 
 // Load Middleware
 const token = require('../middleware/token.js')
-const requestLogger = require('../middleware/request-logger.js')
+const requestLogger = require('../middleware/requestLogger.js')
 
 // Load Routers
 const usersRoutes = require('./userRoutes.js')
@@ -32,7 +32,7 @@ const applicationsRoutes = require('./applicationRoutes.js')
 const academicsRoutes = require('./academicsRoutes.js')
 const adminRoutes = require('./adminRoutes.js')
 const courseRoutes = require('./courseRoutes.js');
-const adminOnly = require('../middleware/admin-required.js')
+const adminOnly = require('../middleware/adminRequired.js')
 
 //This verifies that the user has logged in before they can access any sub route
 router.use(token)

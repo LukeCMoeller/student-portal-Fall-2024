@@ -18,7 +18,7 @@ try {
       {
         clientID: process.env.HUBGIT_CLIENT_ID,
         clientSecret: process.env.HUBGIT_CLIENT_SECRET,
-        callbackURL: `${process.env.SERVER_URL}/api/v1/github/callback`, // or process.env.GITHUB_CALLBACK_URL
+        callbackURL: `${process.env.SERVER_URL}/api/v1/github/callback`,
       },
       (accessToken, refreshToken, profile, done) => {
         return done(null, profile);

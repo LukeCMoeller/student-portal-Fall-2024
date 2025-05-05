@@ -33,6 +33,8 @@ services:
       CAS_REDIRECT_URL: /api/v1/auth/login
       TOKEN_SECRET: "secret_hex"
       SERVER_URL: "https://${CODESPACE_NAME}-3002.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+      DISCORD_SERVER_ID: "1285994775282978900"
+      DISCORD_WELCOME_CHANNEL: "1306295646248239134"
 
   postgres:
     image: postgres:12

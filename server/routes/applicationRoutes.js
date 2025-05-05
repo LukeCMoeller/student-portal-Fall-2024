@@ -8,7 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const reviewerOnly = require('../middleware/reviewer-required.js')
+const reviewerOnly = require('../middleware/reviewerRequired.js')
 
 //Models
 const Application = require('../models/application.js');

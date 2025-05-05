@@ -13,9 +13,9 @@ const axios = require('axios');
 const qs = require('qs');
 const db = require('../configs/db.js')
 const crypto = require('crypto')
-const discord = require('../linked-roles/discord.js')
-const storage = require('../linked-roles/storage.js')
-const discordbot = require('../linked-roles/discordbot.js');
+const discord = require('../linkedRoles/discord.js')
+const storage = require('../linkedRoles/storage.js')
+const discordbot = require('../linkedRoles/discordbot.js');
 const { setDefaultAutoSelectFamily } = require('net');
 
 /* Discord */
