@@ -11,7 +11,7 @@ const knex = require('./configs/db');
 const passport = require('passport');
 const crypto = require('crypto')
 
-const discord = require('./linked-roles/discordbot.js');
+const discord = require('./linkedRoles/discordbot.js');
 
 const app = express();
 const PORT = serverConfig.port || 3001;

@@ -63,10 +63,10 @@ Password: **password**
 Save your profile information  
 
 ## GitHub Integration 
-1. You will need access to the official CS GitHub Developer Account.
-2. Navigate to https://github.com/settings/developers and select the Student Portal application.
+1. First must set up a GitHub developer application, refer to these instructions: https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app
+2. Navigate to https://github.com/settings/developers and select the application you created.
 3. Navigate to the General tab.
-4. Adjust all redirects to reflect your current codespace url.
+4. Set the Homepage URL and Authorization Callback URL to reflect your current codespace url.
   ```sh
   https://{YOUR CODESPACE NAME}-5173.app.github.dev
   ```
@@ -74,13 +74,17 @@ Save your profile information
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/github/callback
   ```
 5. Update application
+6. Navigate to your repository Settings page (you be an owner or admin).
+7. Navigate to Security -> Secrets and variables -> Codespaces.
+8. Add your GitHub App's client ID as HUBGIT_CLIENT_ID.
+9. Add your GitHub App's secret as HUBGIT_CLIENT_SECRET.
 
 
 ## Discord Integration
-1. You will need access to the official CS Discord Developer Account.
-2. Navigate to https://discord.com/developers/applications and select the Student Portal application.
+1. You will need to have or create a Discord server and a discord bot, follow these instructions for setup: [Discord setup](/docs/Discordsetup.txt)
+2. Navigate to https://discord.com/developers/applications and select the your application.
 3. Navigate to the OAuth2 tab.
-4. Adjust all redirects to reflect your current codespace url.
+4. Add these redirects to the Redirects section and ensure they reflect your current codespace url.
   ```sh
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/callback
   ```

@@ -25,8 +25,8 @@ const express = require('express')
 const router = express.Router()
 
 // Load Middleware
-const { dbAudit } = require('../middleware/db-audit.js')
-const requestLogger = require('../middleware/request-logger.js')
+const { dbAudit } = require('../middleware/dbAudit.js')
+const requestLogger = require('../middleware/requestLogger.js')
 
 // Load Routes
 const protectedRoutes = require('./protectedRoutes.js')

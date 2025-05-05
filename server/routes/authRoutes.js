@@ -22,7 +22,7 @@ const router = express.Router()
 
 // Load Configurations
 const cas = require('../configs/cas.js')
-const requestLogger = require('../middleware/request-logger.js')
+const requestLogger = require('../middleware/requestLogger.js')
 const refreshToken = require('../middleware/refreshToken.js')
 
 // Load Models
