@@ -181,6 +181,7 @@ router.get('/username', async (req,res) => {
     res.json({ username: '' });
   }
 })
+// Used to refresh all discord roles then returns true if successfull.
 router.post('/refreshDiscordRoles', async function (req, res, next) {
   try {
     const result = discordbot.handleAllStudentRoles();
@@ -191,12 +192,10 @@ router.post('/refreshDiscordRoles', async function (req, res, next) {
     res.json(false);
   }
 })
+// Used to refresh specific student of all discord roles and then returns true if successfull. 
 router.post('/refreshStudentRoles', async function (req, res, next) {
   try {
-    //const studentDiscordId = await db('discord_id').where('user_id', user_id).select('discord_id').first();
-    //discordbot.handleSelectStudentRoled(studentDiscordId);
     const discordID = req.body.user;
-    console.log(discordID);
     await discordbot.handleSelectStudentRoles(discordID);
     res.json(true);
   } catch (error) {

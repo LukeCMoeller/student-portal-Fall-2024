@@ -15,8 +15,8 @@ class User extends Model {
     static get idColumn() {
       return 'id'
     }
-    //gets all users in the database that have a discord account in the database
-    async get_users_with_discord() { //based off application routes querys
+    // gets all users in the database that have a discord account in the database
+    async get_users_with_discord() {
       try {
         return await knex('user_discord')
           .join('users', 'user_discord.user_id', '=', 'users.id')
@@ -25,7 +25,7 @@ class User extends Model {
         console.error('Error fetching users with Discord:', err);
       }
     }
-    //using a discord id grabs all the courses that have CIS in the subject and reterns the catalog number of that
+    // using a discord id, grabs all the courses that have CIS in the subject and reterns the catalog number of that
     async get_student_courses(discord_id){
       try {
         const all_students_discord = await knex('course_students') 

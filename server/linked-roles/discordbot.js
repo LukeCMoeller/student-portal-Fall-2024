@@ -40,8 +40,7 @@ client.once('ready', async () => {
     console.error('Guild not found!');
     return;
   }
-  // Querys the database and collects all students with a discord_id that is not null
-  all_students = await discordModelTest.get_users_with_discord();
+  all_students = await discordModelTest.get_users_with_discord(); // Querys the database and collects all students with a discord_id that is not null
 });
 // Converts the queried objects into the assigned roles. 
 function matchClassesToRoles(listOfCourses) {
@@ -104,6 +103,8 @@ client.on('guildMemberAdd', async (member) => {
     console.error('Member not found!');
     return;
   }
+  // Code below will fail if welcome channle is not created. 
+  // Does not need to be titled welcome and honistly isnt required. 
   const welcomeChannel = member.guild.channels.cache.get('1306295646248239134'); // welcome channel
   if (welcomeChannel) {
     welcomeChannel.send(`Welcome to the server, ${member.user.tag}! 🎉`); 

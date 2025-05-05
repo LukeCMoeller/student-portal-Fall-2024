@@ -119,7 +119,7 @@ exports.seed = async function(knex) {
 
   const userMap = Object.fromEntries(users.map(u => [u.eid, u.id]));
   const roleMap = Object.fromEntries(roles.map(r => [r.name, r.id]));
-
+// Add roles to users
   await knex('user_roles').insert([
     { user_id: userMap['student'], role_id: roleMap['api'] },
     { user_id: userMap['jariddle'], role_id: roleMap['api'] },
@@ -129,7 +129,7 @@ exports.seed = async function(knex) {
     { user_id: userMap['admin'], role_id: roleMap['admin'] },
     { user_id: userMap['lcmoeller'], role_id: roleMap['api'] },
   ]);
-
+// Add an academic status
   await knex('academic_status').insert([
     { user_id: userMap['struggle'], gpa: 1.62, warning: true, probation: true},
     { user_id: userMap['student'], gpa: 3.42},
@@ -159,11 +159,12 @@ exports.seed = async function(knex) {
       updated_by: 'admin'
     }
   ]);
+  // Assign discord id to user
   await knex('user_discord').insert([
     { user_id: userMap['lcmoeller'], discord_id: '592454625270038547', username: '.pannmann' },
     { user_id: userMap['jariddle'], discord_id: '1313234532412952578', username: 'jariddle2024' }
   ]);
-  
+  // Create new courses
   await knex('courses').insert([
     { class_number: 101, term: 202501, subject: 'CIS', catalog: '101', name: 'Intro to CS', section: 'A', credit_hours: 3 },
     { class_number: 102, term: 202501, subject: 'MATH', catalog: '201', name: 'Calculus II', section: 'B',  credit_hours: 4 },
@@ -172,10 +173,11 @@ exports.seed = async function(knex) {
     { class_number: 300, term: 202501, subject: 'CIS', catalog: '300', name: 'Data and Program Structures', section: 'A', credit_hours: 3 }
   ]);
 
-  //Add students and instructors to courses
+  // Add students and instructors to courses
   const courses = await knex('courses').select('id', 'class_number');
   const courseMap = Object.fromEntries(courses.map(c => [c.class_number, c.id]));
 
+  // Assign courses to students
   await knex('course_students').insert([
     { course_id: courseMap[115], user_id: userMap['jariddle'], grade: 'C', ignore_in_gpa: false, dropped: false },
     { course_id: courseMap[300], user_id: userMap['jariddle'], grade: 'C', ignore_in_gpa: false, dropped: false },
@@ -185,7 +187,7 @@ exports.seed = async function(knex) {
     {course_id: courseMap[200], user_id: userMap['student'], grade: 'A-', ignore_in_gpa: false, dropped: false },
     {course_id: courseMap[300], user_id: userMap['student'], grade: 'B', ignore_in_gpa: false, dropped: false }
   ]);
-
+// Create a new course instructor
   await knex('course_instructors').insert([
     { course_id: courseMap[101], user_id: userMap['ajohnson'] },
     { course_id: courseMap[102], user_id: userMap['ajohnson'] },
