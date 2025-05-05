@@ -9,7 +9,6 @@ beforeEach(async () => {
   db.seed.run()
 })
 require('dotenv').config();
-
 describe('Discord Bot Tests', () => {
   let client;
   let discordModelTest;
@@ -56,7 +55,9 @@ describe('Discord Bot Tests', () => {
     expect(matchedRoles).toContain('1340083455555276821'); // CIS 200 role
   });
 
-  //test below fails due to discord api permsission errors. im not entirly sure why though. 
+  //test below fails due to discord api permsission errors. im not entirely sure why though as it should have permissions.
+  //potentially in the future create a test to make sure when upadint discord roles a student gets all 
+  //cs courses as roles in the discord server. 
  /*
   test('handleSelectStudentRoled Test', async () => {
     const studentDiscordID = '592454625270038547'; //test discord linked in the seeding files

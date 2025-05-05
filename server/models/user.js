@@ -288,7 +288,7 @@ class User extends Model {
       throw err;
     }
   }
-
+  // gets the admin user
   async get_admin() {
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
     //Roles for current user
@@ -300,7 +300,7 @@ class User extends Model {
     //Roles for current user
     return roles.some((r) => r.name === 'api')
   }
-  
+  // Updatest the roles of selected user from admin page table. 
   static async updateUserRoles(userId, roles) {
     try {
       // Get the user
@@ -314,12 +314,12 @@ class User extends Model {
       await user.$relatedQuery('roles').unrelate();
 
       if (Array.isArray(roles) && roles.length > 0) {
-       //Get the role id based on the names provided
+       // Get the role id based on the names provided
         const roleRecords = await Role.query()
           .whereIn('name', roles)
           .select('id');
         
-        //Add the new roles
+        // Add the new roles
         await user.$relatedQuery('roles').relate(
           roleRecords.map(role => ({ id: role.id }))
         );
@@ -331,10 +331,10 @@ class User extends Model {
       throw err;
     }
   }
-
+// gets all roles from current user. 
   async get_roles(){
     const roles = await this.$relatedQuery('roles').for(this.id).select('name')
-    //Roles for current user
+    // Roles for current user
     return roles.map(role => role.name)
   }
 
@@ -344,14 +344,14 @@ class User extends Model {
     // should change this to pass role information in the token, and attach middleware to the api routes that should be admin only
     const roles = await user.get_roles()
     if (roles) {
-    //Can pass role information in the token here,
-    //then use middleware like admin-required to check roles when accessing a route.
+    // Can pass role information in the token here,
+    // then use middleware like admin-required to check roles when accessing a route.
       const token = jwt.sign(
         {
           user_id: id,
           email: user.email,
           roles: roles,
-          //refresh_token: refresh_token,
+          // refresh_token: refresh_token,
           profile_updated: user.profile_updated
         },
         process.env.TOKEN_SECRET,
@@ -480,7 +480,7 @@ class User extends Model {
   }
 
   async $beforeInsert() {
-    //this.slug = nanoid()
+    // this.slug = nanoid()
     let user = await User.query().where('email', this.email).limit(1)
     // Email is already in use
     if (user.length !== 0) {
