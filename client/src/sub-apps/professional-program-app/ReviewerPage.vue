@@ -93,7 +93,7 @@
           <!--Course table-->
           <div class="col-10 col-offset-1">
             <div :class="styles['table']"> 
-                <DataTable :value="ApplicationData.courses" stripedRows id="appTable">
+                <DataTable :value="ApplicationData.courses" stripedRows id="appTable" >
                   <Column header="Course">
                       <template #body="{ data }">
                           {{ data.subject }} {{ data.class_number }}
@@ -173,7 +173,19 @@
       <!-- Applications Table -->
       <div class="col-10 col-offset-1" :class="styles['table']">
         <div>
-            <DataTable :value="applications" v-model:selection="selectedApplications" stripedRows removableSort paginator :rows="8" id="adminTable">
+            <DataTable :value="applications" v-model:selection="selectedApplications" stripedRows showGridlines 
+            v-model:filters="filters" removableSort paginator :rows="8" id="adminTable" style="border-radius: 10px; overflow: hidden;"
+            :globalFilterFields="['user.first_name', 'user.last_name', 'user.eid', 'user.wid']">
+              <template #header>
+                  <div class="flex justify-end">
+                      <IconField>
+                          <InputIcon>
+                              <i class="pi pi-search" style="padding-right: 20px"/>
+                          </InputIcon>
+                          <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                      </IconField>
+                  </div>
+              </template>
                 <Column selectionMode="multiple"/>
                 <Column field="user.first_name" header="First Name" sortable />
                 <Column field="user.last_name" header="Last Name" sortable />
@@ -181,7 +193,7 @@
                 <Column field="user.email" header="Email" sortable />
                 <Column field="user.wid" header="WID" />
                 <Column field="semester" header="Semester" />
-                <Column field="status" header="Status" />
+                <Column field="status" header="Status"/>
                 <Column header="Admin Notes">
                   <template #body="slotProps">
                     <Button label="View Notes" @click="handleAdminNoteClick(slotProps.data)" />
@@ -201,6 +213,9 @@
 </template>
 
 <script>
+//Vue
+import { ref, onMounted } from "vue";
+
 //Components
 import { unparse } from 'papaparse';
 import { useReviewerStore } from '@/stores/ReviewerStore';
@@ -215,6 +230,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Checkbox from 'primevue/checkbox';
+import { FilterMatchMode } from '@primevue/core/api';
 
 //Our components
 import LoadingIndicator from '@/components/common/LoadingIndicator.vue';
@@ -249,10 +265,20 @@ export default {
       "Declined/Exception",
       "Withdrawn"
     ];
+    
+    const filters = ref({
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      'user.first_name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      'user.last_name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      'user.eid': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      'user.email': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      'user.wid': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    });
 
     return {
       styles,
       shared,
+      filters,
       isLoading: false,
       applications: [],
       selectedApplications: [],

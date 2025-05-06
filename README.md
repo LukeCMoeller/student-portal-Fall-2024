@@ -9,13 +9,20 @@ Welcome to the Professional Applications System, a capstone project currently be
 
 ## Table of Contents
 
+* [Description](#description)
 * [Getting Started](#getting-started)
 * [GitHub Integration](#github-integration)
 * [Discord Integration](#discord-integration)
-* [Description](#description)
 * [Features](#features)
 * [Contributing](#contributing)
 * [License](#license)
+
+## Description
+ This application is designed to replace the current professional program application while retaining its core functionality and introducing new features. It helps students track their pre-professional and professional program GPA, monitor the status of their professional program application, and access information about their advisor and degree progress. Additionally, it streamlines the application process by allowing students to auto-fill their professional program applications.
+
+ New features include a student profile where students can connect their Discord and GitHub accounts, as well as a modular design that allows for the addition of new components and sub-applications as needed. Once completed, the project will be maintained by K-State CIS faculty and staff.
+
+ The client was built with Vue.js and the server utilizes Express and PostgreSQL. [Link to Database Tables](docs/diagrams/Database_Schema.pdf)
 
 ## Getting Started
 
@@ -74,7 +81,7 @@ Password: **password**
 Save your profile information  
 
 ## GitHub Integration 
-1. First must setup a GitHub developer application, refer to these instructions: https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app
+1. First you must setup a GitHub developer application, refer to these instructions: https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app
 2. Navigate to https://github.com/settings/developers and select the application you created.
 3. Navigate to the General tab.
 4. Set the Homepage URL and Authorization Callback URL to reflect your current codespace url.
@@ -86,13 +93,13 @@ Save your profile information
   ```
 5. Update application
 6. Navigate to your repository Settings page (you must be an owner or admin).
-7. Navigate to Security -> Secrets and variables -> Codespaces.
+7. Navigate to Security -> Secrets and Variables -> Codespaces.
 8. Add your GitHub App's client ID as HUBGIT_CLIENT_ID.
 9. Add your GitHub App's secret as HUBGIT_CLIENT_SECRET.
 
 
 ## Discord Integration
-1. You will need to have or create a Discord server and a discord bot, follow these instructions for setup: [Discord setup](/docs/Discordsetup.txt)
+1. You will need to have or create a Discord server and a Discord bot, follow these instructions for setup: [Discord setup](/docs/Discordsetup.txt)
 2. Navigate to https://discord.com/developers/applications and select your application.
 3. Navigate to the OAuth2 tab.
 4. Add these redirects to the Redirects section and ensure they reflect your current codespace url.
@@ -102,14 +109,7 @@ Save your profile information
   ```sh
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/role-callback
   ```
-5. Save changes
-
-## Description
- This application is designed to replace the current professional program application while retaining its core functionality and introducing new features. It helps students track their pre-professional and professional program GPA, monitor the status of their professional program application, and access information about their advisor and degree progress. Additionally, it streamlines the application process by allowing students to auto-fill their professional program applications.
-
- New features include a student profile where students can connect their Discord and GitHub accounts, as well as a modular design that allows for the addition of new components and sub-applications as needed. Once completed, the project will be maintained by K-State CIS faculty and staff.
-
- The client was built with Vue.js and the server utilizes Express and PostgreSQL. [Link to Database Tables](docs/diagrams/Database_Schema.pdf)
+5. Save changes.
  
 # Features
 ## System Features

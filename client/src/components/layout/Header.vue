@@ -90,7 +90,12 @@ export default defineComponent({
         },
         { label: 'Profile', route: '/profile', root: true },
         { label: 'Grades', route: '/grades', root: true },
-        IsAdmin.value ? { label: 'Admin', route: '/admin', root: true } : null
+        IsAdmin.value ? ({ label: 'Admin', root: true,
+        items: [
+            { label: 'Roles', route: '/admin/roles' },
+            { label: 'Discord', route: '/admin/discord' },
+          ]
+         }) : null
       ].filter(Boolean);
     });
 

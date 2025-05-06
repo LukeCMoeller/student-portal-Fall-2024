@@ -12,7 +12,7 @@
 
         <div class="col-12 col-offset-0 xl:col-8 xl:col-offset-2">
           <div > 
-            <DataTable :value="courses" removableSort paginator :rows="8" stripedRows>
+            <DataTable :value="courses" removableSort paginator :rows="8" stripedRows showGridlines style="border-radius: 10px; overflow: hidden;">
               <Column field="name" header="Class" />
               <Column header="Course Code">
                 <template #body="slotProps">
