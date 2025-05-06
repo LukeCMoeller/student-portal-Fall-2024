@@ -24,46 +24,57 @@ Welcome to the Professional Applications System, a capstone project currently be
     * Node.js (version 16/18 or higher)
 
 ### **Running the Project**  
+1. Start a codespace.
+2. Wait a couple of minutes for the codespace to build AND for the postcreate command to complete.
 
 #### **Server Side**  
-- Install dependencies:  
+- If the postcreate command did not run, install dependencies:  
   ```sh
   cd server && npm install
   ```
 - Ensure the environment variables are set in the [docker-compose](.devcontainer/docker-compose.yaml) file.
-- Start the server:  
+- In the server directory, run the server:  
   ```sh
   npm run dev
   ```
 
 #### **Database**  
-- Run database migrations and seed data:  
+- If the postcreate command did not run, run database migrations and seed data:  
   ```sh
   cd server && knex migrate:latest --knexfile configs/knexfile.js && knex seed:run --knexfile configs/knexfile.js
   ```
 
 #### **Client Side**  
-- Install dependencies:  
+- If the postcreate command did not run, install dependencies:  
   ```sh
   cd client && npm install
   ```
-- Start the development server:  
+- In the client directory, run the client:  
   ```sh
   npm run dev
   ```
 
 #### **Login**
-- Login as test Admin:  
+- Login as test admin:  
 Username: **admin**  
 Password: **password**  
-  
+
 - Login as test student:  
 Username: **student**  
 Password: **password**  
+
+- Login as test reviewer:  
+Username: **reviewer**  
+Password: **password**  
+
+- Login as test struggling student:  
+Username: **struggle**  
+Password: **password**
+
 Save your profile information  
 
 ## GitHub Integration 
-1. First must set up a GitHub developer application, refer to these instructions: https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app
+1. First must setup a GitHub developer application, refer to these instructions: https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app
 2. Navigate to https://github.com/settings/developers and select the application you created.
 3. Navigate to the General tab.
 4. Set the Homepage URL and Authorization Callback URL to reflect your current codespace url.
@@ -74,7 +85,7 @@ Save your profile information
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/github/callback
   ```
 5. Update application
-6. Navigate to your repository Settings page (you be an owner or admin).
+6. Navigate to your repository Settings page (you must be an owner or admin).
 7. Navigate to Security -> Secrets and variables -> Codespaces.
 8. Add your GitHub App's client ID as HUBGIT_CLIENT_ID.
 9. Add your GitHub App's secret as HUBGIT_CLIENT_SECRET.
@@ -82,7 +93,7 @@ Save your profile information
 
 ## Discord Integration
 1. You will need to have or create a Discord server and a discord bot, follow these instructions for setup: [Discord setup](/docs/Discordsetup.txt)
-2. Navigate to https://discord.com/developers/applications and select the your application.
+2. Navigate to https://discord.com/developers/applications and select your application.
 3. Navigate to the OAuth2 tab.
 4. Add these redirects to the Redirects section and ensure they reflect your current codespace url.
   ```sh

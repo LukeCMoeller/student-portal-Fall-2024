@@ -14,7 +14,9 @@ let ourServerguild;
 
 let all_students;
 
-client.login(process.env.DISCORD_SECRET).catch(console.error);
+client.login(process.env.DISCORD_SECRET).catch((error) => {
+  console.log("Discord secret not found in GitHub Secrets. Refer to the Discord Integration section of the README.");
+});
 client.once('ready', async () => {
   
   console.log('Bot is online!');

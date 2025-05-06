@@ -29,7 +29,7 @@ try {
   passport.serializeUser((user, done) => done(null, user));
   passport.deserializeUser((obj, done) => done(null, obj));
 } catch (error) {
-  console.error('Error setting up GitHub strategy, you must setup a GitHub dev application for users to connect their GitHub accounts to their profile. See documentation.');
+  console.error('Error setting up GitHub strategy, you must setup a GitHub dev application for users to connect their GitHub accounts to their profile. Refer to the GitHub Integration section of the README.');
 }
 
 router.get('/', (req, res, next) => {
