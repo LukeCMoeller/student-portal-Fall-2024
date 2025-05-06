@@ -58,7 +58,7 @@
                     <div class="flex flex-column gap-3">
                       <!-- Student File Input -->
                       <div class="w-full flex flex-column gap-2">
-                        <label for="studentReportImport" class="text-sm">Student File:</label>
+                        <label class="text-sm">Student File:</label>
                         <InputText 
                           id="studentReportImport" 
                           type="file" 
@@ -73,7 +73,7 @@
 
                       <!-- Enrollment File Input -->
                       <div class="w-full flex flex-column gap-2">
-                        <label for="enrollmentReportImport" class="text-sm">Enrollment File:</label>
+                        <label class="text-sm">Enrollment File:</label>
                         <InputText 
                           id="enrollmentReportImport" 
                           type="file" 
