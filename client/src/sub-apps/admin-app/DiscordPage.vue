@@ -23,7 +23,7 @@
                   <!-- Refresh Discord Bot -->
                   <div class="mb-4">
                     <p class="mb-3 text-md text-color-secondary">
-                      Click to manually refresh student Discord roles for a new semester:
+                      Click to manually refresh all student Discord roles for a new semester:
                     </p>
                     <Button label="Refresh Roles" icon="pi pi-sync" @click="RefreshDiscord" class="w-full sm:w-auto" />
                   </div>

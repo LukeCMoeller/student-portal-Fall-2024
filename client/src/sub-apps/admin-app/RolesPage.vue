@@ -12,7 +12,7 @@
           <!-- Editing roles -->
           <div> 
             <DataTable v-model:filters="filters" :value="allUsers.data" removableSort paginator :rows="8" stripedRows showGridlines style="border-radius: 10px; overflow: hidden;"
-            :globalFilterFields="['user']">
+            :globalFilterFields="['user', 'wid']">
             <template #header>
                 <div class="flex justify-end">
                     <IconField>
@@ -26,6 +26,11 @@
               <Column field="user" header="User" style="max-width: 5rem">
                 <template #body="{ data }">
                   {{ data.first_name + " " + data.last_name }}
+                </template>
+              </Column>
+              <Column field="wid" header="WID" style="max-width: 5rem">
+                <template #body="{ data }">
+                  {{ data.wid}}
                 </template>
               </Column>
               <Column header="Roles">
@@ -82,6 +87,7 @@ export default {
     // Calls the function before anything else happens to properly get all users
     const fetchUsers = async() => {
       const response = await adminStore.getAllUsers();
+      console.log(response.data)
       //For filtering the data table by name
       response.data.forEach(u => {
         u.user = `${u.first_name} ${u.last_name}`;
@@ -95,6 +101,7 @@ export default {
     const filters = ref({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       user: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      wid: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     });
     
     // Updates the role of the user so that can access more or less

@@ -52,6 +52,7 @@ Welcome to the Professional Applications System, a capstone project currently be
   ```
 
 #### **Client Side**  
+- Open a new terminal
 - If the postcreate command did not run, install dependencies:  
   ```sh
   cd client && npm install
