@@ -156,7 +156,7 @@
       const RefreshDiscord = async () => { 
         const result = await adminStore.refreshDiscord();
         if(result === true){
-          toast.add({ severity: 'success', summary: 'Discord Updated', detail: 'All Students roles updated. ', life: 3000, });
+          toast.add({ severity: 'success', summary: 'Discord Updated', detail: 'All Students roles have been updated. ', life: 3000, });
         }else{
           toast.add({ severity: 'error', summary: 'Error', detail: 'Error on attempted action', life: 3000, });
         }
@@ -170,7 +170,7 @@
         }
           const result = await adminStore.refreshStudent(discordID);
           if(result === true){
-            toast.add({ severity: 'success', summary: 'Student sucessfully added', detail: 'Student ' + studentID + ' has updated discord roles.', life: 3000, });
+            toast.add({ severity: 'success', summary: 'Discord Updated', detail: 'Discord roles have been updated for ' + studentID, life: 3000, });
           }else{
             toast.add({ severity: 'error', summary: 'Error', detail: 'Error on attempted action for ' + studentID, life: 3000, });
           }
