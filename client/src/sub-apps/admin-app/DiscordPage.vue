@@ -25,7 +25,7 @@
                     <p class="mb-3 text-md text-color-secondary">
                       Click to manually refresh all student Discord roles for a new semester:
                     </p>
-                    <Button label="Refresh Roles" icon="pi pi-sync" @click="RefreshDiscord" class="w-full sm:w-auto" />
+                    <Button label="Full Refresh" icon="pi pi-sync" @click="RefreshDiscord" class="w-full sm:w-auto" />
                   </div>
 
                   <Divider />
@@ -45,7 +45,7 @@
                         class="w-full sm:w-18rem"
                         @click="updateDiscordUsers"
                       />
-                      <Button label="Refresh Roles" icon="pi pi-refresh" @click="RefreshStudent(selectedStudent)" />
+                      <Button label="Refresh Roles" icon="pi pi-refresh" @click="RefreshStudent(selectedStudent)" :disabled="!selectedStudent"/>
                     </div>
                   </div>
 
@@ -68,7 +68,7 @@
                           label="Import Student Report" 
                           icon="pi pi-upload" 
                           style="width:20rem;"
-                          @click="ParseStudentReport" />
+                          @click="ParseStudentReport"/>
                       </div>
 
                       <!-- Enrollment File Input -->
@@ -131,6 +131,7 @@
       const allUsers = ref([]);
       const discordUsers = {};
       const studentOptions = ref([]);
+
       // Calls the function before anything else happens to properly get all users
       const fetchUsers = async() => {
         allUsers.value = await adminStore.getAllUsers(); // Gets all users from the server
@@ -177,12 +178,16 @@
         };
   
       const ParseEnrollmentReport = () => {
-        const report = document.getElementById("enrollmentReportImport").files[0]
-        Papa.parse(report, {header: true, complete: ImportEnrollmentReport})
+        try{
+          const report = document.getElementById("enrollmentReportImport").files[0]
+          Papa.parse(report, {header: true, complete: ImportEnrollmentReport})
+        }
+        catch(error){
+          toast.add({ severity: 'error', summary: 'File not selected', detail: 'Please select a file.', life: 3000, });
+        }
       }
   
       const ImportEnrollmentReport = async(results, file) => {
-        console.log(results)
           const result = await adminStore.importEnrollmentReport(results);
           if (result) {
             toast.add({severity: 'success', summary: 'KSIS enrollment report has been imported', life: 3000})}
@@ -191,12 +196,15 @@
       }
   
       const ParseStudentReport = () => {
-        const report = document.getElementById("studentReportImport").files[0]
-        Papa.parse(report, {header: true, complete: ImportStudentReport})
+        try{
+          const report = document.getElementById("studentReportImport").files[0]
+          Papa.parse(report, {header: true, complete: ImportStudentReport})
+        }catch(error){
+          toast.add({ severity: 'error', summary: 'File not selected', detail: 'Please select a file.', life: 3000, });
+        }
       }
   
       const ImportStudentReport = async(results, file) => {
-        console.log(results)
           const result = await adminStore.importStudentReport(results);
           if (result) {
             toast.add({severity: 'success', summary: 'KSIS student report has been imported', life: 3000})}
