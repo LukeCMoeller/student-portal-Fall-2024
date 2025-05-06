@@ -55,7 +55,7 @@
                     <!--Course table-->
                     <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
-                            <DataTable :value="courses" stripedRows>
+                            <DataTable :value="courses" stripedRows showGridlines>
                                 <Column header="Course">
                                     <template #body="{ data }">
                                         {{ data.subject }} {{ data.class_number }}
@@ -88,9 +88,8 @@
                         placeholder="Add comments or additional information here" 
                         v-model="application.notes" 
                         rows="7" cols="75"
-                        autoResize
                         id="commentBox"
-                        style="width:100%"
+                        style="width: 100%; resize: none;"
                         />
                     </div>
 

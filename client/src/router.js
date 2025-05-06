@@ -7,12 +7,16 @@ import ProfessionalProgram from './sub-apps/professional-program-app/Professiona
 import ProfileRoutes from './sub-apps/profile-app/ProfileRoutes'
 import { useTokenStore } from './stores/TokenStore'
 import Grades from './sub-apps/grades-app/GradesPage.vue'
-import Admin from './sub-apps/admin-app/AdminPage.vue'
+import Admin from './sub-apps/admin-app/Admin.vue'
+import adminRoutes from './sub-apps/admin-app/routes'
+//import Admin from './sub-apps/admin-app/AdminPage.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/home', component: Home },
-  { path: '/admin', component: Admin},
+  { path: '/admin', component: Admin,
+    children: adminRoutes
+ },
   { path: '/grades', component: Grades},
   { path: '/professional-program', component:ProfessionalProgram,
      children: professionalRoutes
