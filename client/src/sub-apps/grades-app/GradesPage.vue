@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-12 col-offset-0 xl:col-8 xl:col-offset-2">
-          <div > 
+          <div v-if="courses.length > 0"> 
             <DataTable :value="courses" removableSort paginator :rows="8" stripedRows showGridlines style="border-radius: 10px; overflow: hidden;">
               <Column field="name" header="Class" />
               <Column header="Course Code">
@@ -28,6 +28,18 @@
               <Column field="grade" header="Grade" />
             </DataTable>
           </div>
+          <div v-else>
+            <Card class="w-full sm:w-25rem mx-auto text-center">
+              <template #title>
+                No Grades Found
+              </template>
+              <template #content>
+                <p class="text-gray-600">
+                  There are currently no grades available to display.
+                </p>
+              </template>
+            </Card>
+          </div>
         </div> 
       </div>
     </div>
@@ -39,17 +51,13 @@
 import { shallowRef, ref, toRaw } from 'vue';
 
 //Primevue components
-import InputText from 'primevue/inputtext';
-  import Button from 'primevue/button';
-  import Alert from 'primevue/message';
-  import IftaLabel from 'primevue/iftalabel';
-  import Select from 'primevue/select';
-  import Textarea from 'primevue/textarea';
-  import DataTable from 'primevue/datatable';
-  import Column from 'primevue/column';
-  import Checkbox from 'primevue/checkbox';
-  import { useToast } from 'primevue/usetoast'
+import Button from 'primevue/button';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Card from 'primevue/card';
 
+//Toast
+import { useToast } from 'primevue/usetoast'
 
 //CSS
 import styles from '@/components/styles/HomePage.module.css';
@@ -64,7 +72,8 @@ export default {
   components: {
     Button,
     DataTable,
-    Column
+    Column,
+    Card
   },
   setup(){
     //courses
