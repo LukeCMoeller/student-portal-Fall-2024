@@ -100,7 +100,7 @@ Save your profile information
 
 
 ## Discord Integration
-1. You will need to have or create a Discord server and a Discord bot, follow these instructions for setup: [Discord setup](/docs/Discordsetup.txt)
+1. You will need to have or create a Discord server and a Discord bot, follow these instructions for initial setup: [Discord setup](./docs/DiscordSetup.md)
 2. Navigate to https://discord.com/developers/applications and select your application.
 3. Navigate to the OAuth2 tab.
 4. Add these redirects to the Redirects section and ensure they reflect your current codespace url.
@@ -111,6 +111,9 @@ Save your profile information
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/discord/role-callback
   ```
 5. Save changes.
+
+## Discord Linked Roles
+Refer to this document for setting up Linked Roles: [Discord Linked Roles Setup](./docs/LinkedRolesSetup.md).
  
 # Features
 ## System Features

@@ -92,7 +92,7 @@ export default defineComponent({
         { label: 'Grades', route: '/grades', root: true },
         IsAdmin.value ? ({ label: 'Admin', root: true,
         items: [
-            { label: 'Roles', route: '/admin/roles' },
+            { label: 'Users', route: '/admin/users' },
             { label: 'Discord', route: '/admin/discord' },
           ]
          }) : null

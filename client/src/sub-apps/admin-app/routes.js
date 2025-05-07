@@ -1,8 +1,8 @@
-import RolesPage from './RolesPage.vue';
+import UsersPage from './UserPage.vue';
 import DiscordPage from './DiscordPage.vue';
 
 const routes = [
-  { path: 'roles', name: 'roles', component: RolesPage },
+  { path: 'users', name: 'users', component: UsersPage },
   { path: 'discord', name:'discord', component: DiscordPage },
 ];
 
