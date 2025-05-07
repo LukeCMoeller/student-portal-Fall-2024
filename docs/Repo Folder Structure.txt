@@ -1,8 +1,61 @@
+A quick guide, mostly for other development teams, of what folders have what and what they do
+
 Lines that start with - are the name of the folder
 Lines that start with * are a description of the contents of the folder above them
 
+-.devcontainer
+	-devcontainer.json
+		*Contains the postCreateCommand, which runs once when you first create the codespace and sets everything up
+	-docker-compose.yaml
+		*Containts all of the environment variables. Any mentions made of a .env or environment file, this is where you'll go
+	-Dockerfile
+		*Docker config
+
 -Client
-	
+	-.vscode
+		*Honestly unsure, autocreated and haven't needed to look
+	-node_modules
+		*Auto created folder, all of the installed modules go here
+	-public
+		*Just the little icon that's on the browser tab
+	-src
+		*All of the actual stuff for the client
+		-components
+			-assets
+				*Images used in the client
+			-common
+				*shared HTML components used throughout the client
+			-layout
+				*the footer and header used throughout the client
+			-mixins
+				*controls access to various things based on roles the user has
+			-styles
+				*all the CSS
+		-services
+			*Files that allow the client to communicate to the server
+			*tokenApi needs to be imported into any stores you make, the files don't need to be changed
+		-stores
+			*Manage information in the client, and allow pages to share information
+			*This is where all of the api calls to the server should go
+		-sub-apps
+			*The different sub apps that make up the bulk of the program
+			*Read the sub app guide for more info on these
+		-App.vue
+			*Container for everything that gets displayed
+		-HomePage.vue
+			*The homepage you first see
+		-main.js
+			*Launching point for the client
+		-reportWebVitals.js
+			*Could not tell you
+		-router.js
+			*Director for the client, controls what URLs go where
+	-tests
+		*Self explanatory, this is all the client-side tests
+	-package.json
+		*Information about installed modules
+	-package-lock.json
+		*Information about installed modules
 
 
 -Server
@@ -10,13 +63,16 @@ Lines that start with * are a description of the contents of the folder above th
 		*config files for various services, shouldn't need to be edited at this point
 	-Database
 		-Data
-			*contatins (outdated) reports, don't use these
+			*contatins reports to be used for the admin import
+			*the clean enrollment report has some problematic entries removed, it and the student report should work as is
 		-Seeds
 			*The starting data that is inserted into the database as part of the PostCreateCommand
 	-Linked-Roles
+		*All of the stuff for the discord bot and integration
+		-Linked-Roles-Glitch
 	-Middleware
 		*Attachments to routes that let you control access in certain ways
-		*Most important are admin-required (self explanatory) and refreshToken (forces a check to see if the login token is valid)
+		*Most important are admin-required (self explanatory) and refreshToken (forces a check to see if the login token is valid) and token (verifies if a user is logged in)
 	-Migrations
 		*Written out structure of the entire database
 		*This is what determines what tables and fields there are, edit this if you need to change it

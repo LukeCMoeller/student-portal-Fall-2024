@@ -102,6 +102,7 @@
 //Components
 import { ref, onMounted, watch  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+//You have to import the method you created in the store file to be able to use it
 import { useProfileStore } from '@/stores/ProfileStore';
 import { useTokenStore } from '@/stores/TokenStore';
 import { storeToRefs } from 'pinia'
@@ -137,10 +138,19 @@ export default {
   setup() {
     
     // Stores
+    //And assign it to a variable at the beginning of setup
     const profileStore = useProfileStore()
+    //This was a bit of a workaround for our tests, which were failing because information we were trying to test was getting replaced
     if (process.env.NODE_ENV !== 'test') {
+      //Hydrate just tells the store to check if it has the current information
       profileStore.hydrate()
     }
+
+    //The storeToRefs method allows you to pull out various fields as a ref, which is a JavaScript type
+    //Refs are async, so when you first get them, they are likely empty, and will be filled in later by the async method
+    //This can cause issues if you are trying to work with the fields while still in the setup, but this page doesn't do that
+    //Look at the professional programs application form if you want to see some of that
+    //This page just uses the fields as data binding, which you can see in the HTML above, and is done completely normally
 
     // Setup Stores
     const tokenStore = useTokenStore();

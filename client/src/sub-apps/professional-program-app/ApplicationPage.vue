@@ -171,6 +171,9 @@
             "David Invergo", "Sheryl Cornell"
         ];
 
+        //Pinia is a little odd when working in the setup() of a page.
+        //Anywhere else in the page, you can just use the object as normal (like application.advisor in this case),
+        //but in the setup() specifically, you have to use state.value.field (like the application.value.advisor here).
         const SubmitApplication = async () => {
             if(!application.value.advisor || application.value.advisor.trim() === ""){
                 toast.add({ severity: 'error', summary: 'Failed to submit', detail: 'Please select an advisor!', life: 3000, });
