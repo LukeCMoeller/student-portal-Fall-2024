@@ -48,45 +48,6 @@
                       <Button label="Refresh Roles" icon="pi pi-refresh" @click="RefreshStudent(selectedStudent)" :disabled="!selectedStudent"/>
                     </div>
                   </div>
-
-                  <Divider />
-
-                  <!-- Import Reports -->
-                  <div class="mb-4">
-                    <p class="mb-2 text-md text-color-secondary">Select a .csv report from KSIS to import:</p>
-
-                    <div class="flex flex-column gap-3">
-                      <!-- Student File Input -->
-                      <div class="w-full flex flex-column gap-2">
-                        <label class="text-sm">Student File:</label>
-                        <InputText 
-                          id="studentReportImport" 
-                          type="file" 
-                          accept=".csv" 
-                          style="background-color: #d1d1d1; width:20rem;"/>
-                        <Button 
-                          label="Import Student Report" 
-                          icon="pi pi-upload" 
-                          style="width:20rem;"
-                          @click="ParseStudentReport"/>
-                      </div>
-
-                      <!-- Enrollment File Input -->
-                      <div class="w-full flex flex-column gap-2">
-                        <label class="text-sm">Enrollment File:</label>
-                        <InputText 
-                          id="enrollmentReportImport" 
-                          type="file" 
-                          accept=".csv" 
-                          style="background-color: #d1d1d1; width:20rem;" />
-                        <Button 
-                          label="Import Enrollment Report" 
-                          icon="pi pi-upload" 
-                          style="width:20rem;"
-                          @click="ParseEnrollmentReport" />
-                      </div>
-                    </div>
-                  </div>
                 </template>
               </Card>
             </div>
@@ -177,42 +138,7 @@
           
         };
   
-      const ParseEnrollmentReport = () => {
-        try{
-          const report = document.getElementById("enrollmentReportImport").files[0]
-          Papa.parse(report, {header: true, complete: ImportEnrollmentReport})
-        }
-        catch(error){
-          toast.add({ severity: 'error', summary: 'File not selected', detail: 'Please select a file.', life: 3000, });
-        }
-      }
-  
-      const ImportEnrollmentReport = async(results, file) => {
-          const result = await adminStore.importEnrollmentReport(results);
-          if (result) {
-            toast.add({severity: 'success', summary: 'KSIS enrollment report has been imported', life: 3000})}
-          else {
-            toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
-      }
-  
-      const ParseStudentReport = () => {
-        try{
-          const report = document.getElementById("studentReportImport").files[0]
-          Papa.parse(report, {header: true, complete: ImportStudentReport})
-        }catch(error){
-          toast.add({ severity: 'error', summary: 'File not selected', detail: 'Please select a file.', life: 3000, });
-        }
-      }
-  
-      const ImportStudentReport = async(results, file) => {
-          const result = await adminStore.importStudentReport(results);
-          if (result) {
-            toast.add({severity: 'success', summary: 'KSIS student report has been imported', life: 3000})}
-          else {
-            toast.add({severity: 'error', summary: 'Error importing KSIS report', life: 3000}) }
-      }
-  
-      return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, ParseEnrollmentReport, ParseStudentReport, updateDiscordUsers, allUsers };
+      return { styles, shared, discordText, selectedStudent, studentOptions, RefreshDiscord, RefreshStudent, updateDiscordUsers, allUsers };
     }
   };
   </script>

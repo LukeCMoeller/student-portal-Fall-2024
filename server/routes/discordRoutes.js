@@ -15,7 +15,7 @@ const db = require('../configs/db.js')
 const crypto = require('crypto')
 const discord = require('../linkedRoles/discord.js')
 const storage = require('../linkedRoles/storage.js')
-const discordbot = require('../linkedRoles/discordbot.js');
+const discordbot = require('../discordBot/discordbot.js');
 const { setDefaultAutoSelectFamily } = require('net');
 
 /* Discord */
