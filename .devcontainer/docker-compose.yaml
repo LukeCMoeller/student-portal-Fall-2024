@@ -31,8 +31,8 @@ services:
       CAS_DEV_USER: testcas
       CAS_REDIRECT_URL: /api/v1/auth/login
       TOKEN_SECRET: "secret_hex"
-      DISCORD_SERVER_ID:
-      DISCORD_WELCOME_CHANNEL:
+      DISCORD_SERVER_ID: "1285994775282978900"
+      DISCORD_WELCOME_CHANNEL: "YOUR DISCORD WELCOME CHANNEL ID"
 
   postgres:
     image: postgres:12
