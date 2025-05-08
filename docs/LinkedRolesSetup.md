@@ -34,7 +34,7 @@ When properly set up:
 - Navigate to:  
   [`server/linkedRoles/Linked_Roles_Glitch/src/register.js`](../server/linkedRoles/Linked_Roles_Glitch/src/register.js)
 
-- Ensure the body of the `register` request looks like this:
+- Ensure the body of the register request looks like this:
 
   ```js
   const body = [
@@ -64,7 +64,19 @@ node register.js
 
 ---
 
-### 3. Configure the Linked Role in Discord
+### 3. Add your codespace to the Discord App redirect
+
+In the Discord App you created following the [Discord Setup Guide](./DiscordSetup.md):
+
+1. Navigate to the General Information page.
+2. Under **Linked Roles Verification URL** add:
+```bash
+https://{YOUR CODESPACE NAME}-3002.app.github.dev/api/v1/discord/linked-roles
+```
+3. Replace **{YOUR CODESPACE NAME}** to reflect the codespace you are currently operating in.
+4. Save changes.
+
+### 4. Configure the Linked Role in Discord
 
 1. Go to your Discord server.
 2. Create a new role.
