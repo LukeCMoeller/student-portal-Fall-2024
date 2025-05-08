@@ -86,9 +86,12 @@ Save your profile information
 2. Navigate to https://github.com/settings/developers and select the application you created.
 3. Navigate to the General tab.
 4. Set the Homepage URL and Authorization Callback URL to reflect your current codespace url.
+
+  Homepage URL:
   ```sh
   https://{YOUR CODESPACE NAME}-5173.app.github.dev
   ```
+  Authorization Callback URL:
   ```sh
   https://{YOUR CODESPACE NAME}-3002.app.github.dev/github/callback
   ```
