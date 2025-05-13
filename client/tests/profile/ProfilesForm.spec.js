@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import ProfilesForm from '@/sub-apps/profile-app/ProfilesForm.vue'
+import ProfilesForm from '@/sub-apps/profile-app/ProfilePage.vue'
 import { createTestingPinia } from '@pinia/testing'
 import { useTokenStore } from '@/stores/TokenStore'
 import { useProfileStore } from '@/stores/ProfileStore'

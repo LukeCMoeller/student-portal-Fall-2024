@@ -36,7 +36,7 @@ describe('ApplicationForm tests', () => {
 
     it("Should render the application table", () => {
         const table = wrapper.findComponent("#appTable")
-
+ 
         expect(table.exists()).toBe(true)
     })
 

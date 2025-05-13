@@ -55,7 +55,7 @@
                     <!--Course table-->
                     <div class="col-12 col-offset-0 xl:col-10 xl:col-offset-1">
                         <div :class="styles['table']"> 
-                            <DataTable :value="courses" stripedRows showGridlines>
+                            <DataTable id="appTable" :value="courses" stripedRows showGridlines>
                                 <Column header="Course">
                                     <template #body="{ data }">
                                         {{ data.subject }} {{ data.class_number }}

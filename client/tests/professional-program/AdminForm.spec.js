@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, afterEach, assert } from 'vitest'
-import AdminForm from '@/sub-apps/professional-program-app/ReviewForm.vue'
+import AdminForm from '@/sub-apps/professional-program-app/ReviewerPage.vue'
 import PrimeVue from 'primevue/config'
 import DataTable from 'primevue/datatable';
 import Dialog from 'primevue/dialog';

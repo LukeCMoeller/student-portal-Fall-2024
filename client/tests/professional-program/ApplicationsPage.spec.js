@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import ApplicationsPage from '@/sub-apps/professional-program-app/ApplicationsPage.vue'
+import ApplicationsPage from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
 import { createTestingPinia } from '@pinia/testing'
 
 describe('ApplicationsPage tests', () => {

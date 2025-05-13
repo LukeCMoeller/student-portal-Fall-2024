@@ -13,19 +13,42 @@ import professionalRoutes from '@/sub-apps/professional-program-app/routes'
 import ProfessionalProgram from '@/sub-apps/professional-program-app/ProfessionalProgram.vue'
 import ProfileRoutes from '@/sub-apps/profile-app/ProfileRoutes'
 
+if (!window.matchMedia) {
+  window.matchMedia = function (query) {
+    return {
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(), // deprecated
+      removeListener: vi.fn(), // deprecated
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    };
+  };
+}
+
 //Mock Router
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', name: 'Home' },
-        { path: '/home', name: 'Home' },
-        { path: '/professional-program', component:ProfessionalProgram,
-           children: professionalRoutes
+        { label: 'Portal', route: '/home', root: true },
+        {
+          label: 'Professional Program', root: true,
+          items: [
+            { label: 'Home', route: '/professional-program' },
+            { label: 'Apply', route: '/professional-program/apply' },
+            { label: 'Review', route: '/professional-program/review' }
+          ]
         },
-        { path : '/profile',
-          children: ProfileRoutes
-        },
-        { path: '/:catchAll(.*)',  component: Error }
+        { label: 'Profile', route: '/profile', root: true },
+        { label: 'Grades', route: '/grades', root: true },
+        { label: 'Admin', root: true,
+        items: [
+            { label: 'Users', route: '/admin/users' },
+            { label: 'Discord', route: '/admin/discord' },
+          ]
+        }
     ]
 })
 
